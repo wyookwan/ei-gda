@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block title %}Committee Review · Ei-GDA{% endblock %}
+{% block page_title %}Committee Review Workspace{% endblock %}
+{% block content %}
+<div class="page-hero">
+  <h1>Committee Review Workspace</h1>
+  <p>Review the original evidence, compare system maturity scores, adjust each item on the 0–5 scale, and record item-level comments.</p>
+</div>
+
+<div class="row g-3 mb-3">
+  <div class="col-md-3"><div class="card stat-card"><div class="card-body"><div class="stat-title">System Compliance</div><div class="stat-value">{{ check.compliance_score }}%</div></div></div></div>
+  <div class="col-md-3"><div class="card stat-card"><div class="card-body"><div class="stat-title">Maturity</div><div class="stat-value fs-5">{{ check.maturity_level or '-' }}</div></div></div></div>
+  <div class="col-md-3"><div class="card stat-card"><div class="card-body"><div class="stat-title">Classification</div><div class="stat-value fs-5">{{ (check.data_classification or 'open')|capitalize }}</div></div></div></div>
+  <div class="col-md-3"><div class="card stat-card"><div class="card-body"><div class="stat-title">Owner</div><div class="stat-value fs-5">{{ check.owner.full_name }}</div></div></div></div>
+</div>
+
+<div class="row g-3 mb-3">
+  <div class="col-xl-7">
+    <div class="card shadow-sm h-100">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <div><div class="section-title">Original PDF Evidence</div><div class="section-subtitle">Multi-document source viewer · {{ source_files|length if source_files else 1 }} file(s)</div></div>
+        </div>
+        {% if source_files %}<div class="d-flex gap-2 flex-wrap mt-3">{% for f in source_files %}<button type="button" class="btn btn-sm {{ 'btn-primary' if loop.first else 'btn-outline-primary' }} committee-source-switch" data-pdf-src="{{ url_for('source_pdf', check_id=check.id, file_id=f.id) }}" data-filename="{{ f.original_filename }}">{{ loop.index }}. {{ f.original_filename }}</button>{% endfor %}</div>{% endif %}
+      </div>
+      <div class="card-body p-0">
+        {% if source_files %}<iframe id="committeeSourceFrame" class="committee-pdf-frame" title="Original PDF" src="{{ url_for('source_pdf', check_id=check.id, file_id=source_files[0].id) }}#toolbar=1&navpanes=1"></iframe>{% else %}<iframe id="committeeSourceFrame" class="committee-pdf-frame" title="Original PDF" src="{{ url_for('committee_source_pdf', check_id=check.id) }}#toolbar=1&navpanes=1"></iframe>{% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-5">
+    <div class="card shadow-sm h-100">
+      <div class="card-header"><div class="section-title">Assessment Comparison</div><div class="section-subtitle">System vs. committee maturity by standard, fixed to 0–5.</div></div>
+      <div class="card-body">
+        <div class="chart-panel committee-chart"><canvas id="committeeCompareChart"></canvas></div>
+        <input type="hidden" id="committee-graph-json" value='{{ graph_rows|tojson }}'>
+        <div class="privacy-callout mt-3"><i class="bi bi-shield-check me-1"></i>Committee access is limited to documents explicitly assigned to this account.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form method="post">
+<div class="card shadow-sm mb-3">
+  <div class="card-header">
+    <div class="section-title">Item-by-item Committee Assessment</div>
+    <div class="section-subtitle">0 Not Implemented · 1 Initial · 2 Defined · 3 Implemented · 4 Managed · 5 Optimized</div>
+  </div>
+  <div class="card-body">
+    {% for item in all_items %}
+      {% set ex = existing_scores.get(item.item_id|string, {}) %}
+      {% set sys = system_by_code.get(item.item_code, {}) %}
+      {% set initial_score = ex.get('score', sys.get('score', 0)) %}
+      <div class="review-item mb-3">
+        <div class="d-flex justify-content-between gap-3 flex-wrap mb-2">
+          <div>
+            <div class="fw-bold">{{ item.standard }} · {{ item.item_code }}</div>
+            <div class="small text-secondary">{{ item.title }}</div>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <span class="data-chip">System: {{ sys.get('score', 0) }} / 5</span>
+            <span class="badge bg-light text-dark">{{ sys.get('maturity', '-') }}</span>
+          </div>
+        </div>
+
+        {% if sys.get('gap') or sys.get('recommendation') %}
+        <div class="row g-2 mb-3">
+          <div class="col-md-6"><div class="committee-evidence-box"><strong>System gap</strong><div>{{ sys.get('gap', '-') }}</div></div></div>
+          <div class="col-md-6"><div class="committee-evidence-box"><strong>System recommendation</strong><div>{{ sys.get('recommendation', '-') }}</div></div></div>
+        </div>
+        {% endif %}
+        {% if sys.get('evidence') %}
+        <div class="committee-evidence-box mb-3"><strong><i class="bi bi-journal-text me-1"></i>Traceable system evidence</strong>
+          {% for e in sys.get('evidence', []) %}<div class="border-top mt-2 pt-2 small"><a target="_blank" href="{{ url_for('source_pdf', check_id=check.id, file_id=e.file_id) }}#page={{ e.page }}"><strong>{{ e.filename }}</strong> · page {{ e.page }}</a><div class="text-secondary mt-1">{{ e.snippet }}</div></div>{% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="row g-3 align-items-end">
+          <div class="col-lg-5">
+            <label class="form-label">Committee maturity score</label>
+            <input type="range" class="form-range score-range" name="score_{{ item.item_id }}" min="0" max="5" step="1" value="{{ initial_score }}">
+            <div class="d-flex justify-content-between small"><span>0</span><strong class="text-primary">Score: <span class="range-value">{{ initial_score }}</span> / 5</strong><span>5</span></div>
+          </div>
+          <div class="col-lg-7">
+            <label class="form-label" for="comment_{{ item.item_id }}">Committee comment for this item</label>
+            <textarea id="comment_{{ item.item_id }}" name="comment_{{ item.item_id }}" rows="2" class="form-control" placeholder="Add evidence, reason for score adjustment, or recommendation...">{{ ex.get('comment', '') }}</textarea>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header fw-bold">Overall Committee Comments</div>
+  <div class="card-body">
+    <textarea name="comments" rows="5" class="form-control mb-3" placeholder="Overall findings, decision rationale, or recommendations...">{{ review.comments if review else '' }}</textarea>
+    <div class="d-flex gap-2 flex-wrap">
+      <button class="btn btn-primary"><i class="bi bi-save me-1"></i>Save Committee Review</button>
+      <a class="btn btn-outline-primary" href="{{ url_for('view_check', check_id=check.id) }}">View System Detail & Graphs</a>
+      {% if review and review.report_pdf_path %}<a class="btn btn-outline-primary" href="{{ url_for('download_committee_report', check_id=check.id) }}">Export Committee PDF</a>{% endif %}
+    </div>
+  </div>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Register · Ei-GDA{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <section class="auth-visual">
+    <a class="brand p-0" href="#"><span class="brand-mark"><i class="bi bi-shield-check"></i></span><span><strong>Ei-GDA Platform</strong><small>Organization Registration</small></span></a>
+    <h1>Start a transparent AI governance assessment workflow.</h1>
+    <p>Create an organization account to upload policy documents, choose governance standards, monitor compliance gaps, and export assessment reports.</p>
+    <div class="feature-list"><div><i class="bi bi-check2-circle"></i>Direct multi-document compliance analysis</div><div><i class="bi bi-check2-circle"></i>Multi-standard compliance assessment</div><div><i class="bi bi-check2-circle"></i>Evidence, gap, and recommendation reporting</div></div>
+  </section>
+  <section class="auth-form">
+    <span class="eyebrow">Organization onboarding</span><h2 class="mt-2">Create account</h2><p class="text-secondary mb-4">Complete the form below to access the platform.</p>
+    <form method="post">
+      <div class="mb-3"><label class="form-label">Full name</label><input class="form-control" name="full_name" required></div>
+      <div class="mb-3"><label class="form-label">Email</label><input class="form-control" type="email" name="email" required></div>
+      <div class="mb-3"><label class="form-label">Organization</label><input class="form-control" name="organization"></div>
+      <div class="mb-4"><label class="form-label">Password</label><input class="form-control" type="password" name="password" minlength="8" required></div>
+      <button class="btn btn-primary w-100 py-3">Create account</button>
+    </form>
+    <p class="text-center text-secondary small mt-4 mb-0">Already registered? <a href="{{ url_for('login') }}" class="fw-bold">Sign in</a></p>
+  </section>
+</div>
+{% endblock %}

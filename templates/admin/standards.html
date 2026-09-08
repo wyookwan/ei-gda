@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-header fw-bold">Create Assessment Reference</div>
+      <div class="card-body">
+        <form method="post">
+          <div class="mb-2"><label class="form-label">Code</label><input name="code" class="form-control" required></div>
+          <div class="mb-2"><label class="form-label">Name</label><input name="name" class="form-control" required></div>
+          <div class="mb-2"><label class="form-label">Type</label>
+            <select name="source_type" class="form-select">
+              <option value="international_standard">International Standard</option>
+              <option value="international_framework">International Framework</option>
+              <option value="international_principles">International Principles</option>
+              <option value="thai_standard">Thai Standard / Framework</option>
+              <option value="thai_guideline">Thai AI Governance Guideline</option>
+              <option value="thai_law">Thai Law / Regulation</option>
+            </select>
+          </div>
+          <div class="mb-2"><label class="form-label">Jurisdiction</label><input name="jurisdiction" class="form-control"></div>
+          <div class="mb-2"><label class="form-label">Publisher</label><input name="publisher" class="form-control"></div>
+          <div class="mb-2"><label class="form-label">Reference URL</label><input name="reference_url" class="form-control"></div>
+          <div class="mb-3"><label class="form-label">Description</label><textarea name="description" rows="4" class="form-control"></textarea></div>
+          <button class="btn btn-primary w-100">Create</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header"><div class="fw-bold">Standards, Frameworks & Thai Laws</div><div class="small text-secondary">Thai-law checklists are governance screening aids, not legal opinions.</div></div>
+      <div class="card-body table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th>Code</th><th>Reference</th><th>Type</th><th>Status</th><th></th></tr></thead>
+          <tbody>{% for s in standards %}
+          <tr>
+            <td><strong>{{s.code}}</strong></td>
+            <td>{{s.name}}{% if s.publisher %}<small class="d-block text-secondary">{{s.publisher}}</small>{% endif %}</td>
+            <td><span class="badge text-bg-light">{{s.source_type.replace('_',' ')}}</span></td>
+            <td>{{'Enabled' if s.is_enabled else 'Disabled'}}</td>
+            <td class="d-flex gap-2 flex-wrap">
+              <a class="btn btn-sm btn-primary" href="{{url_for('manage_standard_items',standard_id=s.id)}}">Items</a>
+              <form method="post" action="{{url_for('toggle_standard',standard_id=s.id)}}"><button class="btn btn-sm btn-warning">Toggle</button></form>
+              <form method="post" action="{{url_for('delete_standard',standard_id=s.id)}}" onsubmit="return confirm('Delete reference?')"><button class="btn btn-sm btn-danger">Delete</button></form>
+            </td>
+          </tr>{% endfor %}</tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

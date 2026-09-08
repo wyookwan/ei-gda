@@ -1,0 +1,44 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+
+# Runtime data
+uploads/*
+!uploads/.gitkeep
+
+reports/*
+!reports/.gitkeep
+system_report_*.pdf
+committee_report_*.pdf
+
+# Database / backup
+*.db
+
+# Logs
+*.log
+.coverage
+htmlcov/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Packaging
+*.zip
+
+# Temporary
+tmp/
+temp/
