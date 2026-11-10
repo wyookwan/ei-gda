@@ -1,0 +1,551 @@
+{
+ "schema": "eigda.domain-pack/2",
+ "pack_version": "17.0.0-pilot.1",
+ "slug": "ops_mhesi",
+ "title": "OPS-MHESI",
+ "title_th": "สำนักงานปลัดกระทรวง อว. (OPS-MHESI Pack)",
+ "icon": "bi-building-gear",
+ "accent": "#5b3d8a",
+ "display_order": 6,
+ "status": "pilot_draft",
+ "inherits": "general",
+ "layers": [
+  "common_aidg"
+ ],
+ "summary_th": "เกณฑ์สำหรับงานภายใน สป.อว. เช่น ผู้ช่วยตอบคำถามจากเอกสารเผยแพร่ การคัดกรองข้อมูลข่าวสารลับ และกรอบไซเบอร์ของสำนักงาน",
+ "provisional_note_th": "ชุดเกณฑ์นำร่อง แหล่งอ้างอิงภายในของ สป.อว. ยังรอเจ้าของเกณฑ์ยืนยันฉบับและข้อ",
+ "key_concerns": [
+  "ข้อมูลเผยแพร่ถูกต้องและอ้างอิงได้",
+  "ไม่ส่งข้อมูลข่าวสารลับให้โมเดล",
+  "ความมั่นคงปลอดภัยไซเบอร์"
+ ],
+ "organization_types": [
+  {
+   "id": "OPS.ORG.OFFICE",
+   "title": "Office of the Permanent Secretary",
+   "title_th": "สำนักงานปลัดกระทรวง อว."
+  },
+  {
+   "id": "OPS.ORG.DIVISION",
+   "title": "OPS division or centre",
+   "title_th": "กองหรือศูนย์ภายใน สป.อว."
+  }
+ ],
+ "functional_areas": [
+  {
+   "id": "OPS.FA.PUBLIC_INFO",
+   "title": "Public information service",
+   "title_th": "การให้ข้อมูลและตอบคำถามประชาชน"
+  },
+  {
+   "id": "OPS.FA.POLICY",
+   "title": "Policy & planning",
+   "title_th": "นโยบายและแผน"
+  },
+  {
+   "id": "OPS.FA.ADMIN",
+   "title": "Internal administration",
+   "title_th": "บริหารงานภายในและงานสารบรรณ"
+  }
+ ],
+ "use_cases": [
+  {
+   "id": "OPS.UC.PUBLIC_QA",
+   "title": "Q&A assistant over published documents",
+   "title_th": "ผู้ช่วยตอบคำถามจากเอกสารเผยแพร่",
+   "functional_areas": [
+    "OPS.FA.PUBLIC_INFO"
+   ],
+   "dimensions": [
+    "OPS.DIM.PUBLIC_INFO"
+   ],
+   "floor_impact": "information"
+  },
+  {
+   "id": "OPS.UC.DOC_SUMMARY",
+   "title": "Internal document summarisation",
+   "title_th": "สรุปหนังสือราชการภายใน",
+   "functional_areas": [
+    "OPS.FA.ADMIN"
+   ],
+   "dimensions": [
+    "OPS.DIM.SECRECY"
+   ],
+   "floor_impact": "assistive"
+  },
+  {
+   "id": "OPS.UC.POLICY_ANALYTICS",
+   "title": "Higher-education analytics for policy",
+   "title_th": "วิเคราะห์ข้อมูลอุดมศึกษาเพื่อจัดทำนโยบาย",
+   "functional_areas": [
+    "OPS.FA.POLICY"
+   ],
+   "dimensions": [
+    "OPS.DIM.PUBLIC_INFO"
+   ],
+   "floor_impact": "assistive"
+  }
+ ],
+ "dimensions": [
+  {
+   "id": "OPS.DIM.PUBLIC_INFO",
+   "title": "Accuracy of public information",
+   "title_th": "ความถูกต้องของข้อมูลเผยแพร่"
+  },
+  {
+   "id": "OPS.DIM.SECRECY",
+   "title": "Official secrecy",
+   "title_th": "การรักษาความลับของทางราชการ"
+  },
+  {
+   "id": "OPS.DIM.CYBER",
+   "title": "Cyber resilience",
+   "title_th": "ความมั่นคงปลอดภัยไซเบอร์"
+  }
+ ],
+ "data_categories": [
+  {
+   "id": "OPS.DATA.PUBLISHED",
+   "title_th": "เอกสารที่เผยแพร่แล้ว",
+   "sensitivity": "public"
+  },
+  {
+   "id": "OPS.DATA.INTERNAL",
+   "title_th": "หนังสือและข้อมูลภายใน",
+   "sensitivity": "internal"
+  },
+  {
+   "id": "OPS.DATA.PERSONAL",
+   "title_th": "ข้อมูลส่วนบุคคลของผู้ติดต่อหรือบุคลากร",
+   "sensitivity": "personal"
+  },
+  {
+   "id": "OPS.DATA.CLASSIFIED",
+   "title_th": "ข้อมูลข่าวสารลับของทางราชการ",
+   "sensitivity": "sensitive"
+  }
+ ],
+ "profile_questions": [
+  {
+   "id": "is_public_agency",
+   "label_th": "หน่วยงานนี้เป็นหน่วยงานของรัฐหรือไม่",
+   "help_th": "สป.อว. เป็นหน่วยงานของรัฐ",
+   "default": true
+  },
+  {
+   "id": "shares_data_across_orgs",
+   "label_th": "ระบบแลกเปลี่ยนข้อมูลกับหน่วยงานอื่นหรือไม่",
+   "help_th": "ถ้าใช่ เรื่องเจ้าของงานและสิทธิ์ข้ามหน่วยงานจะเป็นประเด็นสำคัญ"
+  },
+  {
+   "id": "uses_external_vendor",
+   "label_th": "ใช้ผู้ให้บริการโมเดลภายนอกหรือไม่",
+   "help_th": "มีผลต่อสิทธิ์ส่งเอกสารให้โมเดล"
+  }
+ ],
+ "evidence_requirements": [
+  {
+   "id": "EV.OPS.SOURCE_SCOPE",
+   "title": "Source scope of the assistant",
+   "title_th": "ขอบเขตแหล่งเอกสารที่ผู้ช่วยใช้ตอบ",
+   "why_th": "ยืนยันว่าผู้ช่วยตอบจากเอกสารเผยแพร่เท่านั้น",
+   "keywords": [
+    "เอกสารเผยแพร่",
+    "แหล่งข้อมูล",
+    "ขอบเขตเอกสาร",
+    "knowledge base",
+    "อ้างอิงแหล่งที่มา",
+    "published documents only",
+    "source scope"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.OPS.ANSWER_EVAL",
+   "title": "Answer accuracy test",
+   "title_th": "ผลทดสอบความถูกต้องของคำตอบและการอ้างอิง",
+   "why_th": "แสดงผลทดสอบจริงก่อนเปิดให้ประชาชนใช้",
+   "keywords": [
+    "ผลทดสอบ",
+    "ความถูกต้องของคำตอบ",
+    "อ้างอิงถูกต้อง",
+    "ชุดคำถามทดสอบ",
+    "accuracy",
+    "answer accuracy test",
+    "citation check"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.OPS.DG_POLICY",
+   "title": "OPS data governance policy",
+   "title_th": "นโยบายธรรมาภิบาลข้อมูลของ สป.อว.",
+   "why_th": "กำหนดบทบาทและกระบวนการข้อมูลของสำนักงาน",
+   "keywords": [
+    "นโยบายธรรมาภิบาลข้อมูล",
+    "สำนักงานปลัดกระทรวง",
+    "สป.อว.",
+    "data governance",
+    "ops data governance policy"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.OPS.DG_PRACTICE",
+   "title": "Data governance operating record",
+   "title_th": "บันทึกการดำเนินงานธรรมาภิบาลข้อมูล",
+   "why_th": "แสดงการประชุม การอนุมัติ หรือการทบทวนจริง",
+   "keywords": [
+    "รายงานการประชุม",
+    "คณะทำงานธรรมาภิบาลข้อมูล",
+    "ผลการดำเนินงาน",
+    "บัญชีข้อมูล",
+    "data governance meeting minutes"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.OPS.SECRET_HANDLING",
+   "title": "Electronic classified information practice",
+   "title_th": "แนวปฏิบัติข้อมูลข่าวสารลับอิเล็กทรอนิกส์",
+   "why_th": "ระบุว่าเอกสารลับห้ามส่งเข้าระบบ AI และวิธีคัดกรอง",
+   "keywords": [
+    "ข้อมูลข่าวสารลับ",
+    "ชั้นความลับ",
+    "ลับมาก",
+    "อิเล็กทรอนิกส์",
+    "รักษาความลับ",
+    "classified information",
+    "official secret"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.OPS.SECRET_SCREEN_LOG",
+   "title": "Classified screening record",
+   "title_th": "บันทึกการคัดกรองเอกสารลับก่อนใช้ AI",
+   "why_th": "แสดงว่ามีการคัดกรองจริง",
+   "keywords": [
+    "บันทึกการคัดกรอง",
+    "ตรวจชั้นความลับ",
+    "ทะเบียนหนังสือลับ",
+    "คัดแยกเอกสาร",
+    "classified screening log"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.OPS.CYBER_FRAMEWORK",
+   "title": "OPS cyber framework 2026",
+   "title_th": "กรอบความมั่นคงปลอดภัยไซเบอร์ของ สป.อว. พ.ศ. 2569",
+   "why_th": "กำหนดมาตรการไซเบอร์ที่ระบบ AI ต้องใช้",
+   "keywords": [
+    "กรอบไซเบอร์",
+    "ความมั่นคงปลอดภัยไซเบอร์",
+    "cybersecurity",
+    "2569",
+    "cybersecurity framework"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.OPS.CYBER_ASSESS",
+   "title": "Cyber assessment result",
+   "title_th": "ผลประเมินหรือทดสอบความมั่นคงปลอดภัยของระบบ",
+   "why_th": "แสดงผลการทดสอบจริง",
+   "keywords": [
+    "vulnerability",
+    "ผลทดสอบเจาะระบบ",
+    "penetration",
+    "ผลประเมินความเสี่ยงไซเบอร์",
+    "vulnerability assessment",
+    "penetration test"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.OPS.PDPA_POLICY",
+   "title": "OPS privacy policy",
+   "title_th": "นโยบายคุ้มครองข้อมูลส่วนบุคคลของ สป.อว.",
+   "why_th": "ระบุฐานการประมวลผลของสำนักงาน",
+   "keywords": [
+    "นโยบายคุ้มครองข้อมูลส่วนบุคคล",
+    "สป.อว.",
+    "privacy policy",
+    "ops privacy policy"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.OPS.PDPA_PRACTICE",
+   "title": "OPS privacy operating record",
+   "title_th": "บันทึกการประมวลผลข้อมูลส่วนบุคคลของระบบ",
+   "why_th": "แสดงการปฏิบัติจริงตามนโยบาย",
+   "keywords": [
+    "ropa",
+    "บันทึกรายการ",
+    "คำขอใช้สิทธิ",
+    "dpo",
+    "data subject request"
+   ],
+   "evidence_kind": "practice"
+  }
+ ],
+ "rubric": {
+  "id": "RUBRIC.OPS_MHESI",
+  "version": "1.0",
+  "gate_min_level": 2,
+  "coverage_caps": [
+   [
+    0.34,
+    1
+   ],
+   [
+    0.67,
+    2
+   ],
+   [
+    1.01,
+    3
+   ]
+  ],
+  "human_review": "critical_or_high_risk",
+  "levels": {
+   "0": "ไม่พบหลักฐานที่ตรวจสอบได้",
+   "1": "มีข้อกำหนดในนโยบาย แต่ยังไม่พบหลักฐานการปฏิบัติ",
+   "2": "มีข้อกำหนดและหลักฐานการปฏิบัติบางส่วน",
+   "3": "มีข้อกำหนด หลักฐานการปฏิบัติจริง และบันทึกการทบทวนครบ"
+  }
+ },
+ "suite_focus": {
+  "TS01": "ขอบเขตระบบและแหล่งเอกสาร",
+  "TS02": "ความรับผิดชอบของสำนักงาน",
+  "TS03": "ความถูกต้องและโปร่งใสของคำตอบ",
+  "TS04": "ข้อมูลข่าวสารลับและข้อมูลส่วนบุคคล",
+  "TS05": "ธรรมาภิบาลข้อมูลของสำนักงาน",
+  "TS06": "ผลทดสอบคำตอบ",
+  "TS07": "การติดตามหลังเปิดใช้",
+  "TS08": "ผลกระทบต่อผู้รับบริการ"
+ },
+ "controls": [
+  {
+   "id": "OPS-01",
+   "title": "Published-source scope for Q&A assistant",
+   "title_th": "ขอบเขตแหล่งข้อมูลของผู้ช่วยตอบคำถาม",
+   "objective_th": "ผู้ช่วยตอบจากเอกสารที่เผยแพร่แล้วเท่านั้น อ้างอิงแหล่งที่มาได้ และมีผลทดสอบความถูกต้องก่อนเปิดใช้",
+   "scope_th": "ผู้ช่วยตอบคำถามที่เปิดให้ประชาชนหรือบุคลากรใช้",
+   "requirement_type": "law",
+   "suites": [
+    "TS01",
+    "TS03",
+    "TS06"
+   ],
+   "dimensions": [
+    "OPS.DIM.PUBLIC_INFO"
+   ],
+   "references": [
+    "TH-OFFICIAL-INFO-2540",
+    "ETDA-GENAI-GOV"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-OFFICIAL-INFO-2540",
+     "clause": "มาตรา 7 และ 9 (ข้อมูลข่าวสารที่ต้องเผยแพร่) รอตรวจตัวบท",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "ETDA-GENAI-GOV",
+     "clause": "รอระบุหัวข้อเรื่องความถูกต้องของคำตอบ",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.OPS.SOURCE_SCOPE",
+    "EV.OPS.ANSWER_EVAL"
+   ],
+   "evidence_policy": [
+    "EV.OPS.SOURCE_SCOPE"
+   ],
+   "evidence_practice": [
+    "EV.OPS.ANSWER_EVAL"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": true,
+   "risk": "medium",
+   "applies_when": {
+    "use_cases": [
+     "OPS.UC.PUBLIC_QA"
+    ]
+   },
+   "critical_condition_th": "สำคัญเพราะคำตอบผิดเผยแพร่ถึงประชาชนทันที"
+  },
+  {
+   "id": "OPS-02",
+   "title": "OPS data governance",
+   "title_th": "ธรรมาภิบาลข้อมูลของ สป.อว.",
+   "objective_th": "ระบบ AI อยู่ภายใต้นโยบายธรรมาภิบาลข้อมูลของสำนักงาน และมีบันทึกการดำเนินงานจริง",
+   "scope_th": "ระบบ AI ทุกระบบของ สป.อว.",
+   "requirement_type": "internal_notice",
+   "suites": [
+    "TS02",
+    "TS05"
+   ],
+   "dimensions": [
+    "OPS.DIM.PUBLIC_INFO"
+   ],
+   "references": [
+    "OPS-MHESI-DG-POLICY",
+    "TH-DGA-DGF"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "OPS-MHESI-DG-POLICY",
+     "clause": "รอเจ้าของเกณฑ์ระบุฉบับและข้อ",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.OPS.DG_POLICY",
+    "EV.OPS.DG_PRACTICE"
+   ],
+   "evidence_policy": [
+    "EV.OPS.DG_POLICY"
+   ],
+   "evidence_practice": [
+    "EV.OPS.DG_PRACTICE"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium"
+  },
+  {
+   "id": "OPS-03",
+   "title": "Screening of classified information before AI",
+   "title_th": "การคัดกรองข้อมูลข่าวสารลับก่อนใช้ AI",
+   "objective_th": "เอกสารชั้นความลับของทางราชการไม่ถูกส่งเข้าระบบ AI และมีบันทึกการคัดกรอง",
+   "scope_th": "ระบบ AI ที่รับเอกสารของสำนักงาน",
+   "requirement_type": "law",
+   "suites": [
+    "TS04"
+   ],
+   "dimensions": [
+    "OPS.DIM.SECRECY"
+   ],
+   "references": [
+    "TH-OFFICIAL-SECRET-2544",
+    "OPS-MHESI-SECRET-E-GUIDE"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-OFFICIAL-SECRET-2544",
+     "clause": "รอระบุข้อเรื่องการรักษาความลับในระบบสารสนเทศ",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "OPS-MHESI-SECRET-E-GUIDE",
+     "clause": "รอเจ้าของเกณฑ์ระบุข้อ",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.OPS.SECRET_HANDLING",
+    "EV.OPS.SECRET_SCREEN_LOG"
+   ],
+   "evidence_policy": [
+    "EV.OPS.SECRET_HANDLING"
+   ],
+   "evidence_practice": [
+    "EV.OPS.SECRET_SCREEN_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": true,
+   "risk": "high",
+   "critical_condition_th": "สำคัญเสมอ การส่งเอกสารลับออกนอกระบบที่รองรับถือเป็นเหตุร้ายแรง"
+  },
+  {
+   "id": "OPS-04",
+   "title": "OPS cyber framework 2026",
+   "title_th": "กรอบความมั่นคงปลอดภัยไซเบอร์ พ.ศ. 2569",
+   "objective_th": "ระบบ AI ผ่านมาตรการตามกรอบไซเบอร์ของสำนักงาน และมีผลทดสอบล่าสุด",
+   "scope_th": "ระบบ AI ที่สำนักงานพัฒนาหรือจัดหา",
+   "requirement_type": "internal_notice",
+   "suites": [
+    "TS04",
+    "TS07"
+   ],
+   "dimensions": [
+    "OPS.DIM.CYBER"
+   ],
+   "references": [
+    "OPS-MHESI-CYBER-2569",
+    "TH-CYBER-2562"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "OPS-MHESI-CYBER-2569",
+     "clause": "รอเจ้าของเกณฑ์ระบุฉบับและข้อ",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.OPS.CYBER_FRAMEWORK",
+    "EV.OPS.CYBER_ASSESS"
+   ],
+   "evidence_policy": [
+    "EV.OPS.CYBER_FRAMEWORK"
+   ],
+   "evidence_practice": [
+    "EV.OPS.CYBER_ASSESS"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "high"
+  },
+  {
+   "id": "OPS-05",
+   "title": "OPS personal data protection",
+   "title_th": "การคุ้มครองข้อมูลส่วนบุคคลตามนโยบาย สป.อว.",
+   "objective_th": "การประมวลผลข้อมูลส่วนบุคคลในระบบ AI เป็นไปตามนโยบายของสำนักงาน",
+   "scope_th": "เมื่อระบบใช้ข้อมูลส่วนบุคคล",
+   "requirement_type": "internal_notice",
+   "suites": [
+    "TS04"
+   ],
+   "dimensions": [
+    "OPS.DIM.SECRECY"
+   ],
+   "references": [
+    "OPS-MHESI-PDPA-POLICY",
+    "TH-PDPA-2562"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "OPS-MHESI-PDPA-POLICY",
+     "clause": "รอเจ้าของเกณฑ์ระบุข้อ",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.OPS.PDPA_POLICY",
+    "EV.OPS.PDPA_PRACTICE"
+   ],
+   "evidence_policy": [
+    "EV.OPS.PDPA_POLICY"
+   ],
+   "evidence_practice": [
+    "EV.OPS.PDPA_PRACTICE"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "high",
+   "applies_when": {
+    "data_categories_min_sensitivity": "personal"
+   }
+  }
+ ]
+}

@@ -1,0 +1,69 @@
+{
+  "pack_version": "15.0-beta.1",
+  "status": "pilot_draft",
+  "disclaimer_th": "รายการนี้เป็นข้อเสนอสำหรับการนำร่อง ต้องยืนยันกฎหมายที่มีผลบังคับใช้ ข้อกำหนดรายมาตรา และขอบเขตองค์กรโดยผู้เชี่ยวชาญก่อนใช้ตัดสิน Compliance",
+  "assessment_dimensions": [
+    "Applicability",
+    "Policy & Accountability",
+    "Risk & Human Oversight",
+    "Data Governance & Privacy",
+    "Evidence & Auditability",
+    "Monitoring & Corrective Action"
+  ],
+  "slug": "local_government",
+  "title": "Local Government",
+  "title_th": "องค์กรปกครองส่วนท้องถิ่น",
+  "icon": "bi-buildings",
+  "subdomains": [
+    "อบต.",
+    "อบจ.",
+    "เทศบาล"
+  ],
+  "references": [
+    {
+      "name": "DGA Data Governance Framework",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "Thailand PDPA",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "Digital Government Administration Act B.E. 2562",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    }
+  ],
+  "controls": [
+    {
+      "id": "LOC-01",
+      "title": "Public decision accountability",
+      "title_th": "การกำหนดผู้รับผิดชอบการใช้ AI ในบริการภาครัฐ",
+      "evidence_expected": "Governance charter / decision accountability matrix",
+      "critical": true
+    },
+    {
+      "id": "LOC-02",
+      "title": "Citizen transparency",
+      "title_th": "การแจ้งประชาชนเมื่อมีการใช้ AI ในบริการ",
+      "evidence_expected": "Public notice / service policy / feedback log",
+      "critical": false
+    },
+    {
+      "id": "LOC-03",
+      "title": "Government data quality",
+      "title_th": "การบริหารคุณภาพและทะเบียนชุดข้อมูล",
+      "evidence_expected": "Data catalog / quality reports / ownership",
+      "critical": false
+    },
+    {
+      "id": "LOC-04",
+      "title": "Grievance and correction",
+      "title_th": "ช่องทางรับเรื่องร้องเรียนและแก้ไขข้อผิดพลาด",
+      "evidence_expected": "Complaint SOP / response register",
+      "critical": false
+    }
+  ]
+}

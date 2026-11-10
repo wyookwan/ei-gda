@@ -1,14 +1,18 @@
 import os
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.cidfonts import UnicodeCIDFont
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
 
+THAI_FONT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'static', 'fonts', 'Sarabun-Regular.ttf')
+
+
 def font_name():
+    """Use a bundled Thai font. The previous CID font silently dropped Thai text from PDFs."""
     try:
-        pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
-        return 'STSong-Light'
+        pdfmetrics.registerFont(TTFont('Sarabun', THAI_FONT))
+        return 'Sarabun'
     except Exception:
         return 'Helvetica'
 

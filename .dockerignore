@@ -28,3 +28,7 @@ committee_report_*.pdf
 .pytest_cache
 .coverage
 htmlcov
+.eigda*
+backups
+*.sql.gz
+tests

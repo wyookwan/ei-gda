@@ -1,0 +1,4188 @@
+{
+  "version": "14.3",
+  "researched_on": "2026-09-23",
+  "basis": "Ei-GDA readiness questions derived from official public scope descriptions; not ISO clause text or certification criteria. Evidence examples are proposed by Ei-GDA.",
+  "standards": [
+    {
+      "code": "ISO24372",
+      "name": "ISO/IEC TR 24372:2021 — Computational approaches for AI systems",
+      "designation": "ISO/IEC TR 24372:2021",
+      "published_year": 2021,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/78508.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Computational characteristics, algorithms and approaches linked to AI use cases.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO24372-01",
+          "category": "Architecture & Components",
+          "title": "Describe each AI component's computational approach",
+          "keywords": [
+            "computational approach",
+            "algorithm",
+            "วิธีคำนวณ"
+          ],
+          "evidence_expected": "Algorithm inventory",
+          "source_topic": "Computational approaches",
+          "source_url": "https://www.iso.org/standard/78508.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24372-02",
+          "category": "Architecture & Components",
+          "title": "Explain why the algorithm fits the intended use case",
+          "keywords": [
+            "algorithm selection",
+            "use case",
+            "การเลือกอัลกอริทึม"
+          ],
+          "evidence_expected": "Design decision record",
+          "source_topic": "Algorithms linked to use cases",
+          "source_url": "https://www.iso.org/standard/78508.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24372-03",
+          "category": "Architecture & Components",
+          "title": "Record relevant computational characteristics",
+          "keywords": [
+            "computational characteristics",
+            "computation",
+            "การประมวลผล"
+          ],
+          "evidence_expected": "Component specifications",
+          "source_topic": "Computational characteristics",
+          "source_url": "https://www.iso.org/standard/78508.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24372-04",
+          "category": "Architecture & Components",
+          "title": "Compare candidate AI approaches and justify the choice",
+          "keywords": [
+            "alternative approach",
+            "comparison",
+            "เปรียบเทียบ"
+          ],
+          "evidence_expected": "Technical comparison",
+          "source_topic": "Overview of approaches",
+          "source_url": "https://www.iso.org/standard/78508.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO5392",
+      "name": "ISO/IEC 5392:2024 — Reference architecture of knowledge engineering",
+      "designation": "ISO/IEC 5392:2024",
+      "published_year": 2024,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/81228.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "KE vocabulary, roles, activities, layers, components and relationships in user and functional views.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5392-01",
+          "category": "Architecture & Components",
+          "title": "Define the knowledge-engineering terms used",
+          "keywords": [
+            "knowledge engineering",
+            "vocabulary",
+            "วิศวกรรมความรู้"
+          ],
+          "evidence_expected": "Knowledge glossary",
+          "source_topic": "KE vocabulary",
+          "source_url": "https://www.iso.org/standard/81228.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5392-02",
+          "category": "Architecture & Components",
+          "title": "Identify knowledge-engineering roles and activities",
+          "keywords": [
+            "knowledge engineer",
+            "roles",
+            "บทบาท"
+          ],
+          "evidence_expected": "Responsibility map",
+          "source_topic": "Roles and activities",
+          "source_url": "https://www.iso.org/standard/81228.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5392-03",
+          "category": "Architecture & Components",
+          "title": "Document knowledge architecture layers and components",
+          "keywords": [
+            "knowledge architecture",
+            "components",
+            "สถาปัตยกรรมความรู้"
+          ],
+          "evidence_expected": "Architecture diagram",
+          "source_topic": "Layers and components",
+          "source_url": "https://www.iso.org/standard/81228.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5392-04",
+          "category": "Architecture & Components",
+          "title": "Trace relationships with external systems",
+          "keywords": [
+            "knowledge integration",
+            "relationships",
+            "ระบบภายนอก"
+          ],
+          "evidence_expected": "Interface diagram",
+          "source_topic": "Component and system relationships",
+          "source_url": "https://www.iso.org/standard/81228.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5392-05",
+          "category": "Architecture & Components",
+          "title": "Describe user and functional views",
+          "keywords": [
+            "user view",
+            "functional view",
+            "มุมมอง"
+          ],
+          "evidence_expected": "User scenarios and functional design",
+          "source_topic": "User and functional views",
+          "source_url": "https://www.iso.org/standard/81228.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO17903",
+      "name": "ISO/IEC TR 17903:2024 — Machine learning computing devices",
+      "designation": "ISO/IEC TR 17903:2024",
+      "published_year": 2024,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/85078.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "ML computing-device terminology, characteristics and performance optimization approaches.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO17903-01",
+          "category": "Training & Inference Context",
+          "title": "Inventory computing devices used for ML",
+          "keywords": [
+            "computing device",
+            "hardware",
+            "อุปกรณ์ประมวลผล"
+          ],
+          "evidence_expected": "Hardware inventory",
+          "source_topic": "ML computing devices",
+          "source_url": "https://www.iso.org/standard/85078.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO17903-02",
+          "category": "Training & Inference Context",
+          "title": "Define device characteristics relevant to the workload",
+          "keywords": [
+            "device characteristics",
+            "workload",
+            "ภาระงาน"
+          ],
+          "evidence_expected": "Device specifications",
+          "source_topic": "Device characteristics",
+          "source_url": "https://www.iso.org/standard/85078.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO17903-03",
+          "category": "Training & Inference Context",
+          "title": "Record device settings used to improve performance",
+          "keywords": [
+            "device settings",
+            "optimization",
+            "การตั้งค่า"
+          ],
+          "evidence_expected": "Configuration records",
+          "source_topic": "Setting characteristics for optimization",
+          "source_url": "https://www.iso.org/standard/85078.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO17903-04",
+          "category": "Training & Inference Context",
+          "title": "Compare performance across device configurations",
+          "keywords": [
+            "device performance",
+            "benchmark",
+            "สมรรถนะ"
+          ],
+          "evidence_expected": "Comparison report",
+          "source_topic": "Performance optimization",
+          "source_url": "https://www.iso.org/standard/85078.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO42112",
+      "name": "ISO/IEC TS 42112:2026 — ML model training efficiency optimization",
+      "designation": "ISO/IEC TS 42112:2026",
+      "published_year": 2026,
+      "publication_type": "TS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/88246.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Training efficiency factors and optimization approaches; comparison of training strategies; excludes device acceleration mechanisms.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO42112-01",
+          "category": "Training & Inference Context",
+          "title": "Identify factors limiting model training efficiency",
+          "keywords": [
+            "training efficiency",
+            "bottleneck",
+            "ประสิทธิภาพการฝึก"
+          ],
+          "evidence_expected": "Training profile",
+          "source_topic": "Training efficiency factors",
+          "source_url": "https://www.iso.org/standard/88246.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42112-02",
+          "category": "Training & Inference Context",
+          "title": "Define training efficiency objectives and measures",
+          "keywords": [
+            "efficiency objective",
+            "training metrics",
+            "ตัวชี้วัด"
+          ],
+          "evidence_expected": "Evaluation plan",
+          "source_topic": "Efficiency characteristics",
+          "source_url": "https://www.iso.org/standard/88246.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42112-03",
+          "category": "Training & Inference Context",
+          "title": "Link optimization approaches to identified limiting factors",
+          "keywords": [
+            "training optimization",
+            "strategy",
+            "การปรับปรุง"
+          ],
+          "evidence_expected": "Optimization decisions",
+          "source_topic": "Optimization approaches",
+          "source_url": "https://www.iso.org/standard/88246.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42112-04",
+          "category": "Training & Inference Context",
+          "title": "Compare training strategies using measured results",
+          "keywords": [
+            "training comparison",
+            "efficiency results",
+            "เปรียบเทียบ"
+          ],
+          "evidence_expected": "Experiment log",
+          "source_topic": "Comparison of training strategies",
+          "source_url": "https://www.iso.org/standard/88246.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO42005",
+      "name": "ISO/IEC 42005:2025 — AI system impact assessment",
+      "designation": "ISO/IEC 42005:2025",
+      "published_year": 2025,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/42005",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Evaluate and document impacts on individuals, groups and society throughout the AI life cycle.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO42005-01",
+          "category": "Impact Assessment",
+          "title": "Define the system and foreseeable applications assessed",
+          "keywords": [
+            "impact scope",
+            "foreseeable use",
+            "ขอบเขตผลกระทบ"
+          ],
+          "evidence_expected": "Scope and application register",
+          "source_topic": "Foreseeable applications",
+          "source_url": "https://www.iso.org/standard/42005",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42005-02",
+          "category": "Impact Assessment",
+          "title": "Identify affected individuals and groups",
+          "keywords": [
+            "affected stakeholders",
+            "individuals",
+            "ผู้ได้รับผลกระทบ"
+          ],
+          "evidence_expected": "Stakeholder map",
+          "source_topic": "Individuals and groups",
+          "source_url": "https://www.iso.org/standard/42005",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42005-03",
+          "category": "Impact Assessment",
+          "title": "Evaluate ethical and societal impacts",
+          "keywords": [
+            "social impact",
+            "ethical impact",
+            "ผลกระทบทางสังคม"
+          ],
+          "evidence_expected": "Social impact assessment",
+          "source_topic": "Ethical and societal impacts",
+          "source_url": "https://www.iso.org/standard/42005",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42005-04",
+          "category": "Impact Assessment",
+          "title": "Evaluate relevant environmental impacts",
+          "keywords": [
+            "environmental impact",
+            "environment",
+            "สิ่งแวดล้อม"
+          ],
+          "evidence_expected": "Environmental assessment",
+          "source_topic": "Environmental concerns",
+          "source_url": "https://www.iso.org/standard/42005",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42005-05",
+          "category": "Impact Assessment",
+          "title": "Document impact evaluation and resulting decisions",
+          "keywords": [
+            "impact evaluation",
+            "decision",
+            "การประเมินผลกระทบ"
+          ],
+          "evidence_expected": "Impact report",
+          "source_topic": "Impact documentation",
+          "source_url": "https://www.iso.org/standard/42005",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42005-06",
+          "category": "Impact Assessment",
+          "title": "Review impacts through the AI life cycle",
+          "keywords": [
+            "impact review",
+            "lifecycle",
+            "ทบทวนผลกระทบ"
+          ],
+          "evidence_expected": "Versioned assessments",
+          "source_topic": "Life-cycle assessment",
+          "source_url": "https://www.iso.org/standard/42005",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO42006",
+      "name": "ISO/IEC 42006:2025 — AIMS audit and certification bodies",
+      "designation": "ISO/IEC 42006:2025",
+      "published_year": 2025,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/42006",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "AI-specific competence and auditing/certification arrangements supplementing ISO/IEC 17021-1.",
+      "applicability": "For AIMS certification bodies and accreditation assessment; not a universal obligation on AI developers/users.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO42006-01",
+          "category": "Internal Review & Audit",
+          "title": "Confirm applicability to an AIMS certification body",
+          "keywords": [
+            "certification body",
+            "AIMS",
+            "หน่วยรับรอง"
+          ],
+          "evidence_expected": "Certification-body scope",
+          "source_topic": "Intended users",
+          "source_url": "https://www.iso.org/standard/42006",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42006-02",
+          "category": "Internal Review & Audit",
+          "title": "Map certification processes to ISO/IEC 17021-1",
+          "keywords": [
+            "17021-1",
+            "certification process",
+            "กระบวนการรับรอง"
+          ],
+          "evidence_expected": "Process mapping",
+          "source_topic": "Supplement to ISO/IEC 17021-1",
+          "source_url": "https://www.iso.org/standard/42006",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42006-03",
+          "category": "Internal Review & Audit",
+          "title": "Demonstrate AI auditor competence",
+          "keywords": [
+            "auditor competence",
+            "AI expertise",
+            "สมรรถนะผู้ตรวจ"
+          ],
+          "evidence_expected": "Competency records",
+          "source_topic": "Auditor competence",
+          "source_url": "https://www.iso.org/standard/42006",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42006-04",
+          "category": "Internal Review & Audit",
+          "title": "Document consistent auditing of AI risks and controls",
+          "keywords": [
+            "audit method",
+            "AI controls",
+            "วิธีตรวจประเมิน"
+          ],
+          "evidence_expected": "Audit methodology and records",
+          "source_topic": "AI-specific auditing",
+          "source_url": "https://www.iso.org/standard/42006",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42006-05",
+          "category": "Internal Review & Audit",
+          "title": "Record the basis of certification decisions",
+          "keywords": [
+            "certification decision",
+            "audit evidence",
+            "ผลการรับรอง"
+          ],
+          "evidence_expected": "Decision record",
+          "source_topic": "Credible certification",
+          "source_url": "https://www.iso.org/standard/42006",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO24028",
+      "name": "ISO/IEC TR 24028:2020 — Overview of trustworthiness in AI",
+      "designation": "ISO/IEC TR 24028:2020",
+      "published_year": 2020,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/77608.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Transparency, explanation, control, engineering pitfalls, availability, resilience, reliability, accuracy, safety, security and privacy.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO24028-01",
+          "category": "Safety & Reliability",
+          "title": "Explain how users understand and control AI behavior",
+          "keywords": [
+            "transparency",
+            "explainability",
+            "controllability"
+          ],
+          "evidence_expected": "Explanation and control design",
+          "source_topic": "Transparency explanation and control",
+          "source_url": "https://www.iso.org/standard/77608.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24028-02",
+          "category": "Safety & Reliability",
+          "title": "Identify engineering pitfalls undermining trust",
+          "keywords": [
+            "engineering pitfall",
+            "threat",
+            "ความเสี่ยง"
+          ],
+          "evidence_expected": "Engineering risk review",
+          "source_topic": "Pitfalls and mitigations",
+          "source_url": "https://www.iso.org/standard/77608.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24028-03",
+          "category": "Safety & Reliability",
+          "title": "Substantiate reliability and accuracy claims",
+          "keywords": [
+            "reliability",
+            "accuracy",
+            "ความแม่นยำ"
+          ],
+          "evidence_expected": "Evaluation report",
+          "source_topic": "Reliability and accuracy",
+          "source_url": "https://www.iso.org/standard/77608.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24028-04",
+          "category": "Safety & Reliability",
+          "title": "Evaluate availability and resilience",
+          "keywords": [
+            "availability",
+            "resilience",
+            "การฟื้นตัว"
+          ],
+          "evidence_expected": "Availability and recovery tests",
+          "source_topic": "Availability and resilience",
+          "source_url": "https://www.iso.org/standard/77608.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24028-05",
+          "category": "Safety & Reliability",
+          "title": "Evaluate safety security and privacy protections",
+          "keywords": [
+            "safety",
+            "security",
+            "privacy"
+          ],
+          "evidence_expected": "Protection assessments",
+          "source_topic": "Safety security and privacy",
+          "source_url": "https://www.iso.org/standard/77608.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO8200",
+      "name": "ISO/IEC TS 8200:2024 — Controllability of automated AI systems",
+      "designation": "ISO/IEC TS 8200:2024",
+      "published_year": 2024,
+      "publication_type": "TS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/83012.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "State observation/transitions, control transfer/cost, uncertainty and verification/validation.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO8200-01",
+          "category": "Human Oversight",
+          "title": "Show how operators observe system state",
+          "keywords": [
+            "observability",
+            "system state",
+            "สถานะระบบ"
+          ],
+          "evidence_expected": "State display and logs",
+          "source_topic": "State observability",
+          "source_url": "https://www.iso.org/standard/83012.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO8200-02",
+          "category": "Human Oversight",
+          "title": "Define permitted control-state transitions",
+          "keywords": [
+            "state transition",
+            "control state",
+            "การเปลี่ยนสถานะ"
+          ],
+          "evidence_expected": "Transition specification",
+          "source_topic": "State transitions",
+          "source_url": "https://www.iso.org/standard/83012.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO8200-03",
+          "category": "Human Oversight",
+          "title": "Specify control transfer and associated resource costs",
+          "keywords": [
+            "control transfer",
+            "handover",
+            "ส่งต่อการควบคุม"
+          ],
+          "evidence_expected": "Handover procedure",
+          "source_topic": "Transfer process and cost",
+          "source_url": "https://www.iso.org/standard/83012.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO8200-04",
+          "category": "Human Oversight",
+          "title": "Address uncertainty during control transfer",
+          "keywords": [
+            "uncertainty",
+            "handover uncertainty",
+            "ความไม่แน่นอน"
+          ],
+          "evidence_expected": "Handover scenarios",
+          "source_topic": "Uncertainty during transfer",
+          "source_url": "https://www.iso.org/standard/83012.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO8200-05",
+          "category": "Human Oversight",
+          "title": "Verify and validate controllability",
+          "keywords": [
+            "controllability test",
+            "validation",
+            "ทดสอบการควบคุม"
+          ],
+          "evidence_expected": "Control test results",
+          "source_topic": "Verification and validation",
+          "source_url": "https://www.iso.org/standard/83012.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO24027",
+      "name": "ISO/IEC TR 24027:2021 — Bias in AI systems and AI-aided decision making",
+      "designation": "ISO/IEC TR 24027:2021",
+      "published_year": 2021,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/77607.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Bias measurement and treatment across data collection, training, continual learning, design, testing, evaluation and use.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO24027-01",
+          "category": "Bias Identification & Mitigation",
+          "title": "Identify bias risks in data collection",
+          "keywords": [
+            "data collection",
+            "bias",
+            "อคติข้อมูล"
+          ],
+          "evidence_expected": "Data collection review",
+          "source_topic": "Data collection phase",
+          "source_url": "https://www.iso.org/standard/77607.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24027-02",
+          "category": "Bias Identification & Mitigation",
+          "title": "Evaluate bias introduced during model design and training",
+          "keywords": [
+            "training bias",
+            "model design",
+            "อคติโมเดล"
+          ],
+          "evidence_expected": "Design and training evaluation",
+          "source_topic": "Design and training",
+          "source_url": "https://www.iso.org/standard/77607.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24027-03",
+          "category": "Bias Identification & Mitigation",
+          "title": "Select and document bias measurement methods",
+          "keywords": [
+            "bias measurement",
+            "fairness metrics",
+            "การวัดอคติ"
+          ],
+          "evidence_expected": "Metric definitions and results",
+          "source_topic": "Measurement techniques",
+          "source_url": "https://www.iso.org/standard/77607.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24027-04",
+          "category": "Bias Identification & Mitigation",
+          "title": "Evaluate bias in testing and operational use",
+          "keywords": [
+            "bias testing",
+            "operational bias",
+            "ทดสอบอคติ"
+          ],
+          "evidence_expected": "Testing and use evaluation",
+          "source_topic": "Testing evaluation and use",
+          "source_url": "https://www.iso.org/standard/77607.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24027-05",
+          "category": "Bias Identification & Mitigation",
+          "title": "Reassess bias during continual learning",
+          "keywords": [
+            "continual learning",
+            "bias monitoring",
+            "เรียนรู้ต่อเนื่อง"
+          ],
+          "evidence_expected": "Updated bias evaluations",
+          "source_topic": "Continual learning",
+          "source_url": "https://www.iso.org/standard/77607.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24027-06",
+          "category": "Bias Identification & Mitigation",
+          "title": "Record treatment of identified bias vulnerabilities",
+          "keywords": [
+            "bias treatment",
+            "mitigation",
+            "ลดอคติ"
+          ],
+          "evidence_expected": "Treatment decisions and results",
+          "source_topic": "Bias treatment",
+          "source_url": "https://www.iso.org/standard/77607.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO12791",
+      "name": "ISO/IEC TS 12791:2024 — Treatment of unwanted bias in classification and regression",
+      "designation": "ISO/IEC TS 12791:2024",
+      "published_year": 2024,
+      "publication_type": "TS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/84110.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Life-cycle techniques for mitigating unwanted bias in ML classification and regression.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO12791-01",
+          "category": "Bias Identification & Mitigation",
+          "title": "Identify classification and regression tasks in scope",
+          "keywords": [
+            "classification",
+            "regression",
+            "การจำแนก"
+          ],
+          "evidence_expected": "Task inventory",
+          "source_topic": "Classification and regression scope",
+          "source_url": "https://www.iso.org/standard/84110.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO12791-02",
+          "category": "Bias Identification & Mitigation",
+          "title": "Document unwanted bias targeted for treatment",
+          "keywords": [
+            "unwanted bias",
+            "bias identification",
+            "อคติไม่พึงประสงค์"
+          ],
+          "evidence_expected": "Bias assessment",
+          "source_topic": "Unwanted bias",
+          "source_url": "https://www.iso.org/standard/84110.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO12791-03",
+          "category": "Bias Identification & Mitigation",
+          "title": "Select mitigation techniques appropriate to each task",
+          "keywords": [
+            "bias mitigation",
+            "treatment technique",
+            "ลดอคติ"
+          ],
+          "evidence_expected": "Mitigation plan",
+          "source_topic": "Mitigation techniques",
+          "source_url": "https://www.iso.org/standard/84110.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO12791-04",
+          "category": "Bias Identification & Mitigation",
+          "title": "Document mitigation actions across life-cycle stages",
+          "keywords": [
+            "bias lifecycle",
+            "mitigation action",
+            "วงจรชีวิต"
+          ],
+          "evidence_expected": "Stage-specific records",
+          "source_topic": "Life-cycle treatment",
+          "source_url": "https://www.iso.org/standard/84110.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO12791-05",
+          "category": "Bias Identification & Mitigation",
+          "title": "Compare bias outcomes before and after treatment",
+          "keywords": [
+            "bias evaluation",
+            "mitigation results",
+            "ผลลดอคติ"
+          ],
+          "evidence_expected": "Before/after evaluation",
+          "source_topic": "Treatment of unwanted bias",
+          "source_url": "https://www.iso.org/standard/84110.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO24368",
+      "name": "ISO/IEC TR 24368:2022 — Ethical and societal concerns",
+      "designation": "ISO/IEC TR 24368:2022",
+      "published_year": 2022,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/78507.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Sources of ethical/social concern, principles, processes and stakeholder perspectives; no single prescribed value system.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO24368-01",
+          "category": "Societal & Environmental Impact",
+          "title": "Identify ethical concerns and their sources",
+          "keywords": [
+            "ethical concern",
+            "ethics",
+            "จริยธรรม"
+          ],
+          "evidence_expected": "Ethical issue register",
+          "source_topic": "Sources of concerns",
+          "source_url": "https://www.iso.org/standard/78507.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24368-02",
+          "category": "Societal & Environmental Impact",
+          "title": "Assess potential loss of human autonomy",
+          "keywords": [
+            "human autonomy",
+            "human agency",
+            "อิสระของมนุษย์"
+          ],
+          "evidence_expected": "Autonomy impact review",
+          "source_topic": "Human autonomy",
+          "source_url": "https://www.iso.org/standard/78507.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24368-03",
+          "category": "Societal & Environmental Impact",
+          "title": "Review bias transparency and privacy concerns together",
+          "keywords": [
+            "bias",
+            "transparency",
+            "privacy"
+          ],
+          "evidence_expected": "Cross-disciplinary review",
+          "source_topic": "Ethical and societal risks",
+          "source_url": "https://www.iso.org/standard/78507.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24368-04",
+          "category": "Societal & Environmental Impact",
+          "title": "Include diverse stakeholder perspectives",
+          "keywords": [
+            "stakeholder engagement",
+            "participation",
+            "ผู้มีส่วนได้ส่วนเสีย"
+          ],
+          "evidence_expected": "Consultation records",
+          "source_topic": "Inclusive evaluation",
+          "source_url": "https://www.iso.org/standard/78507.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24368-05",
+          "category": "Societal & Environmental Impact",
+          "title": "Document principles and processes chosen to address concerns",
+          "keywords": [
+            "ethical principles",
+            "ethical process",
+            "หลักจริยธรรม"
+          ],
+          "evidence_expected": "Ethics decision record",
+          "source_topic": "Principles and processes",
+          "source_url": "https://www.iso.org/standard/78507.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO5469",
+      "name": "ISO/IEC TR 5469:2024 — Functional safety and AI systems",
+      "designation": "ISO/IEC TR 5469:2024",
+      "published_year": 2024,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/81283.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "AI within safety functions, non-AI functions protecting AI-controlled equipment, and AI used to develop safety functions.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5469-01",
+          "category": "Safety & Reliability",
+          "title": "Identify AI used inside safety-related functions",
+          "keywords": [
+            "safety function",
+            "AI safety",
+            "ฟังก์ชันความปลอดภัย"
+          ],
+          "evidence_expected": "Safety architecture",
+          "source_topic": "AI inside safety functions",
+          "source_url": "https://www.iso.org/standard/81283.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5469-02",
+          "category": "Safety & Reliability",
+          "title": "Identify non-AI safeguards for AI-controlled equipment",
+          "keywords": [
+            "non-AI safeguard",
+            "protective function",
+            "ระบบป้องกัน"
+          ],
+          "evidence_expected": "Safeguard design",
+          "source_topic": "Non-AI safety functions",
+          "source_url": "https://www.iso.org/standard/81283.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5469-03",
+          "category": "Safety & Reliability",
+          "title": "Document AI used in developing safety functions",
+          "keywords": [
+            "safety development",
+            "AI design",
+            "ออกแบบความปลอดภัย"
+          ],
+          "evidence_expected": "Development tool records",
+          "source_topic": "AI in safety development",
+          "source_url": "https://www.iso.org/standard/81283.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5469-04",
+          "category": "Safety & Reliability",
+          "title": "Analyze risk factors for each relevant safety use",
+          "keywords": [
+            "functional safety",
+            "risk factors",
+            "ความเสี่ยงความปลอดภัย"
+          ],
+          "evidence_expected": "Safety risk analysis",
+          "source_topic": "Related risk factors",
+          "source_url": "https://www.iso.org/standard/81283.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5469-05",
+          "category": "Safety & Reliability",
+          "title": "Document methods and processes addressing those risks",
+          "keywords": [
+            "safety method",
+            "safety process",
+            "กระบวนการความปลอดภัย"
+          ],
+          "evidence_expected": "Safety assessment evidence",
+          "source_topic": "Safety methods and processes",
+          "source_url": "https://www.iso.org/standard/81283.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO6254",
+      "name": "ISO/IEC TS 6254:2025 — Explainability and interpretability objectives and approaches",
+      "designation": "ISO/IEC TS 6254:2025",
+      "published_year": 2025,
+      "publication_type": "TS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/82148.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Stakeholder explanation objectives, method suitability and life-cycle considerations.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO6254-01",
+          "category": "Explainability",
+          "title": "Identify explanation objectives for different stakeholder groups",
+          "keywords": [
+            "explanation objectives",
+            "stakeholders",
+            "เป้าหมายคำอธิบาย"
+          ],
+          "evidence_expected": "Stakeholder requirements",
+          "source_topic": "Stakeholder objectives",
+          "source_url": "https://www.iso.org/standard/82148.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO6254-02",
+          "category": "Explainability",
+          "title": "Select explanation methods appropriate to those objectives",
+          "keywords": [
+            "explanation method",
+            "interpretability",
+            "วิธีอธิบาย"
+          ],
+          "evidence_expected": "Method selection record",
+          "source_topic": "Method applicability",
+          "source_url": "https://www.iso.org/standard/82148.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO6254-03",
+          "category": "Explainability",
+          "title": "Explain relevant AI behavior outputs and results",
+          "keywords": [
+            "model explanation",
+            "AI output",
+            "คำอธิบายผลลัพธ์"
+          ],
+          "evidence_expected": "Example explanations",
+          "source_topic": "Behavior outputs and results",
+          "source_url": "https://www.iso.org/standard/82148.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO6254-04",
+          "category": "Explainability",
+          "title": "Plan explanation capabilities during design",
+          "keywords": [
+            "explainability design",
+            "inception",
+            "ออกแบบคำอธิบาย"
+          ],
+          "evidence_expected": "Design specification",
+          "source_topic": "Inception and development",
+          "source_url": "https://www.iso.org/standard/82148.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO6254-05",
+          "category": "Explainability",
+          "title": "Validate explanations before deployment",
+          "keywords": [
+            "explanation validation",
+            "verification",
+            "ทดสอบคำอธิบาย"
+          ],
+          "evidence_expected": "Validation report",
+          "source_topic": "Verification and validation",
+          "source_url": "https://www.iso.org/standard/82148.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO6254-06",
+          "category": "Explainability",
+          "title": "Review explanations during operation and model changes",
+          "keywords": [
+            "explanation monitoring",
+            "continuous validation",
+            "ทบทวนคำอธิบาย"
+          ],
+          "evidence_expected": "Operational review records",
+          "source_topic": "Operation and continuous validation",
+          "source_url": "https://www.iso.org/standard/82148.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO12792",
+      "name": "ISO/IEC 12792:2025 — Transparency taxonomy of AI systems",
+      "designation": "ISO/IEC 12792:2025",
+      "published_year": 2025,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/84111.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Information elements, their meaning and relevance to stakeholders' transparency objectives.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO12792-01",
+          "category": "Transparency",
+          "title": "Identify stakeholders needing AI transparency information",
+          "keywords": [
+            "transparency stakeholders",
+            "information needs",
+            "ความต้องการข้อมูล"
+          ],
+          "evidence_expected": "Stakeholder information map",
+          "source_topic": "Stakeholder needs",
+          "source_url": "https://www.iso.org/standard/84111.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO12792-02",
+          "category": "Transparency",
+          "title": "Document transparency objectives for each audience",
+          "keywords": [
+            "transparency objectives",
+            "audience",
+            "วัตถุประสงค์ความโปร่งใส"
+          ],
+          "evidence_expected": "Transparency objectives",
+          "source_topic": "Different stakeholder objectives",
+          "source_url": "https://www.iso.org/standard/84111.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO12792-03",
+          "category": "Transparency",
+          "title": "Specify information elements addressing those objectives",
+          "keywords": [
+            "information elements",
+            "transparency record",
+            "องค์ประกอบข้อมูล"
+          ],
+          "evidence_expected": "Transparency record template",
+          "source_topic": "Taxonomy of information elements",
+          "source_url": "https://www.iso.org/standard/84111.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO12792-04",
+          "category": "Transparency",
+          "title": "Define the meaning of each disclosed information element",
+          "keywords": [
+            "information semantics",
+            "definitions",
+            "ความหมายข้อมูล"
+          ],
+          "evidence_expected": "Disclosure glossary",
+          "source_topic": "Information semantics",
+          "source_url": "https://www.iso.org/standard/84111.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO12792-05",
+          "category": "Transparency",
+          "title": "Check relevance of disclosed information to its audience",
+          "keywords": [
+            "disclosure relevance",
+            "stakeholder needs",
+            "ข้อมูลเปิดเผย"
+          ],
+          "evidence_expected": "Audience review record",
+          "source_topic": "Relevance to objectives",
+          "source_url": "https://www.iso.org/standard/84111.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO20226",
+      "name": "ISO/IEC TR 20226:2025 — Environmental sustainability aspects of AI systems",
+      "designation": "ISO/IEC TR 20226:2025",
+      "published_year": 2025,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/86177.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Life-cycle workload, resource/asset use, carbon, pollution, waste, transport, location and potential metrics.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO20226-01",
+          "category": "Societal & Environmental Impact",
+          "title": "Identify environmental boundaries across the AI life cycle",
+          "keywords": [
+            "environmental boundary",
+            "lifecycle",
+            "ขอบเขตสิ่งแวดล้อม"
+          ],
+          "evidence_expected": "Life-cycle boundary record",
+          "source_topic": "Life-cycle aspects",
+          "source_url": "https://www.iso.org/standard/86177.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20226-02",
+          "category": "Societal & Environmental Impact",
+          "title": "Measure relevant workloads and resource utilization",
+          "keywords": [
+            "resource utilization",
+            "workload",
+            "การใช้ทรัพยากร"
+          ],
+          "evidence_expected": "Utilization measurements",
+          "source_topic": "Workload resource and asset use",
+          "source_url": "https://www.iso.org/standard/86177.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20226-03",
+          "category": "Societal & Environmental Impact",
+          "title": "Document carbon-impact estimates and assumptions",
+          "keywords": [
+            "carbon impact",
+            "emissions",
+            "คาร์บอน"
+          ],
+          "evidence_expected": "Carbon inventory and assumptions",
+          "source_topic": "Carbon impact",
+          "source_url": "https://www.iso.org/standard/86177.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20226-04",
+          "category": "Societal & Environmental Impact",
+          "title": "Assess pollution and waste associated with AI assets",
+          "keywords": [
+            "pollution",
+            "waste",
+            "ของเสีย"
+          ],
+          "evidence_expected": "Waste and pollution records",
+          "source_topic": "Pollution and waste",
+          "source_url": "https://www.iso.org/standard/86177.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20226-05",
+          "category": "Societal & Environmental Impact",
+          "title": "Evaluate location and transport contributions",
+          "keywords": [
+            "location",
+            "transportation",
+            "ขนส่ง"
+          ],
+          "evidence_expected": "Location and logistics assessment",
+          "source_topic": "Location and transportation",
+          "source_url": "https://www.iso.org/standard/86177.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20226-06",
+          "category": "Societal & Environmental Impact",
+          "title": "Select metrics appropriate to the environmental assessment",
+          "keywords": [
+            "environmental metrics",
+            "sustainability",
+            "ตัวชี้วัดสิ่งแวดล้อม"
+          ],
+          "evidence_expected": "Metric definitions",
+          "source_topic": "Potential environmental metrics",
+          "source_url": "https://www.iso.org/standard/86177.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO21221",
+      "name": "ISO/IEC TR 21221:2025 — Beneficial AI systems",
+      "designation": "ISO/IEC TR 21221:2025",
+      "published_year": 2025,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/86690.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Stakeholder-perceived functional, economic, environmental, social, cultural, intellectual and personal benefits.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO21221-01",
+          "category": "Stakeholder Communication",
+          "title": "Identify stakeholders and their expected AI benefits",
+          "keywords": [
+            "beneficiaries",
+            "AI benefits",
+            "ผู้รับประโยชน์"
+          ],
+          "evidence_expected": "Benefit stakeholder map",
+          "source_topic": "Stakeholder-perceived benefits",
+          "source_url": "https://www.iso.org/standard/86690.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO21221-02",
+          "category": "Stakeholder Communication",
+          "title": "Document functional and economic benefits",
+          "keywords": [
+            "functional benefit",
+            "economic benefit",
+            "ประโยชน์เศรษฐกิจ"
+          ],
+          "evidence_expected": "Business and functional outcomes",
+          "source_topic": "Functional and economic benefits",
+          "source_url": "https://www.iso.org/standard/86690.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO21221-03",
+          "category": "Stakeholder Communication",
+          "title": "Document environmental and societal benefits claimed",
+          "keywords": [
+            "environmental benefit",
+            "societal benefit",
+            "ประโยชน์สังคม"
+          ],
+          "evidence_expected": "Benefit rationale and evidence",
+          "source_topic": "Environmental social and societal benefits",
+          "source_url": "https://www.iso.org/standard/86690.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO21221-04",
+          "category": "Stakeholder Communication",
+          "title": "Consider cultural intellectual and personal benefits",
+          "keywords": [
+            "cultural benefit",
+            "personal benefit",
+            "ประโยชน์ส่วนบุคคล"
+          ],
+          "evidence_expected": "Stakeholder benefit review",
+          "source_topic": "Cultural intellectual and personal benefits",
+          "source_url": "https://www.iso.org/standard/86690.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO21221-05",
+          "category": "Stakeholder Communication",
+          "title": "Compare claimed benefits with stakeholder experience",
+          "keywords": [
+            "benefit realization",
+            "stakeholder feedback",
+            "ผลประโยชน์จริง"
+          ],
+          "evidence_expected": "Feedback and outcome records",
+          "source_topic": "Perceived delivery of benefits",
+          "source_url": "https://www.iso.org/standard/86690.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO27090",
+      "name": "ISO/IEC 27090 — AI security threats and compromises",
+      "designation": "ISO/IEC 27090",
+      "published_year": null,
+      "publication_type": "IS",
+      "source_type": "international_standard_draft",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/27090",
+      "checked_on": "2026-09-23",
+      "status": "กำลังพัฒนา — 60.00 / Under publication",
+      "scope_summary": "Public guidance on AI-specific security threats, training-data poisoning, model theft, detection and mitigation.",
+      "applicability": "Draft readiness only; publication not yet confirmed. Do not treat as published certification requirements.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO27090-01",
+          "category": "Model & Adversarial Security",
+          "title": "Identify AI assets requiring protection",
+          "keywords": [
+            "AI assets",
+            "training data",
+            "ทรัพย์สินเอไอ"
+          ],
+          "evidence_expected": "AI asset inventory",
+          "source_topic": "Data and model protection",
+          "source_url": "https://www.iso.org/standard/27090",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO27090-02",
+          "category": "Model & Adversarial Security",
+          "title": "Evaluate training-data poisoning exposure",
+          "keywords": [
+            "data poisoning",
+            "training integrity",
+            "ข้อมูลฝึกปนเปื้อน"
+          ],
+          "evidence_expected": "Poisoning threat analysis",
+          "source_topic": "Data poisoning",
+          "source_url": "https://www.iso.org/standard/27090",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO27090-03",
+          "category": "Model & Adversarial Security",
+          "title": "Evaluate model theft and extraction exposure",
+          "keywords": [
+            "model theft",
+            "model extraction",
+            "ขโมยโมเดล"
+          ],
+          "evidence_expected": "Model threat analysis",
+          "source_topic": "Model theft",
+          "source_url": "https://www.iso.org/standard/27090",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO27090-04",
+          "category": "Model & Adversarial Security",
+          "title": "Document threat detection and mitigation measures",
+          "keywords": [
+            "threat detection",
+            "mitigation",
+            "ตรวจจับภัย"
+          ],
+          "evidence_expected": "Detection tests and mitigation plan",
+          "source_topic": "Detection and mitigation",
+          "source_url": "https://www.iso.org/standard/27090",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO27090-05",
+          "category": "Model & Adversarial Security",
+          "title": "Review security of model updates and retraining data",
+          "keywords": [
+            "retraining security",
+            "model update",
+            "ความปลอดภัยการฝึกซ้ำ"
+          ],
+          "evidence_expected": "Update security review",
+          "source_topic": "Life-cycle threats",
+          "source_url": "https://www.iso.org/standard/27090",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO27091",
+      "name": "ISO/IEC FDIS 27091 — AI privacy protection",
+      "designation": "ISO/IEC FDIS 27091",
+      "published_year": null,
+      "publication_type": "IS",
+      "source_type": "international_standard_draft",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/56582.html",
+      "checked_on": "2026-09-23",
+      "status": "กำลังพัฒนา — 50.00 / FDIS",
+      "scope_summary": "Identify AI/ML privacy risks throughout the life cycle, assess consequences and treat risks.",
+      "applicability": "Draft readiness only; not a published International Standard.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO27091-01",
+          "category": "Privacy Risk & Personal Data",
+          "title": "Identify privacy risks in the AI system and ML model",
+          "keywords": [
+            "AI privacy",
+            "privacy risk",
+            "ความเสี่ยงส่วนบุคคล"
+          ],
+          "evidence_expected": "Privacy risk inventory",
+          "source_topic": "AI system and ML privacy risks",
+          "source_url": "https://www.iso.org/standard/56582.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO27091-02",
+          "category": "Privacy Risk & Personal Data",
+          "title": "Map privacy risks across life-cycle stages",
+          "keywords": [
+            "privacy lifecycle",
+            "data flow",
+            "วงจรข้อมูลส่วนบุคคล"
+          ],
+          "evidence_expected": "Life-cycle privacy assessment",
+          "source_topic": "Life-cycle identification",
+          "source_url": "https://www.iso.org/standard/56582.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO27091-03",
+          "category": "Privacy Risk & Personal Data",
+          "title": "Evaluate consequences of identified privacy risks",
+          "keywords": [
+            "privacy consequences",
+            "privacy impact",
+            "ผลกระทบส่วนบุคคล"
+          ],
+          "evidence_expected": "Privacy impact analysis",
+          "source_topic": "Evaluation of consequences",
+          "source_url": "https://www.iso.org/standard/56582.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO27091-04",
+          "category": "Privacy Risk & Personal Data",
+          "title": "Document treatment and review of privacy risks",
+          "keywords": [
+            "privacy treatment",
+            "privacy controls",
+            "มาตรการส่วนบุคคล"
+          ],
+          "evidence_expected": "Treatment and review records",
+          "source_topic": "Risk treatment",
+          "source_url": "https://www.iso.org/standard/56582.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO20547_4",
+      "name": "ISO/IEC 20547-4:2020 — Big data reference architecture — Security and privacy",
+      "designation": "ISO/IEC 20547-4:2020",
+      "published_year": 2020,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/71278.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว — 90.60 / Close of review",
+      "scope_summary": "Security/privacy aspects of big data roles, activities, components and operations.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO20547_4-01",
+          "category": "Security Threat Assessment",
+          "title": "Assign security and privacy responsibilities to big data roles",
+          "keywords": [
+            "big data roles",
+            "security responsibilities",
+            "บทบาทข้อมูล"
+          ],
+          "evidence_expected": "Responsibility matrix",
+          "source_topic": "BDRA roles",
+          "source_url": "https://www.iso.org/standard/71278.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_4-02",
+          "category": "Security Threat Assessment",
+          "title": "Identify protection needs of data activities",
+          "keywords": [
+            "data activities",
+            "privacy needs",
+            "กิจกรรมข้อมูล"
+          ],
+          "evidence_expected": "Activity risk map",
+          "source_topic": "BDRA activities",
+          "source_url": "https://www.iso.org/standard/71278.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_4-03",
+          "category": "Security Threat Assessment",
+          "title": "Map security and privacy controls to architecture components",
+          "keywords": [
+            "security architecture",
+            "privacy controls",
+            "องค์ประกอบระบบ"
+          ],
+          "evidence_expected": "Control architecture",
+          "source_topic": "Functional components",
+          "source_url": "https://www.iso.org/standard/71278.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_4-04",
+          "category": "Security Threat Assessment",
+          "title": "Document operational security and privacy procedures",
+          "keywords": [
+            "security operations",
+            "privacy operations",
+            "ปฏิบัติการข้อมูล"
+          ],
+          "evidence_expected": "Operating procedures and logs",
+          "source_topic": "Big data operations",
+          "source_url": "https://www.iso.org/standard/71278.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO5259_6",
+      "name": "ISO/IEC TR 5259-6:2026 — Data quality — Visualization framework",
+      "designation": "ISO/IEC TR 5259-6:2026",
+      "published_year": 2026,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/86532.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Visual presentation of data-quality measurements to support stakeholder assessment and quality goals.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5259_6-01",
+          "category": "Data Quality Monitoring",
+          "title": "Define data quality goals served by each visualization",
+          "keywords": [
+            "quality goals",
+            "visualization",
+            "เป้าหมายคุณภาพ"
+          ],
+          "evidence_expected": "Visualization objectives",
+          "source_topic": "Quality goals",
+          "source_url": "https://www.iso.org/standard/86532.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_6-02",
+          "category": "Data Quality Monitoring",
+          "title": "Choose visualizations for measured data-quality results",
+          "keywords": [
+            "quality visualization",
+            "data measures",
+            "ภาพคุณภาพข้อมูล"
+          ],
+          "evidence_expected": "Dashboard specification",
+          "source_topic": "Visualization methods",
+          "source_url": "https://www.iso.org/standard/86532.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_6-03",
+          "category": "Data Quality Monitoring",
+          "title": "Make measurement results understandable to stakeholders",
+          "keywords": [
+            "stakeholder interpretation",
+            "data quality results",
+            "ผลคุณภาพข้อมูล"
+          ],
+          "evidence_expected": "Dashboard and interpretation guide",
+          "source_topic": "Stakeholder assessment",
+          "source_url": "https://www.iso.org/standard/86532.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_6-04",
+          "category": "Data Quality Monitoring",
+          "title": "Trace displayed results to their underlying measurements",
+          "keywords": [
+            "measurement results",
+            "data quality metrics",
+            "ตัวชี้วัดคุณภาพ"
+          ],
+          "evidence_expected": "Measurement-to-chart mapping",
+          "source_topic": "Visual assessment of measures",
+          "source_url": "https://www.iso.org/standard/86532.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO20546",
+      "name": "ISO/IEC 20546:2019 — Big data overview and vocabulary",
+      "designation": "ISO/IEC 20546:2019",
+      "published_year": 2019,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/68305.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว — 90.60 / Close of review",
+      "scope_summary": "Shared big-data terminology and relationships to related technology and standards.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO20546-01",
+          "category": "Data Inventory & Classification",
+          "title": "Define big-data terms used in project documentation",
+          "keywords": [
+            "big data",
+            "vocabulary",
+            "คำศัพท์ข้อมูล"
+          ],
+          "evidence_expected": "Project glossary",
+          "source_topic": "Terminological foundation",
+          "source_url": "https://www.iso.org/standard/68305.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20546-02",
+          "category": "Data Inventory & Classification",
+          "title": "Describe the project's big-data context",
+          "keywords": [
+            "big data context",
+            "conceptual overview",
+            "บริบทข้อมูล"
+          ],
+          "evidence_expected": "Context description",
+          "source_topic": "Conceptual overview",
+          "source_url": "https://www.iso.org/standard/68305.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20546-03",
+          "category": "Data Inventory & Classification",
+          "title": "Explain links to related technologies and standards",
+          "keywords": [
+            "related standards",
+            "technology relationship",
+            "มาตรฐานข้อมูล"
+          ],
+          "evidence_expected": "Technology and standards map",
+          "source_topic": "Relationships to other areas",
+          "source_url": "https://www.iso.org/standard/68305.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO20547_1",
+      "name": "ISO/IEC TR 20547-1:2020 — Big data reference architecture — Framework and application process",
+      "designation": "ISO/IEC TR 20547-1:2020",
+      "published_year": 2020,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/71275.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Reference-architecture framework and process for applying it to a specific problem domain.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO20547_1-01",
+          "category": "Data Architecture & Integration",
+          "title": "Describe the problem domain addressed by big data",
+          "keywords": [
+            "problem domain",
+            "big data",
+            "โจทย์ข้อมูล"
+          ],
+          "evidence_expected": "Problem statement",
+          "source_topic": "Problem-domain application",
+          "source_url": "https://www.iso.org/standard/71275.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_1-02",
+          "category": "Data Architecture & Integration",
+          "title": "Map the solution to the reference-architecture framework",
+          "keywords": [
+            "reference architecture",
+            "framework",
+            "สถาปัตยกรรมอ้างอิง"
+          ],
+          "evidence_expected": "Architecture mapping",
+          "source_topic": "Architecture framework",
+          "source_url": "https://www.iso.org/standard/71275.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_1-03",
+          "category": "Data Architecture & Integration",
+          "title": "Document the process used to apply the framework",
+          "keywords": [
+            "application process",
+            "architecture tailoring",
+            "การประยุกต์"
+          ],
+          "evidence_expected": "Application decision record",
+          "source_topic": "Application process",
+          "source_url": "https://www.iso.org/standard/71275.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_1-04",
+          "category": "Data Architecture & Integration",
+          "title": "Explain domain-specific architecture choices",
+          "keywords": [
+            "domain architecture",
+            "design choice",
+            "การออกแบบ"
+          ],
+          "evidence_expected": "Architecture decisions",
+          "source_topic": "Application to a particular domain",
+          "source_url": "https://www.iso.org/standard/71275.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO20547_2",
+      "name": "ISO/IEC TR 20547-2:2018 — Big data reference architecture — Use cases and derived requirements",
+      "designation": "ISO/IEC TR 20547-2:2018",
+      "published_year": 2018,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/71276.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Big-data use-case examples, application domains and derived technical considerations.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO20547_2-01",
+          "category": "Data Architecture & Integration",
+          "title": "Describe the big-data use case and its application domain",
+          "keywords": [
+            "big data use case",
+            "application domain",
+            "กรณีใช้งานข้อมูล"
+          ],
+          "evidence_expected": "Use-case record",
+          "source_topic": "Use cases and domains",
+          "source_url": "https://www.iso.org/standard/71276.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_2-02",
+          "category": "Data Architecture & Integration",
+          "title": "Derive technical considerations from the use case",
+          "keywords": [
+            "technical considerations",
+            "derived requirements",
+            "ข้อพิจารณาเทคนิค"
+          ],
+          "evidence_expected": "Requirements rationale",
+          "source_topic": "Derived technical considerations",
+          "source_url": "https://www.iso.org/standard/71276.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_2-03",
+          "category": "Data Architecture & Integration",
+          "title": "Compare the local case with relevant example patterns",
+          "keywords": [
+            "use case comparison",
+            "application pattern",
+            "ตัวอย่างการใช้"
+          ],
+          "evidence_expected": "Comparison note",
+          "source_topic": "Example use cases",
+          "source_url": "https://www.iso.org/standard/71276.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_2-04",
+          "category": "Data Architecture & Integration",
+          "title": "Trace technical needs to the originating use case",
+          "keywords": [
+            "requirements traceability",
+            "use case",
+            "ที่มาข้อกำหนด"
+          ],
+          "evidence_expected": "Use-case requirements map",
+          "source_topic": "Derived requirements",
+          "source_url": "https://www.iso.org/standard/71276.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO20547_3",
+      "name": "ISO/IEC 20547-3:2020 — Big data reference architecture",
+      "designation": "ISO/IEC 20547-3:2020",
+      "published_year": 2020,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/71277.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว — 90.60 / Close of review",
+      "scope_summary": "User and functional views of big-data roles, activities, layers/components and interoperability.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO20547_3-01",
+          "category": "Data Architecture & Integration",
+          "title": "Document big-data roles subroles and relationships",
+          "keywords": [
+            "big data roles",
+            "user view",
+            "บทบาทข้อมูล"
+          ],
+          "evidence_expected": "Role relationship map",
+          "source_topic": "User view",
+          "source_url": "https://www.iso.org/standard/71277.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_3-02",
+          "category": "Data Architecture & Integration",
+          "title": "Map each role's activities to system functions",
+          "keywords": [
+            "role activities",
+            "functional mapping",
+            "หน้าที่ระบบ"
+          ],
+          "evidence_expected": "Activity-function map",
+          "source_topic": "Activities of roles",
+          "source_url": "https://www.iso.org/standard/71277.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_3-03",
+          "category": "Data Architecture & Integration",
+          "title": "Describe architecture layers and functional components",
+          "keywords": [
+            "functional view",
+            "layers",
+            "ชั้นสถาปัตยกรรม"
+          ],
+          "evidence_expected": "Functional architecture",
+          "source_topic": "Functional view",
+          "source_url": "https://www.iso.org/standard/71277.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_3-04",
+          "category": "Data Architecture & Integration",
+          "title": "Evaluate interoperability between data components",
+          "keywords": [
+            "interoperability",
+            "integration",
+            "ทำงานร่วมกัน"
+          ],
+          "evidence_expected": "Integration specification",
+          "source_topic": "Interoperability analysis",
+          "source_url": "https://www.iso.org/standard/71277.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_3-05",
+          "category": "Data Architecture & Integration",
+          "title": "Evaluate portability and reuse needs",
+          "keywords": [
+            "portability",
+            "reusability",
+            "การใช้ซ้ำ"
+          ],
+          "evidence_expected": "Portability and reuse analysis",
+          "source_topic": "Portability reusability extendibility",
+          "source_url": "https://www.iso.org/standard/71277.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO20547_5",
+      "name": "ISO/IEC TR 20547-5:2018 — Big data standards roadmap",
+      "designation": "ISO/IEC TR 20547-5:2018",
+      "published_year": 2018,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/72826.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Existing and developing big-data standards, gap analysis and priorities.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO20547_5-01",
+          "category": "Data Governance Policy",
+          "title": "Inventory big-data standards relevant to the solution",
+          "keywords": [
+            "standards inventory",
+            "big data standards",
+            "ทะเบียนมาตรฐาน"
+          ],
+          "evidence_expected": "Standards register",
+          "source_topic": "Relevant existing standards",
+          "source_url": "https://www.iso.org/standard/72826.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_5-02",
+          "category": "Data Governance Policy",
+          "title": "Separate published standards from development projects",
+          "keywords": [
+            "standards status",
+            "draft standards",
+            "สถานะมาตรฐาน"
+          ],
+          "evidence_expected": "Version and status register",
+          "source_topic": "Standards under development",
+          "source_url": "https://www.iso.org/standard/72826.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_5-03",
+          "category": "Data Governance Policy",
+          "title": "Analyze standardization gaps affecting the solution",
+          "keywords": [
+            "standards gap",
+            "gap analysis",
+            "ช่องว่างมาตรฐาน"
+          ],
+          "evidence_expected": "Gap analysis",
+          "source_topic": "Gap analysis",
+          "source_url": "https://www.iso.org/standard/72826.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO20547_5-04",
+          "category": "Data Governance Policy",
+          "title": "Prioritize follow-up actions for identified gaps",
+          "keywords": [
+            "standards roadmap",
+            "priorities",
+            "แผนมาตรฐาน"
+          ],
+          "evidence_expected": "Standards roadmap",
+          "source_topic": "Development priorities",
+          "source_url": "https://www.iso.org/standard/72826.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO24668",
+      "name": "ISO/IEC 24668:2022 — Process management framework for big data analytics",
+      "designation": "ISO/IEC 24668:2022",
+      "published_year": 2022,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/78368.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Connected organizational-stakeholder, competency, data-management, analytics-development and technology-integration processes.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO24668-01",
+          "category": "Data Management Processes",
+          "title": "Define stakeholder processes for analytics services",
+          "keywords": [
+            "analytics stakeholders",
+            "stakeholder process",
+            "ผู้เกี่ยวข้อง"
+          ],
+          "evidence_expected": "Stakeholder process map",
+          "source_topic": "Organizational stakeholder processes",
+          "source_url": "https://www.iso.org/standard/78368.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24668-02",
+          "category": "Data Management Processes",
+          "title": "Document analytics competency development",
+          "keywords": [
+            "analytics competence",
+            "competency development",
+            "สมรรถนะ"
+          ],
+          "evidence_expected": "Competency plan",
+          "source_topic": "Competency development",
+          "source_url": "https://www.iso.org/standard/78368.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24668-03",
+          "category": "Data Management Processes",
+          "title": "Document acquisition description storage and processing of data",
+          "keywords": [
+            "data acquisition",
+            "data storage",
+            "จัดเก็บข้อมูล"
+          ],
+          "evidence_expected": "Data operating procedures",
+          "source_topic": "Data management processes",
+          "source_url": "https://www.iso.org/standard/78368.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24668-04",
+          "category": "Data Management Processes",
+          "title": "Define analytics development processes",
+          "keywords": [
+            "analytics development",
+            "analytics process",
+            "พัฒนาการวิเคราะห์"
+          ],
+          "evidence_expected": "Development process records",
+          "source_topic": "Analytics development",
+          "source_url": "https://www.iso.org/standard/78368.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24668-05",
+          "category": "Data Management Processes",
+          "title": "Define technology integration and process interfaces",
+          "keywords": [
+            "technology integration",
+            "process interfaces",
+            "บูรณาการ"
+          ],
+          "evidence_expected": "Integration and process map",
+          "source_topic": "Technology integration and interconnections",
+          "source_url": "https://www.iso.org/standard/78368.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO24029_2",
+      "name": "ISO/IEC 24029-2:2023 — Robustness of neural networks — Formal methods",
+      "designation": "ISO/IEC 24029-2:2023",
+      "published_year": 2023,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/79804.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Selection, application and management of formal methods for proving neural-network robustness properties.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO24029_2-01",
+          "category": "Robustness & Resilience",
+          "title": "Define neural-network robustness properties to assess",
+          "keywords": [
+            "robustness property",
+            "neural network",
+            "ความทนทาน"
+          ],
+          "evidence_expected": "Property specification",
+          "source_topic": "Robustness properties",
+          "source_url": "https://www.iso.org/standard/79804.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24029_2-02",
+          "category": "Robustness & Resilience",
+          "title": "Select formal methods suitable for those properties",
+          "keywords": [
+            "formal methods",
+            "method selection",
+            "วิธีเชิงรูปนัย"
+          ],
+          "evidence_expected": "Method selection rationale",
+          "source_topic": "Selection of formal methods",
+          "source_url": "https://www.iso.org/standard/79804.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24029_2-03",
+          "category": "Robustness & Resilience",
+          "title": "Document assumptions and boundaries of formal assessment",
+          "keywords": [
+            "formal assumptions",
+            "assessment scope",
+            "สมมติฐาน"
+          ],
+          "evidence_expected": "Formal model and assumptions",
+          "source_topic": "Application of formal methods",
+          "source_url": "https://www.iso.org/standard/79804.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24029_2-04",
+          "category": "Robustness & Resilience",
+          "title": "Record formal proof results and limitations",
+          "keywords": [
+            "formal proof",
+            "verification result",
+            "ผลพิสูจน์"
+          ],
+          "evidence_expected": "Proof artifacts and limitations",
+          "source_topic": "Proof of robustness",
+          "source_url": "https://www.iso.org/standard/79804.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24029_2-05",
+          "category": "Robustness & Resilience",
+          "title": "Manage formal assessment artifacts when the model changes",
+          "keywords": [
+            "formal assessment",
+            "model change",
+            "เปลี่ยนโมเดล"
+          ],
+          "evidence_expected": "Versioned formal assessment",
+          "source_topic": "Management of formal methods",
+          "source_url": "https://www.iso.org/standard/79804.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO4213",
+      "name": "ISO/IEC TS 4213:2022 — ML classification performance assessment",
+      "designation": "ISO/IEC TS 4213:2022",
+      "published_year": 2022,
+      "publication_type": "TS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/79799.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว — 90.92 / To be revised",
+      "scope_summary": "Methodologies for measuring classification performance of ML models, algorithms and systems.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO4213-01",
+          "category": "Performance & Accuracy",
+          "title": "Identify the classification task and evaluation target",
+          "keywords": [
+            "classification task",
+            "evaluation target",
+            "งานจำแนก"
+          ],
+          "evidence_expected": "Task and target specification",
+          "source_topic": "Models systems and algorithms",
+          "source_url": "https://www.iso.org/standard/79799.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO4213-02",
+          "category": "Performance & Accuracy",
+          "title": "Document the classification performance measurement method",
+          "keywords": [
+            "classification metrics",
+            "measurement method",
+            "วิธีวัด"
+          ],
+          "evidence_expected": "Evaluation protocol",
+          "source_topic": "Measurement methodologies",
+          "source_url": "https://www.iso.org/standard/79799.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO4213-03",
+          "category": "Performance & Accuracy",
+          "title": "Identify data used for classification measurement",
+          "keywords": [
+            "classification evaluation",
+            "evaluation data",
+            "ข้อมูลประเมิน"
+          ],
+          "evidence_expected": "Evaluation dataset record",
+          "source_topic": "Classification performance measurement",
+          "source_url": "https://www.iso.org/standard/79799.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO4213-04",
+          "category": "Performance & Accuracy",
+          "title": "Record classification performance results",
+          "keywords": [
+            "classification results",
+            "performance",
+            "ผลการจำแนก"
+          ],
+          "evidence_expected": "Performance report",
+          "source_topic": "Classification performance",
+          "source_url": "https://www.iso.org/standard/79799.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO4213-05",
+          "category": "Performance & Accuracy",
+          "title": "Document conditions needed to interpret the results",
+          "keywords": [
+            "evaluation conditions",
+            "measurement context",
+            "เงื่อนไขประเมิน"
+          ],
+          "evidence_expected": "Measurement context record",
+          "source_topic": "Performance measurement methodology",
+          "source_url": "https://www.iso.org/standard/79799.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO42119_2",
+      "name": "ISO/IEC TS 42119-2:2025 — Testing of AI — Overview of testing AI systems",
+      "designation": "ISO/IEC TS 42119-2:2025",
+      "published_year": 2025,
+      "publication_type": "TS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/84127.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Risk-based application of ISO/IEC/IEEE 29119 testing practices to AI systems and components.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO42119_2-01",
+          "category": "Test Strategy & Planning",
+          "title": "Identify AI risks that drive the testing strategy",
+          "keywords": [
+            "risk-based testing",
+            "AI risks",
+            "ทดสอบตามความเสี่ยง"
+          ],
+          "evidence_expected": "Risk-to-test map",
+          "source_topic": "Risk-based approach",
+          "source_url": "https://www.iso.org/standard/84127.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42119_2-02",
+          "category": "Test Strategy & Planning",
+          "title": "Adapt relevant ISO/IEC/IEEE 29119 practices to AI",
+          "keywords": [
+            "29119",
+            "AI test practices",
+            "แนวทางทดสอบ"
+          ],
+          "evidence_expected": "Testing process mapping",
+          "source_topic": "Application of 29119",
+          "source_url": "https://www.iso.org/standard/84127.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42119_2-03",
+          "category": "Test Strategy & Planning",
+          "title": "Select test approaches appropriate to system components",
+          "keywords": [
+            "test approaches",
+            "AI components",
+            "องค์ประกอบเอไอ"
+          ],
+          "evidence_expected": "Component test strategy",
+          "source_topic": "Systems and components",
+          "source_url": "https://www.iso.org/standard/84127.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42119_2-04",
+          "category": "Test Strategy & Planning",
+          "title": "Justify techniques selected for AI development risks",
+          "keywords": [
+            "test techniques",
+            "development risks",
+            "เทคนิคทดสอบ"
+          ],
+          "evidence_expected": "Technique selection record",
+          "source_topic": "Development risks",
+          "source_url": "https://www.iso.org/standard/84127.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42119_2-05",
+          "category": "Test Strategy & Planning",
+          "title": "Plan tests addressing maintenance and changes",
+          "keywords": [
+            "maintenance testing",
+            "change testing",
+            "ทดสอบการเปลี่ยนแปลง"
+          ],
+          "evidence_expected": "Maintenance test plan",
+          "source_topic": "Maintenance risks",
+          "source_url": "https://www.iso.org/standard/84127.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO25058",
+      "name": "ISO/IEC TS 25058:2024 — Guidance for quality evaluation of AI systems",
+      "designation": "ISO/IEC TS 25058:2024",
+      "published_year": 2024,
+      "publication_type": "TS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/82570.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว — 90.92 / To be revised",
+      "scope_summary": "AI system evaluation using an AI quality model.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO25058-01",
+          "category": "Quality Model & Criteria",
+          "title": "Define the AI system evaluation scope",
+          "keywords": [
+            "quality evaluation",
+            "evaluation scope",
+            "ขอบเขตคุณภาพ"
+          ],
+          "evidence_expected": "Evaluation scope",
+          "source_topic": "AI system evaluation",
+          "source_url": "https://www.iso.org/standard/82570.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO25058-02",
+          "category": "Quality Model & Criteria",
+          "title": "Select an applicable AI quality model",
+          "keywords": [
+            "AI quality model",
+            "quality characteristics",
+            "แบบจำลองคุณภาพ"
+          ],
+          "evidence_expected": "Model selection record",
+          "source_topic": "Use of a quality model",
+          "source_url": "https://www.iso.org/standard/82570.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO25058-03",
+          "category": "Quality Model & Criteria",
+          "title": "Map evaluation activities to quality characteristics",
+          "keywords": [
+            "quality assessment",
+            "evaluation plan",
+            "แผนประเมิน"
+          ],
+          "evidence_expected": "Quality evaluation plan",
+          "source_topic": "Model-based evaluation",
+          "source_url": "https://www.iso.org/standard/82570.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO25058-04",
+          "category": "Quality Model & Criteria",
+          "title": "Record evidence and conclusions by quality characteristic",
+          "keywords": [
+            "quality results",
+            "evaluation evidence",
+            "ผลคุณภาพ"
+          ],
+          "evidence_expected": "Quality evaluation report",
+          "source_topic": "AI quality evaluation",
+          "source_url": "https://www.iso.org/standard/82570.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO8183",
+      "name": "ISO/IEC 8183:2023 — Data life cycle framework",
+      "designation": "ISO/IEC 8183:2023",
+      "published_year": 2023,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/83002.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Data actions during acquisition, creation, development, deployment, maintenance and decommissioning.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO8183-01",
+          "category": "Data Lifecycle Management",
+          "title": "Document data acquisition and origin",
+          "keywords": [
+            "data acquisition",
+            "data origin",
+            "ที่มาข้อมูล"
+          ],
+          "evidence_expected": "Acquisition records",
+          "source_topic": "Acquisition",
+          "source_url": "https://www.iso.org/standard/83002.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO8183-02",
+          "category": "Data Lifecycle Management",
+          "title": "Document creation of data used by the AI system",
+          "keywords": [
+            "data creation",
+            "generated data",
+            "การสร้างข้อมูล"
+          ],
+          "evidence_expected": "Data creation records",
+          "source_topic": "Creation",
+          "source_url": "https://www.iso.org/standard/83002.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO8183-03",
+          "category": "Data Lifecycle Management",
+          "title": "Record data processing during development",
+          "keywords": [
+            "development data",
+            "data processing",
+            "ข้อมูลพัฒนา"
+          ],
+          "evidence_expected": "Development data pipeline",
+          "source_topic": "Development",
+          "source_url": "https://www.iso.org/standard/83002.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO8183-04",
+          "category": "Data Lifecycle Management",
+          "title": "Describe data preparation and handover for deployment",
+          "keywords": [
+            "deployment data",
+            "data handover",
+            "ข้อมูลใช้งาน"
+          ],
+          "evidence_expected": "Deployment data records",
+          "source_topic": "Deployment",
+          "source_url": "https://www.iso.org/standard/83002.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO8183-05",
+          "category": "Data Lifecycle Management",
+          "title": "Document data maintenance actions",
+          "keywords": [
+            "data maintenance",
+            "data update",
+            "บำรุงรักษาข้อมูล"
+          ],
+          "evidence_expected": "Maintenance log",
+          "source_topic": "Maintenance",
+          "source_url": "https://www.iso.org/standard/83002.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO8183-06",
+          "category": "Data Lifecycle Management",
+          "title": "Define and record data decommissioning actions",
+          "keywords": [
+            "data decommissioning",
+            "retirement",
+            "ยุติการใช้ข้อมูล"
+          ],
+          "evidence_expected": "Retirement records",
+          "source_topic": "Decommissioning",
+          "source_url": "https://www.iso.org/standard/83002.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO24030",
+      "name": "ISO/IEC TR 24030:2024 — AI use cases",
+      "designation": "ISO/IEC TR 24030:2024",
+      "published_year": 2024,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/84144.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว — 90.92 / To be revised",
+      "scope_summary": "Examples of AI applications across sectors and deployment models.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO24030-01",
+          "category": "Use-case Definition & Scope",
+          "title": "Describe the AI use case and its application sector",
+          "keywords": [
+            "AI use case",
+            "application sector",
+            "กรณีใช้งาน"
+          ],
+          "evidence_expected": "Use-case description",
+          "source_topic": "Cross-sector applications",
+          "source_url": "https://www.iso.org/standard/84144.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24030-02",
+          "category": "Use-case Definition & Scope",
+          "title": "Document the deployment model of the application",
+          "keywords": [
+            "deployment model",
+            "AI application",
+            "รูปแบบใช้งาน"
+          ],
+          "evidence_expected": "Deployment description",
+          "source_topic": "Deployment models",
+          "source_url": "https://www.iso.org/standard/84144.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24030-03",
+          "category": "Use-case Definition & Scope",
+          "title": "Compare the intended use with relevant AI application examples",
+          "keywords": [
+            "application examples",
+            "use case comparison",
+            "ตัวอย่างใช้งาน"
+          ],
+          "evidence_expected": "Use-case comparison",
+          "source_topic": "Illustrative use cases",
+          "source_url": "https://www.iso.org/standard/84144.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24030-04",
+          "category": "Use-case Definition & Scope",
+          "title": "Document application-specific opportunities and challenges",
+          "keywords": [
+            "application challenges",
+            "AI opportunities",
+            "ข้อจำกัดใช้งาน"
+          ],
+          "evidence_expected": "Use-case analysis",
+          "source_topic": "Application potential and challenges",
+          "source_url": "https://www.iso.org/standard/84144.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO5339",
+      "name": "ISO/IEC 5339:2024 — Guidance for AI applications",
+      "designation": "ISO/IEC 5339:2024",
+      "published_year": 2024,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/81120.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Stakeholder engagement through the application life cycle and make/use/impact perspectives.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5339-01",
+          "category": "Use-case Definition & Scope",
+          "title": "Describe the application from its maker's perspective",
+          "keywords": [
+            "make perspective",
+            "AI developer",
+            "มุมผู้พัฒนา"
+          ],
+          "evidence_expected": "Development context",
+          "source_topic": "Make perspective",
+          "source_url": "https://www.iso.org/standard/81120.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5339-02",
+          "category": "Use-case Definition & Scope",
+          "title": "Describe the application from its users' perspective",
+          "keywords": [
+            "use perspective",
+            "AI user",
+            "มุมผู้ใช้"
+          ],
+          "evidence_expected": "User scenarios",
+          "source_topic": "Use perspective",
+          "source_url": "https://www.iso.org/standard/81120.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5339-03",
+          "category": "Use-case Definition & Scope",
+          "title": "Describe impacts on affected stakeholders",
+          "keywords": [
+            "impact perspective",
+            "stakeholder impact",
+            "มุมผลกระทบ"
+          ],
+          "evidence_expected": "Impact map",
+          "source_topic": "Impact perspective",
+          "source_url": "https://www.iso.org/standard/81120.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5339-04",
+          "category": "Use-case Definition & Scope",
+          "title": "Engage stakeholders throughout the application life cycle",
+          "keywords": [
+            "stakeholder engagement",
+            "lifecycle",
+            "มีส่วนร่วม"
+          ],
+          "evidence_expected": "Engagement records",
+          "source_topic": "Life-cycle engagement",
+          "source_url": "https://www.iso.org/standard/81120.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5339-05",
+          "category": "Use-case Definition & Scope",
+          "title": "Document application trustworthiness and risk considerations",
+          "keywords": [
+            "application trustworthiness",
+            "application risk",
+            "ความเสี่ยงใช้งาน"
+          ],
+          "evidence_expected": "Application review",
+          "source_topic": "Trustworthiness and risk",
+          "source_url": "https://www.iso.org/standard/81120.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO42106",
+      "name": "ISO/IEC TR 42106:2026 — Differentiated benchmarking of AI quality characteristics",
+      "designation": "ISO/IEC TR 42106:2026",
+      "published_year": 2026,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/86903.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Conceptual frameworks for graded quality benchmarking according to AI complexity and context.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO42106-01",
+          "category": "Benchmarking",
+          "title": "Identify quality characteristics to benchmark",
+          "keywords": [
+            "quality benchmark",
+            "quality characteristics",
+            "เทียบคุณภาพ"
+          ],
+          "evidence_expected": "Benchmark scope",
+          "source_topic": "Quality characteristics",
+          "source_url": "https://www.iso.org/standard/86903.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42106-02",
+          "category": "Benchmarking",
+          "title": "Describe system complexity affecting benchmark interpretation",
+          "keywords": [
+            "system complexity",
+            "benchmark context",
+            "ความซับซ้อน"
+          ],
+          "evidence_expected": "Complexity description",
+          "source_topic": "System complexity",
+          "source_url": "https://www.iso.org/standard/86903.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42106-03",
+          "category": "Benchmarking",
+          "title": "Document the context of use for benchmark comparisons",
+          "keywords": [
+            "context of use",
+            "benchmark comparison",
+            "บริบทใช้งาน"
+          ],
+          "evidence_expected": "Use-context record",
+          "source_topic": "Context of use",
+          "source_url": "https://www.iso.org/standard/86903.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42106-04",
+          "category": "Benchmarking",
+          "title": "Explain the proposed grading or differentiation approach",
+          "keywords": [
+            "graded benchmarking",
+            "differentiation",
+            "ระดับเปรียบเทียบ"
+          ],
+          "evidence_expected": "Benchmark rationale",
+          "source_topic": "Graded benchmarking frameworks",
+          "source_url": "https://www.iso.org/standard/86903.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42106-05",
+          "category": "Benchmarking",
+          "title": "Evaluate feasibility and limitations of the benchmark approach",
+          "keywords": [
+            "benchmark feasibility",
+            "limitations",
+            "ข้อจำกัด"
+          ],
+          "evidence_expected": "Feasibility analysis",
+          "source_topic": "Feasibility examination",
+          "source_url": "https://www.iso.org/standard/86903.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO22989",
+      "name": "ISO/IEC 22989:2022 — AI concepts and terminology",
+      "designation": "ISO/IEC 22989:2022",
+      "published_year": 2022,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/74296.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "AI terminology and concepts supporting communication between stakeholders.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": []
+    },
+    {
+      "code": "ISO23053",
+      "name": "ISO/IEC 23053:2022 — Framework for AI systems using ML",
+      "designation": "ISO/IEC 23053:2022",
+      "published_year": 2022,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/74438.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Conceptual framework describing ML-system components, functions and interactions.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": []
+    },
+    {
+      "code": "ISO38507",
+      "name": "ISO/IEC 38507:2022 — Governance implications of organizational AI use",
+      "designation": "ISO/IEC 38507:2022",
+      "published_year": 2022,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/56641.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Governing-body guidance for effective, efficient and acceptable organizational AI use.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": []
+    },
+    {
+      "code": "ISO23894",
+      "name": "ISO/IEC 23894:2023 — Guidance on AI risk management",
+      "designation": "ISO/IEC 23894:2023",
+      "published_year": 2023,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/77304.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Integration of AI-specific risk management into organizational activities and functions.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": []
+    },
+    {
+      "code": "ISO42001",
+      "name": "ISO/IEC 42001:2023 — AI management system",
+      "designation": "ISO/IEC 42001:2023",
+      "published_year": 2023,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/42001",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Establishing, implementing, maintaining and improving an AI management system.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": []
+    },
+    {
+      "code": "ISO27001",
+      "name": "ISO/IEC 27001:2022 — Information security management systems",
+      "designation": "ISO/IEC 27001:2022",
+      "published_year": 2022,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/27001",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Establishing, implementing, maintaining and improving an ISMS and managing information-security risks.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": []
+    },
+    {
+      "code": "ISO27701",
+      "name": "ISO/IEC 27701:2025 — Privacy information management systems",
+      "designation": "ISO/IEC 27701:2025",
+      "published_year": 2025,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/27701",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Privacy information management system requirements and guidance.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": []
+    },
+    {
+      "code": "ISO5259_1",
+      "name": "ISO/IEC 5259-1:2024 — Data quality — Overview terminology and examples",
+      "designation": "ISO/IEC 5259-1:2024",
+      "published_year": 2024,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/81088.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Shared concepts and framework for data quality and fitness for analytics/ML purpose.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5259_1-01",
+          "category": "Data Quality Requirements",
+          "title": "Define common data-quality terms across teams",
+          "keywords": [
+            "data quality glossary",
+            "terminology",
+            "คำศัพท์คุณภาพ"
+          ],
+          "evidence_expected": "Quality glossary",
+          "source_topic": "Terminology",
+          "source_url": "https://www.iso.org/standard/81088.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_1-02",
+          "category": "Data Quality Requirements",
+          "title": "Explain how quality supports the intended analytics or ML use",
+          "keywords": [
+            "fitness for purpose",
+            "analytics quality",
+            "เหมาะกับวัตถุประสงค์"
+          ],
+          "evidence_expected": "Use-specific quality rationale",
+          "source_topic": "Fitness for intended purpose",
+          "source_url": "https://www.iso.org/standard/81088.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_1-03",
+          "category": "Data Quality Requirements",
+          "title": "Map data-quality activities across the data life cycle",
+          "keywords": [
+            "data quality lifecycle",
+            "quality activities",
+            "วงจรคุณภาพข้อมูล"
+          ],
+          "evidence_expected": "Life-cycle quality map",
+          "source_topic": "Life-cycle quality framework",
+          "source_url": "https://www.iso.org/standard/81088.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_1-04",
+          "category": "Data Quality Requirements",
+          "title": "Document practical examples illustrating local quality concerns",
+          "keywords": [
+            "quality examples",
+            "data issues",
+            "ตัวอย่างคุณภาพ"
+          ],
+          "evidence_expected": "Annotated data examples",
+          "source_topic": "Illustrative examples",
+          "source_url": "https://www.iso.org/standard/81088.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO5259_2",
+      "name": "ISO/IEC 5259-2:2024 — Data quality measures",
+      "designation": "ISO/IEC 5259-2:2024",
+      "published_year": 2024,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/81860.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Measurable quality characteristics and reporting for structured/unstructured analytics and ML data.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5259_2-01",
+          "category": "Data Quality Measurement",
+          "title": "Define the data-quality model used for measurement",
+          "keywords": [
+            "data quality model",
+            "quality characteristics",
+            "แบบจำลองคุณภาพข้อมูล"
+          ],
+          "evidence_expected": "Quality model",
+          "source_topic": "Quality model",
+          "source_url": "https://www.iso.org/standard/81860.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_2-02",
+          "category": "Data Quality Measurement",
+          "title": "Specify measurable indicators for selected characteristics",
+          "keywords": [
+            "quality indicators",
+            "data metrics",
+            "ตัวชี้วัดข้อมูล"
+          ],
+          "evidence_expected": "Metric definitions",
+          "source_topic": "Measurable characteristics",
+          "source_url": "https://www.iso.org/standard/81860.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_2-03",
+          "category": "Data Quality Measurement",
+          "title": "Evaluate structured and unstructured data where applicable",
+          "keywords": [
+            "structured data",
+            "unstructured data",
+            "ข้อมูลไม่มีโครงสร้าง"
+          ],
+          "evidence_expected": "Data-type evaluation records",
+          "source_topic": "Structured and unstructured data",
+          "source_url": "https://www.iso.org/standard/81860.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_2-04",
+          "category": "Data Quality Measurement",
+          "title": "Report measured quality against intended data use",
+          "keywords": [
+            "quality report",
+            "fitness for purpose",
+            "รายงานคุณภาพ"
+          ],
+          "evidence_expected": "Data-quality measurement report",
+          "source_topic": "Assessment and reporting",
+          "source_url": "https://www.iso.org/standard/81860.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO5259_3",
+      "name": "ISO/IEC 5259-3:2024 — Data quality management requirements and guidelines",
+      "designation": "ISO/IEC 5259-3:2024",
+      "published_year": 2024,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/81092.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "An auditable quality-management framework adapted to data/AI life cycles and stakeholder expectations.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5259_3-01",
+          "category": "Data Quality Management",
+          "title": "Define the data-quality management system scope",
+          "keywords": [
+            "DQMS",
+            "data quality management",
+            "ระบบจัดการคุณภาพข้อมูล"
+          ],
+          "evidence_expected": "DQMS scope",
+          "source_topic": "Quality-management system",
+          "source_url": "https://www.iso.org/standard/81092.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_3-02",
+          "category": "Data Quality Management",
+          "title": "Link quality plans to stakeholder expectations",
+          "keywords": [
+            "quality planning",
+            "stakeholder expectations",
+            "ความคาดหวัง"
+          ],
+          "evidence_expected": "Quality management plan",
+          "source_topic": "Stakeholder alignment",
+          "source_url": "https://www.iso.org/standard/81092.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_3-03",
+          "category": "Data Quality Management",
+          "title": "Map quality-management activities to the AI data life cycle",
+          "keywords": [
+            "quality management lifecycle",
+            "data lifecycle",
+            "วงจรจัดการข้อมูล"
+          ],
+          "evidence_expected": "Life-cycle mapping",
+          "source_topic": "Life-cycle adaptability",
+          "source_url": "https://www.iso.org/standard/81092.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_3-04",
+          "category": "Data Quality Management",
+          "title": "Keep auditable records of quality maintenance and improvement",
+          "keywords": [
+            "quality improvement",
+            "quality records",
+            "ปรับปรุงคุณภาพ"
+          ],
+          "evidence_expected": "Maintenance and improvement records",
+          "source_topic": "Auditable maintenance and improvement",
+          "source_url": "https://www.iso.org/standard/81092.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO5259_4",
+      "name": "ISO/IEC 5259-4:2024 — Data quality process framework",
+      "designation": "ISO/IEC 5259-4:2024",
+      "published_year": 2024,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/81093.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Operational quality processes across ML types, particularly labeling, evaluation and data life cycles.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5259_4-01",
+          "category": "Data Preparation & Labelling",
+          "title": "Tailor data-quality processes to the ML learning approach",
+          "keywords": [
+            "supervised learning",
+            "reinforcement learning",
+            "ประเภทการเรียนรู้"
+          ],
+          "evidence_expected": "ML-specific process plan",
+          "source_topic": "Different ML types",
+          "source_url": "https://www.iso.org/standard/81093.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_4-02",
+          "category": "Data Preparation & Labelling",
+          "title": "Document data-labeling processes and checks",
+          "keywords": [
+            "data labelling",
+            "annotation",
+            "กำกับข้อมูล"
+          ],
+          "evidence_expected": "Labeling procedure and checks",
+          "source_topic": "Data labeling",
+          "source_url": "https://www.iso.org/standard/81093.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_4-03",
+          "category": "Data Preparation & Labelling",
+          "title": "Evaluate quality of training and evaluation datasets",
+          "keywords": [
+            "training data",
+            "evaluation data",
+            "คุณภาพชุดข้อมูล"
+          ],
+          "evidence_expected": "Dataset quality reports",
+          "source_topic": "Training and evaluation data",
+          "source_url": "https://www.iso.org/standard/81093.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_4-04",
+          "category": "Data Preparation & Labelling",
+          "title": "Trace quality activities through the data process",
+          "keywords": [
+            "quality process",
+            "traceability",
+            "ตรวจสอบย้อนกลับ"
+          ],
+          "evidence_expected": "Process and quality records",
+          "source_topic": "Process framework",
+          "source_url": "https://www.iso.org/standard/81093.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO5259_5",
+      "name": "ISO/IEC 5259-5:2025 — Data quality governance framework",
+      "designation": "ISO/IEC 5259-5:2025",
+      "published_year": 2025,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/84150.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Governing-body direction, strategic alignment, accountability and oversight of life-cycle data quality.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5259_5-01",
+          "category": "Data Governance Policy",
+          "title": "Align data-quality direction with organizational strategy",
+          "keywords": [
+            "data quality strategy",
+            "governance",
+            "กลยุทธ์ข้อมูล"
+          ],
+          "evidence_expected": "Board-approved quality direction",
+          "source_topic": "Strategic alignment",
+          "source_url": "https://www.iso.org/standard/84150.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_5-02",
+          "category": "Data Governance Policy",
+          "title": "Assign accountability for quality governance",
+          "keywords": [
+            "quality accountability",
+            "governing body",
+            "ความรับผิดชอบ"
+          ],
+          "evidence_expected": "Governance responsibility record",
+          "source_topic": "Accountability",
+          "source_url": "https://www.iso.org/standard/84150.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_5-03",
+          "category": "Data Governance Policy",
+          "title": "Review quality outcomes at governing-body level",
+          "keywords": [
+            "quality oversight",
+            "board review",
+            "กำกับคุณภาพ"
+          ],
+          "evidence_expected": "Oversight minutes",
+          "source_topic": "Governning-body monitoring",
+          "source_url": "https://www.iso.org/standard/84150.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5259_5-04",
+          "category": "Data Governance Policy",
+          "title": "Coordinate quality governance across functions and life-cycle stages",
+          "keywords": [
+            "quality coordination",
+            "lifecycle governance",
+            "ประสานคุณภาพ"
+          ],
+          "evidence_expected": "Cross-function governance record",
+          "source_topic": "Organizational and life-cycle oversight",
+          "source_url": "https://www.iso.org/standard/84150.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO24029_1",
+      "name": "ISO/IEC TR 24029-1:2021 — Neural-network robustness — Overview",
+      "designation": "ISO/IEC TR 24029-1:2021",
+      "published_year": 2021,
+      "publication_type": "TR",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/77609.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "Background on methods for assessing neural-network robustness.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO24029_1-01",
+          "category": "Robustness & Resilience",
+          "title": "Identify neural networks and robustness assessment scope",
+          "keywords": [
+            "neural network",
+            "robustness scope",
+            "ขอบเขตความทนทาน"
+          ],
+          "evidence_expected": "Model and scope record",
+          "source_topic": "Neural-network robustness",
+          "source_url": "https://www.iso.org/standard/77609.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24029_1-02",
+          "category": "Robustness & Resilience",
+          "title": "Compare relevant robustness assessment methods",
+          "keywords": [
+            "robustness methods",
+            "method comparison",
+            "วิธีประเมิน"
+          ],
+          "evidence_expected": "Method comparison",
+          "source_topic": "Assessment methods",
+          "source_url": "https://www.iso.org/standard/77609.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24029_1-03",
+          "category": "Robustness & Resilience",
+          "title": "Document chosen robustness assessment and its limitations",
+          "keywords": [
+            "robustness assessment",
+            "assessment limitations",
+            "ข้อจำกัดประเมิน"
+          ],
+          "evidence_expected": "Robustness report",
+          "source_topic": "Application of assessment methods",
+          "source_url": "https://www.iso.org/standard/77609.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO25059",
+      "name": "ISO/IEC 25059:2023 — Quality model for AI systems",
+      "designation": "ISO/IEC 25059:2023",
+      "published_year": 2023,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/80655.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว — 90.92 / To be revised",
+      "scope_summary": "SQuaRE AI quality characteristics for specification, measurement, evaluation and completeness review.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO25059-01",
+          "category": "Quality Model & Criteria",
+          "title": "Map stated quality requirements to model characteristics",
+          "keywords": [
+            "quality requirements",
+            "quality mapping",
+            "ข้อกำหนดคุณภาพ"
+          ],
+          "evidence_expected": "Requirements-characteristics map",
+          "source_topic": "Quality specification",
+          "source_url": "https://www.iso.org/standard/80655.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO25059-02",
+          "category": "Quality Model & Criteria",
+          "title": "Use consistent quality terminology in evaluation",
+          "keywords": [
+            "quality terminology",
+            "SQuaRE",
+            "ศัพท์คุณภาพ"
+          ],
+          "evidence_expected": "Quality glossary and evaluation plan",
+          "source_topic": "Consistent terminology",
+          "source_url": "https://www.iso.org/standard/80655.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO25059-03",
+          "category": "Quality Model & Criteria",
+          "title": "Review requirements coverage using the quality model",
+          "keywords": [
+            "quality completeness",
+            "quality coverage",
+            "ความครอบคลุมคุณภาพ"
+          ],
+          "evidence_expected": "Coverage review",
+          "source_topic": "Completeness of quality requirements",
+          "source_url": "https://www.iso.org/standard/80655.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO5338",
+      "name": "ISO/IEC 5338:2023 — AI system life cycle processes",
+      "designation": "ISO/IEC 5338:2023",
+      "published_year": 2023,
+      "publication_type": "IS",
+      "source_type": "international_standard",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/81118.html",
+      "checked_on": "2026-09-23",
+      "status": "ประกาศใช้แล้ว",
+      "scope_summary": "AI life-cycle process definition, control, management, execution and improvement; alignment with 15288 and 12207.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO5338-01",
+          "category": "Lifecycle Planning & Governance",
+          "title": "Map AI-specific and conventional system life-cycle processes",
+          "keywords": [
+            "AI lifecycle",
+            "15288",
+            "12207"
+          ],
+          "evidence_expected": "Process mapping",
+          "source_topic": "AI and conventional processes",
+          "source_url": "https://www.iso.org/standard/81118.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5338-02",
+          "category": "Lifecycle Planning & Governance",
+          "title": "Document how AI life-cycle activities are controlled",
+          "keywords": [
+            "lifecycle control",
+            "process control",
+            "ควบคุมวงจรชีวิต"
+          ],
+          "evidence_expected": "Process controls",
+          "source_topic": "Control and management",
+          "source_url": "https://www.iso.org/standard/81118.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5338-03",
+          "category": "Lifecycle Planning & Governance",
+          "title": "Record execution of planned AI life-cycle processes",
+          "keywords": [
+            "process execution",
+            "lifecycle records",
+            "บันทึกกระบวนการ"
+          ],
+          "evidence_expected": "Execution records",
+          "source_topic": "Execution",
+          "source_url": "https://www.iso.org/standard/81118.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5338-04",
+          "category": "Lifecycle Planning & Governance",
+          "title": "Review and improve the AI life-cycle processes",
+          "keywords": [
+            "lifecycle improvement",
+            "process review",
+            "ปรับปรุงวงจรชีวิต"
+          ],
+          "evidence_expected": "Improvement records",
+          "source_topic": "Improvement",
+          "source_url": "https://www.iso.org/standard/81118.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO5338-05",
+          "category": "Lifecycle Planning & Governance",
+          "title": "Define processes for acquisition of AI systems",
+          "keywords": [
+            "AI acquisition",
+            "procurement lifecycle",
+            "จัดหาระบบเอไอ"
+          ],
+          "evidence_expected": "Acquisition process",
+          "source_topic": "Developing or acquiring AI systems",
+          "source_url": "https://www.iso.org/standard/81118.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO25059_ED2",
+      "name": "ISO/IEC FDIS 25059 — Quality models for AI systems — Edition 2",
+      "designation": "ISO/IEC FDIS 25059",
+      "published_year": null,
+      "publication_type": "IS",
+      "source_type": "international_standard_draft",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/88234.html",
+      "checked_on": "2026-09-23",
+      "status": "กำลังพัฒนา — 50.00 / FDIS",
+      "scope_summary": "Revision under development; existing readiness items retained, no assertion of final clause coverage.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": []
+    },
+    {
+      "code": "ISO42007",
+      "name": "ISO/IEC DIS 42007 — AI conformity assessment schemes",
+      "designation": "ISO/IEC DIS 42007",
+      "published_year": null,
+      "publication_type": "IS",
+      "source_type": "international_standard_draft",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/89967.html",
+      "checked_on": "2026-09-23",
+      "status": "กำลังพัฒนา — 40.20 / DIS",
+      "scope_summary": "High-level development and operation of AI conformity assessment and certification schemes.",
+      "applicability": "Draft readiness for scheme developers/operators, not mandatory criteria for every AI application.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO42007-01",
+          "category": "Internal Review & Audit",
+          "title": "Define the AI conformity assessment scheme scope",
+          "keywords": [
+            "conformity scheme",
+            "scheme scope",
+            "ขอบเขตรับรอง"
+          ],
+          "evidence_expected": "Scheme scope",
+          "source_topic": "Conformity assessment schemes",
+          "source_url": "https://www.iso.org/standard/89967.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42007-02",
+          "category": "Internal Review & Audit",
+          "title": "Document the scheme development approach",
+          "keywords": [
+            "scheme development",
+            "conformity assessment",
+            "พัฒนาระบบรับรอง"
+          ],
+          "evidence_expected": "Development record",
+          "source_topic": "Development of schemes",
+          "source_url": "https://www.iso.org/standard/89967.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42007-03",
+          "category": "Internal Review & Audit",
+          "title": "Document operation of the assessment scheme",
+          "keywords": [
+            "scheme operation",
+            "certification scheme",
+            "ดำเนินการรับรอง"
+          ],
+          "evidence_expected": "Scheme procedures",
+          "source_topic": "Operation of schemes",
+          "source_url": "https://www.iso.org/standard/89967.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO42102",
+      "name": "ISO/IEC DIS 42102 — Characterizing AI system methods and capabilities",
+      "designation": "ISO/IEC DIS 42102",
+      "published_year": null,
+      "publication_type": "IS",
+      "source_type": "international_standard_draft",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/86898.html",
+      "checked_on": "2026-09-23",
+      "status": "กำลังพัฒนา — 40.60 / DIS",
+      "scope_summary": "Descriptors supporting consistent descriptions of AI methods and capabilities across stakeholders and life-cycle stages.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO42102-01",
+          "category": "Capabilities & Limitations",
+          "title": "Describe AI methods using consistent descriptors",
+          "keywords": [
+            "AI descriptors",
+            "AI methods",
+            "วิธีเอไอ"
+          ],
+          "evidence_expected": "Method description",
+          "source_topic": "Method characterization",
+          "source_url": "https://www.iso.org/standard/86898.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42102-02",
+          "category": "Capabilities & Limitations",
+          "title": "Describe AI capabilities with an agreed vocabulary",
+          "keywords": [
+            "AI capabilities",
+            "capability description",
+            "ความสามารถเอไอ"
+          ],
+          "evidence_expected": "Capability profile",
+          "source_topic": "Capability characterization",
+          "source_url": "https://www.iso.org/standard/86898.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42102-03",
+          "category": "Capabilities & Limitations",
+          "title": "Align capability descriptions across stakeholder roles",
+          "keywords": [
+            "stakeholder understanding",
+            "shared descriptors",
+            "ความเข้าใจร่วม"
+          ],
+          "evidence_expected": "Stakeholder review",
+          "source_topic": "Common understanding",
+          "source_url": "https://www.iso.org/standard/86898.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42102-04",
+          "category": "Capabilities & Limitations",
+          "title": "Maintain descriptions across life-cycle stages",
+          "keywords": [
+            "capability lifecycle",
+            "method updates",
+            "ทบทวนความสามารถ"
+          ],
+          "evidence_expected": "Versioned system profile",
+          "source_topic": "Life-cycle applicability",
+          "source_url": "https://www.iso.org/standard/86898.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO42105",
+      "name": "ISO/IEC FDIS 42105 — Human oversight of AI systems",
+      "designation": "ISO/IEC FDIS 42105",
+      "published_year": null,
+      "publication_type": "IS",
+      "source_type": "international_standard_draft",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/86902.html",
+      "checked_on": "2026-09-23",
+      "status": "กำลังพัฒนา — 50.20 / FDIS",
+      "scope_summary": "Human control and monitoring across the AI life cycle; extends controllability in TS 8200.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO42105-01",
+          "category": "Human Oversight",
+          "title": "Define human control over AI operation",
+          "keywords": [
+            "human control",
+            "oversight",
+            "ควบคุมโดยมนุษย์"
+          ],
+          "evidence_expected": "Control responsibilities",
+          "source_topic": "Human control",
+          "source_url": "https://www.iso.org/standard/86902.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42105-02",
+          "category": "Human Oversight",
+          "title": "Document how humans monitor the AI system",
+          "keywords": [
+            "human monitoring",
+            "AI monitoring",
+            "ติดตามโดยมนุษย์"
+          ],
+          "evidence_expected": "Monitoring procedure",
+          "source_topic": "Human monitoring",
+          "source_url": "https://www.iso.org/standard/86902.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42105-03",
+          "category": "Human Oversight",
+          "title": "Apply oversight across the system life cycle",
+          "keywords": [
+            "oversight lifecycle",
+            "human oversight",
+            "กำกับวงจรชีวิต"
+          ],
+          "evidence_expected": "Life-cycle oversight plan",
+          "source_topic": "Life-cycle applicability",
+          "source_url": "https://www.iso.org/standard/86902.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO42105-04",
+          "category": "Human Oversight",
+          "title": "Relate oversight to system controllability",
+          "keywords": [
+            "controllability",
+            "8200",
+            "ควบคุมระบบ"
+          ],
+          "evidence_expected": "Control and oversight mapping",
+          "source_topic": "Extension of TS 8200",
+          "source_url": "https://www.iso.org/standard/86902.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    },
+    {
+      "code": "ISO24970",
+      "name": "ISO/IEC FDIS 24970 — AI system logging",
+      "designation": "ISO/IEC FDIS 24970",
+      "published_year": null,
+      "publication_type": "IS",
+      "source_type": "international_standard_draft",
+      "jurisdiction": "International",
+      "publisher": "ISO/IEC",
+      "reference_url": "https://www.iso.org/standard/88723.html",
+      "checked_on": "2026-09-23",
+      "status": "กำลังพัฒนา — 50.20 / FDIS",
+      "scope_summary": "Common event-logging capabilities and a supporting information model used with risk management.",
+      "applicability": "Assess only where relevant to the selected AI system and organizational role.",
+      "items": [
+        {
+          "item_code": "EIGDA-ISO24970-01",
+          "category": "Logging & Monitoring",
+          "title": "Identify AI events requiring logging",
+          "keywords": [
+            "AI events",
+            "event logging",
+            "เหตุการณ์เอไอ"
+          ],
+          "evidence_expected": "Event catalog",
+          "source_topic": "Logging of AI events",
+          "source_url": "https://www.iso.org/standard/88723.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24970-02",
+          "category": "Logging & Monitoring",
+          "title": "Document the required logging capabilities",
+          "keywords": [
+            "logging capability",
+            "AI logs",
+            "ความสามารถบันทึก"
+          ],
+          "evidence_expected": "Logging design",
+          "source_topic": "Common logging capabilities",
+          "source_url": "https://www.iso.org/standard/88723.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24970-03",
+          "category": "Logging & Monitoring",
+          "title": "Define the information model of log records",
+          "keywords": [
+            "log information model",
+            "log schema",
+            "โครงสร้างบันทึก"
+          ],
+          "evidence_expected": "Log schema",
+          "source_topic": "Supporting information model",
+          "source_url": "https://www.iso.org/standard/88723.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        },
+        {
+          "item_code": "EIGDA-ISO24970-04",
+          "category": "Logging & Monitoring",
+          "title": "Link logging decisions to risk management",
+          "keywords": [
+            "risk-based logging",
+            "risk management",
+            "บันทึกตามความเสี่ยง"
+          ],
+          "evidence_expected": "Risk-to-event mapping",
+          "source_topic": "Use with risk management",
+          "source_url": "https://www.iso.org/standard/88723.html",
+          "basis": "public_scope_derived",
+          "normative_clause": null
+        }
+      ]
+    }
+  ],
+  "watchlist": [
+    {
+      "designation": "ISO/IEC AWI 42003",
+      "title": "AI management-system implementation guidance",
+      "reference_url": "https://www.iso.org/standard/91021.html",
+      "status": "กำลังพัฒนา — 20.00 / AWI",
+      "published_year": null,
+      "suite": "AI Governance & Management",
+      "checked_on": "2026-09-23",
+      "reason": "Verified project metadata only; insufficient public substantive scope to author assessment items.",
+      "items": []
+    },
+    {
+      "designation": "ISO/IEC CD TR 42103",
+      "title": "Synthetic data in AI systems",
+      "reference_url": "https://www.iso.org/standard/86899.html",
+      "status": "กำลังพัฒนา — 30.60 / CD TR",
+      "published_year": null,
+      "suite": "AI Data Quality & Governance",
+      "checked_on": "2026-09-23",
+      "reason": "Verified project metadata only; insufficient public substantive scope to author assessment items.",
+      "items": []
+    },
+    {
+      "designation": "ISO/IEC CD 25870",
+      "title": "Data elements for reporting AI incidents",
+      "reference_url": "https://www.iso.org/standard/91804.html",
+      "status": "กำลังพัฒนา — 30.20 / CD",
+      "published_year": null,
+      "suite": "AI Risk, Security & Privacy",
+      "checked_on": "2026-09-23",
+      "reason": "Verified project metadata only; insufficient public substantive scope to author assessment items.",
+      "items": []
+    },
+    {
+      "designation": "ISO/IEC 22989:2022/FDAmd 1",
+      "title": "Generative AI amendment",
+      "reference_url": "https://www.iso.org/standard/88145.html",
+      "status": "กำลังพัฒนา — 50.00 / FDAmd",
+      "published_year": null,
+      "suite": "AI Foundation & Architecture",
+      "checked_on": "2026-09-23",
+      "reason": "Verified project metadata only; insufficient public substantive scope to author assessment items.",
+      "items": []
+    },
+    {
+      "designation": "ISO/IEC 22989:2022/CD Amd 2",
+      "title": "Amendment 2",
+      "reference_url": "https://www.iso.org/standard/93144.html",
+      "status": "กำลังพัฒนา — 30.20 / CD Amd",
+      "published_year": null,
+      "suite": "AI Foundation & Architecture",
+      "checked_on": "2026-09-23",
+      "reason": "Verified project metadata only; insufficient public substantive scope to author assessment items.",
+      "items": []
+    },
+    {
+      "designation": "ISO/IEC 23053:2022/FDAmd 1",
+      "title": "Generative AI amendment",
+      "reference_url": "https://www.iso.org/standard/88149.html",
+      "status": "กำลังพัฒนา — 50.00 / FDAmd",
+      "published_year": null,
+      "suite": "AI Foundation & Architecture",
+      "checked_on": "2026-09-23",
+      "reason": "Verified project metadata only; insufficient public substantive scope to author assessment items.",
+      "items": []
+    },
+    {
+      "designation": "ISO/IEC 23053:2022/AWI Amd 2",
+      "title": "Amendment 2",
+      "reference_url": "https://www.iso.org/standard/93146.html",
+      "status": "กำลังพัฒนา — 20.00 / AWI Amd",
+      "published_year": null,
+      "suite": "AI Foundation & Architecture",
+      "checked_on": "2026-09-23",
+      "reason": "Verified project metadata only; insufficient public substantive scope to author assessment items.",
+      "items": []
+    }
+  ],
+  "suite_mappings": {
+    "AI Foundation & Architecture": [
+      "ISO24372",
+      "ISO22989",
+      "ISO23053",
+      "ISO5392",
+      "ISO17903",
+      "ISO42112",
+      "ISO42102"
+    ],
+    "AI Governance & Management": [
+      "ISO42001",
+      "ISO38507",
+      "ISO42005",
+      "ISO42006",
+      "ISO42007"
+    ],
+    "AI Ethics, Transparency & Trustworthiness": [
+      "ISO24028",
+      "ISO8200",
+      "ISO24027",
+      "ISO12791",
+      "ISO24368",
+      "ISO5469",
+      "ISO6254",
+      "ISO12792",
+      "ISO20226",
+      "ISO21221",
+      "ISO42105"
+    ],
+    "AI Risk, Security & Privacy": [
+      "ISO23894",
+      "ISO27001",
+      "ISO27701",
+      "ISO27090",
+      "ISO27091",
+      "ISO20547_4",
+      "ISO24970"
+    ],
+    "AI Data Quality & Governance": [
+      "ISO5259_1",
+      "ISO5259_2",
+      "ISO5259_3",
+      "ISO5259_4",
+      "ISO5259_5",
+      "ISO5259_6",
+      "ISO20546",
+      "ISO20547_1",
+      "ISO20547_2",
+      "ISO20547_3",
+      "ISO20547_5",
+      "ISO24668"
+    ],
+    "AI Evaluation & Quality Assurance": [
+      "ISO24029_1",
+      "ISO24029_2",
+      "ISO4213",
+      "ISO42119_2",
+      "ISO25058",
+      "ISO25059",
+      "ISO42106",
+      "ISO25059_ED2"
+    ],
+    "AI Life Cycle Assurance": [
+      "ISO5338",
+      "ISO8183"
+    ],
+    "AI Application & Use-Case Assurance": [
+      "ISO24030",
+      "ISO5339"
+    ]
+  }
+}

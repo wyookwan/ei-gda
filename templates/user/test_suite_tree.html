@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Test Suite Tree · Ei-GDA{% endblock %}
+{% block page_title %}Test Suite Tree{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/suite-tree.css') }}">{% endblock %}
+{% block content %}
+<section class="tree-hero"><div><span class="eyebrow">EXPLORE THE CONNECTIONS</span><h1>Test Suite Tree</h1><p>สำรวจความเชื่อมโยงจากชุดประเมินไปถึงหลักฐาน ทีละกิ่งของข้อมูล</p></div><div class="d-flex gap-2 flex-wrap"><a class="btn btn-outline-primary" href="{{ url_for('test_suite_explorer') }}"><i class="bi bi-bezier2 me-1"></i>Explorer</a><a class="btn btn-primary" href="{{ url_for('gov.suite_graph') }}"><i class="bi bi-share me-1"></i>ดูเป็นกราฟ 3D</a></div></section>
+<div class="tree-toolbar"><label class="tree-search"><i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">ค้นหา Test Suite, reference หรือรายการประเมิน</span><input id="suiteTreeSearch" type="search" placeholder="ค้นหา Suite, reference, domain หรือ item…"></label><button type="button" id="expandSuiteTree" class="btn btn-sm btn-outline-primary">ขยายทุกกิ่ง</button><button type="button" id="collapseSuiteTree" class="btn btn-sm btn-outline-secondary">หุบทุกกิ่ง</button></div>
+<div class="tree-legend"><span><i class="bi bi-collection"></i> Test Suite</span><i class="bi bi-chevron-right"></i><span>ประเภท</span><i class="bi bi-chevron-right"></i><span>Reference</span><i class="bi bi-chevron-right"></i><span>Domain</span><i class="bi bi-chevron-right"></i><span>Item & Evidence</span></div>
+<p class="small text-secondary">Domains ในหน้านี้จัดตามหมวดของ items ภายในแต่ละ reference · แสดงชุดและรายการที่เปิดใช้งาน ตามลำดับที่ Admin กำหนด</p>
+<div id="suiteTreeStatus" class="small text-secondary mb-3" role="status" aria-live="polite">{{ suite_tree|length }} Test Suites</div>
+<div id="suiteTree" class="suite-tree">
+  <div class="tree-root"><span class="tree-root-icon"><i class="bi bi-diagram-3"></i></span><div><strong>Ei-GDA</strong><small>Governance & Digital Assurance</small></div><span class="tree-badge">{{ suite_tree|length }} suites</span></div>
+  <div class="tree-trunk">
+  {% for branch in suite_tree %}
+    <details class="tree-node tree-suite" data-level="suite" data-suite-id="{{ branch.suite.id }}">
+      <summary><span class="tree-chevron"><i class="bi bi-chevron-right"></i></span><span class="tree-symbol">{{ '%02d'|format(loop.index) }}</span><span class="tree-label">{{ branch.suite.name }}</span><span class="tree-badge">{{ branch.reference_count }} references</span></summary>
+      <div class="tree-suite-intro"><p>{{ branch.suite.description or 'ยังไม่มีคำอธิบาย' }}</p><a href="{{ url_for('test_suite_explorer', suite=branch.suite.id) }}">เปิด Suite นี้ใน Explorer <i class="bi bi-arrow-up-right"></i></a></div>
+      <div class="tree-children">
+      {% for group in branch.groups %}
+        <details class="tree-node tree-type" data-level="type"><summary><span class="tree-chevron"><i class="bi bi-chevron-right"></i></span><i class="bi bi-folder2 tree-type-icon"></i><span class="tree-label">{{ group.label }}</span><span class="tree-badge">{{ group.references|length }}</span></summary><div class="tree-children">
+        {% for reference in group.references %}{% set st = reference.standard %}
+          <details class="tree-node tree-reference" data-level="reference"><summary><span class="tree-chevron"><i class="bi bi-chevron-right"></i></span><i class="bi bi-journal-text tree-reference-icon"></i><span class="tree-label"><b>{{ st.code }}</b> {{ st.name }}</span><span class="tree-badge">{{ reference.count }} items</span></summary>
+            <div class="tree-reference-info">{% if st.published_year %}<span>{{ st.published_year }}</span>{% endif %}<span class="{{ 'tree-draft' if st.source_type == 'international_standard_draft' else '' }}">{{ st.status or 'ไม่ระบุสถานะ' }}</span>{% if st.reference_url %}<a href="{{ st.reference_url }}" target="_blank" rel="noopener">แหล่งอ้างอิง <i class="bi bi-box-arrow-up-right"></i></a>{% endif %}</div>
+            <div class="tree-children">
+            {% for domain in reference.domains %}
+              <details class="tree-node tree-domain" data-level="domain"><summary><span class="tree-chevron"><i class="bi bi-chevron-right"></i></span><span class="tree-dot"></span><span class="tree-label">{{ domain.name }}</span><span class="tree-badge">{{ domain.rows|length }}</span></summary><div class="tree-children">
+              {% for row in domain.rows %}
+                <details class="tree-node tree-item" data-level="item" data-evidence-search="{{ row.evidence }}"><summary><span class="tree-chevron"><i class="bi bi-chevron-right"></i></span><i class="bi bi-list-check tree-item-icon"></i><span class="tree-label"><small>{{ row.item.item_code }}</small>{{ row.item.title }}</span></summary><div class="tree-evidence"><span><i class="bi bi-file-earmark-check"></i> EVIDENCE EXPECTED</span><p>{{ row.evidence }}</p>{% if row.provenance %}<small>Public-scope readiness · {{ row.provenance.source_topic }} · <a href="{{ row.provenance.source_url }}" target="_blank" rel="noopener">ISO source</a></small>{% endif %}</div></details>
+              {% endfor %}
+              </div></details>
+            {% else %}<p class="tree-empty">ยังไม่มีรายการประเมินใน reference นี้</p>{% endfor %}
+            </div>
+          </details>
+        {% endfor %}
+        </div></details>
+      {% else %}<p class="tree-empty">ยังไม่มี reference ที่เปิดใช้งานและเชื่อมกับ Suite นี้</p>{% endfor %}
+      </div>
+    </details>
+  {% else %}<p class="tree-empty">ยังไม่มี Test Suite ที่เปิดใช้งาน</p>{% endfor %}
+  </div>
+</div>
+<div id="suiteTreeEmpty" class="empty-state" hidden><i class="bi bi-search"></i><h5>ไม่พบรายการที่ตรงกับคำค้น</h5><p>ลองค้นด้วยชื่อหรือรหัสอื่น</p></div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/suite-tree.js') }}"></script>{% endblock %}

@@ -4,6 +4,10 @@ import requests
 from config import Config
 
 
+class TokenBudgetExhausted(Exception):
+    """The model used its whole token budget without producing an answer."""
+
+
 def local_model_enabled():
     return bool(Config.LOCAL_MODEL_API_URL.strip())
 
@@ -46,7 +50,7 @@ def _parse_json_content(text):
         return json.loads(match.group(0))
 
 
-def score_with_local_model(extracted_text, retrieved_items, evidence_map=None):
+def score_with_local_model(extracted_text, retrieved_items, evidence_map=None, instruction=None):
     """Score a confidential assessment in context-safe batches.
 
     Multiple PDFs can produce more evidence than the local model's context window can
@@ -83,9 +87,10 @@ def score_with_local_model(extracted_text, retrieved_items, evidence_map=None):
     merged_items = []
     summaries = []
 
-    for batch_number, batch_items in enumerate(batches, start=1):
+    def request_batch(batch_items):
+        """Call the model once. Reasoning models can spend the token budget and return no content."""
         prompt = {
-            'instruction': (
+            'instruction': instruction or (
                 'You are an evidence-grounded digital assurance auditor. Score EVERY supplied checklist item '
                 'using ONLY its traceable evidence. Use integer maturity scores 0-5: 0 Not Implemented, '
                 '1 Initial, 2 Defined, 3 Implemented, 4 Managed, 5 Optimized. Return strict JSON. '
@@ -105,35 +110,51 @@ def score_with_local_model(extracted_text, retrieved_items, evidence_map=None):
             'max_tokens': Config.LOCAL_MODEL_MAX_TOKENS,
             'messages': [{'role': 'user', 'content': json.dumps(prompt, ensure_ascii=False)}],
         }
-        resp = None
+        resp = requests.post(
+            Config.LOCAL_MODEL_API_URL,
+            headers=headers,
+            json=body,
+            timeout=Config.LOCAL_MODEL_TIMEOUT,
+            verify=Config.LOCAL_MODEL_VERIFY_SSL,
+        )
         try:
-            resp = requests.post(
-                Config.LOCAL_MODEL_API_URL,
-                headers=headers,
-                json=body,
-                timeout=Config.LOCAL_MODEL_TIMEOUT,
-                verify=Config.LOCAL_MODEL_VERIFY_SSL,
-            )
             resp.raise_for_status()
-            data = resp.json()
-            content = data['choices'][0]['message']['content']
-            batch_result = _parse_json_content(content)
-            returned_items = batch_result.get('items', [])
-            if not returned_items:
-                raise ValueError('The model returned no item scores.')
-            merged_items.extend(returned_items)
-            if batch_result.get('summary'):
-                summaries.append(str(batch_result['summary']))
-        except Exception as exc:
-            detail = str(exc)
+        except requests.HTTPError as exc:
+            detail = ''
             try:
-                api_error = resp.json().get('error', {}) if resp is not None else {}
-                detail = api_error.get('message') or detail
+                detail = resp.json().get('error', {}).get('message') or ''
             except Exception:
                 pass
+            raise RuntimeError(detail or str(exc)) from exc
+        choice = resp.json()['choices'][0]
+        content = (choice.get('message') or {}).get('content')
+        if not (content or '').strip():
+            raise TokenBudgetExhausted(f"model returned no content (finish_reason={choice.get('finish_reason')})")
+        return _parse_json_content(content)
+
+    def run_batch(batch_items):
+        """Halve a batch when the answer is cut off or unparsable, so one large batch cannot fail a run."""
+        try:
+            result = request_batch(batch_items)
+        except (TokenBudgetExhausted, ValueError) as exc:
+            if len(batch_items) <= 1:
+                raise
+            middle = len(batch_items) // 2
+            return run_batch(batch_items[:middle]) + run_batch(batch_items[middle:])
+        returned = result.get('items', [])
+        if not returned:
+            raise ValueError('The model returned no item scores.')
+        if result.get('summary'):
+            summaries.append(str(result['summary']))
+        return returned
+
+    for batch_number, batch_items in enumerate(batches, start=1):
+        try:
+            merged_items.extend(run_batch(batch_items))
+        except Exception as exc:
             return {
                 'used': False,
-                'error': f'Batch {batch_number}/{len(batches)} failed: {detail}',
+                'error': f'Batch {batch_number}/{len(batches)} failed: {exc}',
                 'items': [],
                 'model': model_name,
                 'batch_count': len(batches),

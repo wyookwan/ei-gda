@@ -1,6 +1,16 @@
+> **Current version: V16 beta. Start with [README_V16.md](README_V16.md).** MHESI / OPS-MHESI pilot: [README_PILOT_MHESI.md](README_PILOT_MHESI.md). The sections below describe earlier versions.
+
 # Ei-GDA V14
 
 **Evidence-driven Intelligent Platform for Governance & Digital Assurance**
+
+## V14.3 international standards catalog
+
+The researched expansion adds 38 references and 208 public-scope readiness items,
+with source links, evidence suggestions, explicit draft status and a metadata-only
+development watchlist. See [research, coverage and update instructions](RESEARCH_SOURCES_V14_3.md).
+For an existing installation use `python update_international_catalog.py --apply`;
+this updates the catalog without running account seeding or resetting assessment history.
 
 ## What changed from V13
 
@@ -68,3 +78,14 @@ Then open `http://SERVER-IP:5000`.
 ## Git safety
 
 `.env`, uploaded PDFs, generated reports, Python virtual environments and local database artifacts are excluded through `.gitignore` / `.dockerignore`.
+
+
+### Assessment workspace updates
+
+- Admin → Test Suites supports drag-and-drop ordering, with accessible up/down buttons and automatic save. Dashboard, Explorer and Tree share this order. Existing deployments must run `python migrate_suite_order.py` once before using the new model; this adds `templates.display_order` without replacing suites or results.
+- Users and admins can open `/test-suites/tree`, search references/items, and expand/collapse branches.
+- `/check/<id>` now groups the report into overview charts, paginated assessment items with a full detail panel, and document/context information. Graphs support reference/category comparisons, score distribution and item heatmap, with drilldown to matching results. All categories remain available through pagination.
+- Upload requires acknowledging Open/Confidential in the classification dialog before the existing final assessment confirmation. Open sends document text and evidence to Google Gemini API; Confidential uses the configured Local Model API and never falls back to Gemini. Classification does not publish documents.
+- Verification: `python -m unittest discover -s tests -p 'test_*.py'`. DOM checks use `tests/render_report_fixture.py` + `tests/test_report.cjs`, and `tests/render_dashboard_fixture.py` + `tests/test_dashboard.cjs` (jsdom required only for tests).
+
+Docker deployment and Git handoff: see [README_DOCKER.md](README_DOCKER.md).

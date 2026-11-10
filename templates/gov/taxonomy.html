@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% import 'gov/_macros.html' as ui %}{% block title %}Taxonomy {{ pack.title }} · EI-GDA{% endblock %}{% block page_title %}Domain Taxonomy{% endblock %}
+{% block breadcrumb %}{{ ui.crumbs([('Domains', url_for('gov.domains')), (pack.title, url_for('gov.domain_detail', slug=slug)), ('Taxonomy', None)]) }}{% endblock %}
+{% block content %}<div class="gov" id="taxApp" data-api="{{ url_for('gov.taxonomy_api', slug=slug) }}">
+<div class="page-head"><div><h1>Taxonomy: {{ pack.title_th }}</h1><p class="lead-text">Domain → องค์กร → ภารกิจ → Use Case → มิติ → Control → กฎหมาย หลักฐาน และเกณฑ์</p></div>
+<div><label class="visually-hidden" for="taxDomain">Domain</label><select id="taxDomain" class="form-select form-select-sm">{% for p in profiles %}<option value="{{ url_for('gov.taxonomy', slug=p.slug) }}" {{ 'selected' if p.slug == slug }}>{{ p.title_th }}</option>{% endfor %}</select></div></div>
+<div id="taxNote"></div>
+<div class="tax-layout">
+<aside class="panel tax-filters" aria-label="ตัวกรอง"><h2 class="mb-0">กรอง</h2>
+<label for="fSearch">ค้นหา</label><input id="fSearch" class="form-control form-control-sm" type="search" placeholder="ชื่อหรือรหัส">
+<label for="fOrg">ประเภทองค์กร</label><select id="fOrg" class="form-select form-select-sm" data-facet="org_types"></select>
+<label for="fArea">ภารกิจ</label><select id="fArea" class="form-select form-select-sm" data-facet="functional_areas"></select>
+<label for="fCase">AI Use Case</label><select id="fCase" class="form-select form-select-sm" data-facet="use_cases"></select>
+<label for="fSuite">Test Suite</label><select id="fSuite" class="form-select form-select-sm" data-facet="suites"><option value="">ทั้งหมด</option>{% for code,name in suites %}<option value="{{ code }}">{{ code }} {{ name }}</option>{% endfor %}</select>
+<label for="fDim">มิติ Governance</label><select id="fDim" class="form-select form-select-sm" data-facet="dimensions"></select>
+<label for="fReg">สถานะการตรวจกฎหมาย</label><select id="fReg" class="form-select form-select-sm" data-facet="reg_statuses"><option value="">ทั้งหมด</option><option value="expert_verified">ยืนยันโดยผู้ดูแล</option><option value="source_confirmed">พบแหล่งทางการ</option><option value="source_indexed">พบจากการค้นหา</option><option value="pending_verification">รอตรวจสอบ</option><option value="draft">ร่าง</option></select>
+<label for="fRisk">ระดับความเสี่ยง</label><select id="fRisk" class="form-select form-select-sm" data-facet="risk"><option value="">ทั้งหมด</option><option value="critical">วิกฤต</option><option value="high">สูง</option><option value="medium">ปานกลาง</option></select>
+<button id="fClear" class="btn btn-sm btn-outline-secondary w-100 mt-2" type="button">ล้างตัวกรอง</button><div id="fCount" class="small-note mt-2" role="status" aria-live="polite"></div></aside>
+<section class="panel"><div class="d-flex gap-2 mb-2"><button id="tExpand" type="button" class="btn btn-sm btn-outline-secondary">ขยายถึง Control</button><button id="tCollapse" type="button" class="btn btn-sm btn-outline-secondary">ยุบทั้งหมด</button></div><div id="taxCrumb" class="crumbs mb-2"></div><div id="taxTree" class="tax-tree" role="tree" aria-label="Domain taxonomy"><div class="empty"><span class="spinner-border spinner-border-sm"></span> กำลังโหลด</div></div></section>
+<aside class="panel tax-detail" id="taxDetail" aria-live="polite"><div class="empty"><i class="bi bi-cursor"></i>เลือกรายการเพื่อดูรายละเอียด</div></aside>
+</div></div>{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/taxonomy.js') }}"></script>{% endblock %}

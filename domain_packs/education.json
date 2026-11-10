@@ -1,0 +1,69 @@
+{
+  "pack_version": "15.0-beta.1",
+  "status": "pilot_draft",
+  "disclaimer_th": "รายการนี้เป็นข้อเสนอสำหรับการนำร่อง ต้องยืนยันกฎหมายที่มีผลบังคับใช้ ข้อกำหนดรายมาตรา และขอบเขตองค์กรโดยผู้เชี่ยวชาญก่อนใช้ตัดสิน Compliance",
+  "assessment_dimensions": [
+    "Applicability",
+    "Policy & Accountability",
+    "Risk & Human Oversight",
+    "Data Governance & Privacy",
+    "Evidence & Auditability",
+    "Monitoring & Corrective Action"
+  ],
+  "slug": "education",
+  "title": "Education",
+  "title_th": "สถานศึกษาและสถาบันการศึกษา",
+  "icon": "bi-mortarboard",
+  "subdomains": [
+    "มหาวิทยาลัย",
+    "โรงเรียน",
+    "สถาบันฝึกอบรม"
+  ],
+  "references": [
+    {
+      "name": "UNESCO Guidance for GenAI in Education and Research",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "EU AI Act Annex III (comparative)",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "Thailand PDPA",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    }
+  ],
+  "controls": [
+    {
+      "id": "EDU-01",
+      "title": "Student data governance",
+      "title_th": "การใช้ข้อมูลนักเรียน นักศึกษา และผู้เยาว์",
+      "evidence_expected": "Privacy notice / data inventory / access controls",
+      "critical": true
+    },
+    {
+      "id": "EDU-02",
+      "title": "Assessment oversight",
+      "title_th": "การกำกับดูแล AI ในการประเมินผลการเรียน",
+      "evidence_expected": "Assessment policy / teacher review records",
+      "critical": false
+    },
+    {
+      "id": "EDU-03",
+      "title": "Academic integrity",
+      "title_th": "การกำหนดหลักการใช้ GenAI อย่างรับผิดชอบ",
+      "evidence_expected": "Academic AI policy / training records",
+      "critical": false
+    },
+    {
+      "id": "EDU-04",
+      "title": "Learning equity",
+      "title_th": "การตรวจสอบผลกระทบต่อความเป็นธรรมในการเข้าถึง",
+      "evidence_expected": "Impact assessment / complaint process",
+      "critical": false
+    }
+  ]
+}

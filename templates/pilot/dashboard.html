@@ -1,0 +1,18 @@
+{% extends 'base.html' %}{% import 'gov/_macros.html' as ui %}{% import 'pilot/_ui.html' as pui with context %}
+{% block title %}Dashboard {{ rnd.title }} · EI-GDA{% endblock %}{% block page_title %}Dashboard รอบประเมิน{% endblock %}
+{% block breadcrumb %}{{ ui.crumbs([('รอบประเมิน', url_for('pilot.rounds')), (rnd.title, None)]) }}{% endblock %}
+{% block content %}<div class="gov">{{ pui.demo_notice(rnd.is_demo) }}
+<div class="page-head"><div><h1>{{ rnd.title }}</h1><p class="lead-text">ชุดเกณฑ์ {{ criteria.title }} · เวอร์ชัน {{ criteria.version }} · สถานะชุดเกณฑ์ {{ criteria_labels[criteria.status] }}{% if criteria.is_demo %} (อนุมัติในสภาพแวดล้อมสาธิต){% endif %}</p></div>
+<div class="d-flex gap-2 flex-wrap"><a class="btn btn-sm btn-outline-secondary" href="{{ url_for('pilot.round_dashboard_csv', round_id=rnd.id) }}"><i class="bi bi-download me-1"></i>ส่งออก CSV{{ '' if detail else ' (สรุป)' }}</a>{% if detail %}<a class="btn btn-sm btn-outline-secondary" href="{{ url_for('pilot.round_export_dsv', round_id=rnd.id) }}">ข้อมูลเตรียมส่ง Digital Single View</a>{% endif %}</div></div>
+<section class="section" aria-label="สรุปรอบ"><div class="stat-row">
+<div class="stat"><b>{{ totals.denominator }}</b><span>หน่วยงานที่เข้าร่วม</span><small>จากที่เชิญ {{ totals.invited }}</small></div>
+<div class="stat"><b>{{ totals.submitted }}<small> / {{ totals.denominator }}</small></b><span>ส่งงานแล้ว</span></div>
+<div class="stat"><b>{{ totals.confirmed }}<small> / {{ totals.denominator }}</small></b><span>ยืนยันผลครบ</span></div>
+<div class="stat {{ 'alert-stat' if totals.overdue }}"><b>{{ totals.overdue }}</b><span>เกินกำหนด</span></div>
+<div class="stat {{ 'alert-stat' if totals.open_critical }}"><b>{{ totals.open_critical }}</b><span>ประเด็นสำคัญมากที่ยังเปิด</span></div></div>
+<p class="small-note mt-1">ตัวหารคือหน่วยงานที่ตอบรับเข้าร่วม ตัวเลขนับจากสถานะงานจริงในระบบ ไม่ใช่ผลรับรองการปฏิบัติตามกฎหมาย</p></section>
+<section class="section"><h2>รายหน่วยงาน</h2><div class="panel panel-flush table-scroll"><table class="table-clean"><thead><tr><th>หน่วยงาน</th><th>การเข้าร่วม</th><th>สถานะงาน</th><th>ประเด็นที่ยังไม่ปิด</th>{% if detail %}<th>Control ที่มีประเด็น</th>{% endif %}<th>ครบกำหนด</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{ r.org.name }}<div class="small-note">{{ r.org.code }}</div></td><td>{{ part_labels[r.participation.status] }}</td><td>{% for s in r.status_list %}<div>{{ s }}</div>{% else %}<span class="muted">ยังไม่เริ่มงาน</span>{% endfor %}</td><td>{{ r.open_issues }}{% if r.open_critical %} <span class="badge-s s-bad">สำคัญมาก {{ r.open_critical }}</span>{% endif %}</td>{% if detail %}<td class="small">{{ r.open_controls|join(', ') or '-' }}</td>{% endif %}<td>{{ r.participation.due_on or '-' }}{% if r.overdue %} <span class="badge-s s-bad">เกินกำหนด</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div></section>
+<div class="row g-3 section"><div class="col-lg-6"><section class="panel h-100"><h2>หัวข้อที่พบซ้ำ</h2>{% for code, n in topics %}<div class="d-flex justify-content-between border-top py-1"><code>{{ code }}</code><span>{{ n }} ประเด็น</span></div>{% else %}<p class="small-note mb-0">ยังไม่มีประเด็น</p>{% endfor %}</section></div>
+<div class="col-lg-6"><section class="panel h-100"><h2>การเชื่อมต่อและการลงนาม</h2><p class="mb-1">Digital Single View: <span class="badge-s s-warn">{{ 'เตรียมเชื่อมต่อ' if not integration or integration.status == 'prepared' else integration.status }}</span></p><p class="small-note mb-0">ยังไม่ได้ส่งข้อมูลไปยังระบบภายนอก รายงานในรอบนี้ยังไม่ได้ลงนามดิจิทัล</p>{% if not detail %}<p class="small-note mt-2 mb-0">บทบาทผู้บริหารเห็นสรุปและสถานะ ไม่รวมรายละเอียดประเด็นและเอกสารต้นฉบับ</p>{% endif %}</section></div></div>
+</div>{% endblock %}

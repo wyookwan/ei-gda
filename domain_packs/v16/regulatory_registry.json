@@ -1,0 +1,1539 @@
+{
+ "schema": "eigda.regulatory-registry/1",
+ "registry_version": "17.1.0-adm.1",
+ "checked_on": "2026-11-05",
+ "status_legend": {
+  "expert_verified": "ผู้ดูแลที่มีสิทธิ์ยืนยันแหล่งและขอบเขตแล้ว (ค่าเริ่มต้นไม่มีรายการใดมีสถานะนี้)",
+  "source_confirmed": "เข้าถึงหน้าทางการของผู้เผยแพร่ได้และชื่อเอกสารตรงกัน แต่ยังไม่ได้ทบทวนขอบเขตการบังคับใช้",
+  "source_indexed": "พบหน้าทางการจากการค้นหาหรือ catalog เดิม แต่เซิร์ฟเวอร์บล็อกการตรวจอัตโนมัติ จึงยังไม่ได้เปิดอ่าน",
+  "pending_verification": "ยังไม่ได้เปิดตัวบททางการ ต้องตรวจกับราชกิจจานุเบกษาหรือหน่วยงานเจ้าของกฎหมาย",
+  "draft": "ข้อมูลจากเอกสารแนวคิดภายใน ยังไม่พบแหล่งยืนยัน",
+  "repealed": "ถูกยกเลิกแล้ว เก็บไว้สำหรับผลย้อนหลัง"
+ },
+ "references": [
+  {
+   "source_id": "TH-PDPA-2562",
+   "title": "Personal Data Protection Act B.E. 2562",
+   "title_th": "พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562",
+   "issuing_authority": "Thailand / PDPC",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2019",
+   "version": "B.E. 2562",
+   "official_url": "https://www.pdpc.or.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "เว็บไซต์ PDPC ตอบกลับได้ แต่ยังไม่ได้เปิดตัวบท",
+   "standard_code": "TH_PDPA_2562",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "education",
+    "general",
+    "healthcare",
+    "higher_education",
+    "justice",
+    "local_government",
+    "ops_mhesi"
+   ],
+   "applies_when": {
+    "data_categories_min_sensitivity": "personal"
+   },
+   "condition_th": "เมื่อระบบ AI ประมวลผลข้อมูลส่วนบุคคล"
+  },
+  {
+   "source_id": "TH-CYBER-2562",
+   "title": "Cybersecurity Act B.E. 2562",
+   "title_th": "พระราชบัญญัติการรักษาความมั่นคงปลอดภัยไซเบอร์ พ.ศ. 2562",
+   "issuing_authority": "Thailand / NCSA",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2019",
+   "version": "B.E. 2562",
+   "official_url": "https://www.ncsa.or.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "มาจาก catalog เดิม ยังไม่ได้เปิดตัวบท",
+   "standard_code": "TH_CYBER_2562",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "general",
+    "healthcare",
+    "higher_education",
+    "justice",
+    "local_government",
+    "ops_mhesi"
+   ],
+   "condition_th": "ต้องตรวจว่าหน่วยงานเข้าข่ายหน่วยงานโครงสร้างพื้นฐานสำคัญทางสารสนเทศหรือไม่"
+  },
+  {
+   "source_id": "TH-OFFICIAL-INFO-2540",
+   "title": "Official Information Act B.E. 2540",
+   "title_th": "พระราชบัญญัติข้อมูลข่าวสารของราชการ พ.ศ. 2540",
+   "issuing_authority": "Thailand / OIC",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "1997",
+   "version": "B.E. 2540",
+   "official_url": "https://www.oic.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "มาจาก catalog เดิม ยังไม่ได้เปิดตัวบท",
+   "standard_code": "TH_OFFICIAL_INFO_2540",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "education",
+    "healthcare",
+    "higher_education",
+    "justice",
+    "local_government",
+    "ops_mhesi"
+   ],
+   "applies_when": {
+    "flags": {
+     "is_public_agency": true
+    }
+   },
+   "condition_th": "เมื่อองค์กรเป็นหน่วยงานของรัฐ"
+  },
+  {
+   "source_id": "TH-DIGITAL-GOV-2562",
+   "title": "Digital Government Administration and Services Act B.E. 2562",
+   "title_th": "พระราชบัญญัติการบริหารงานและการให้บริการภาครัฐผ่านระบบดิจิทัล พ.ศ. 2562",
+   "issuing_authority": "Thailand / DGA",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2019",
+   "version": "B.E. 2562",
+   "official_url": "https://www.dga.or.th/policy-standard/policy-regulation/dga-dg-256/",
+   "verification_status": "pending_verification",
+   "verification_note": "มาจาก catalog เดิม ยังไม่ได้เปิดตัวบท",
+   "standard_code": "TH_DIGITAL_GOV_2562",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "general",
+    "higher_education",
+    "local_government",
+    "ops_mhesi"
+   ],
+   "applies_when": {
+    "flags": {
+     "is_public_agency": true
+    }
+   },
+   "condition_th": "ขอบเขตหน่วยงานของรัฐต้องตรวจจากตัวบท"
+  },
+  {
+   "source_id": "TH-HEALTH-2550",
+   "title": "National Health Act B.E. 2550",
+   "title_th": "พระราชบัญญัติสุขภาพแห่งชาติ พ.ศ. 2550",
+   "issuing_authority": "Thailand / NHCO",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2007-03-19",
+   "version": "B.E. 2550",
+   "official_url": "https://www.nationalhealth.or.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "พบการอ้างอิงราชกิจจานุเบกษาจากแหล่งรอง ยังไม่ได้ตรวจตัวบทมาตรา 7 กับต้นฉบับ",
+   "domains": [
+    "healthcare"
+   ],
+   "applies_when": {
+    "data_categories_any": [
+     "HLT.DATA.HEALTH"
+    ]
+   },
+   "condition_th": "เมื่อระบบเกี่ยวข้องกับข้อมูลด้านสุขภาพของบุคคล"
+  },
+  {
+   "source_id": "TH-EMS-2551",
+   "title": "Emergency Medical Act B.E. 2551",
+   "title_th": "พระราชบัญญัติการแพทย์ฉุกเฉิน พ.ศ. 2551",
+   "issuing_authority": "Thailand / NIEMS",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2008-03-06",
+   "version": "B.E. 2551",
+   "official_url": "https://www.niems.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "เว็บไซต์ สพฉ. ตอบกลับได้ ยังไม่ได้เปิดตัวบท และยังไม่ได้ตรวจการแก้ไขเพิ่มเติม",
+   "domains": [
+    "healthcare"
+   ],
+   "applies_when": {
+    "org_types": [
+     "HLT.ORG.EMS"
+    ]
+   },
+   "condition_th": "เมื่อองค์กรเกี่ยวข้องกับระบบการแพทย์ฉุกเฉิน"
+  },
+  {
+   "source_id": "TH-NIEMS-SUBORDINATE",
+   "title": "NIEMS subordinate regulations and operational standards (to be identified)",
+   "title_th": "ประกาศและมาตรฐานปฏิบัติการของ สพฉ. (รอระบุฉบับจริง)",
+   "issuing_authority": "NIEMS",
+   "jurisdiction": "TH",
+   "document_type": "Placeholder",
+   "normative_class": "binding_legislation",
+   "version": "-",
+   "official_url": "https://www.niems.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "เป็นตำแหน่งรอข้อมูล ไม่ได้ระบุชื่อประกาศใด ๆ เพราะยังไม่มีเอกสารต้นทาง",
+   "domains": [
+    "healthcare"
+   ],
+   "applies_when": {
+    "org_types": [
+     "HLT.ORG.EMS"
+    ]
+   },
+   "condition_th": "ต้องให้ผู้เชี่ยวชาญ สพฉ. ระบุฉบับที่เกี่ยวข้อง"
+  },
+  {
+   "source_id": "TH-SANATORIUM-2541",
+   "title": "Sanatorium Act B.E. 2541",
+   "title_th": "พระราชบัญญัติสถานพยาบาล พ.ศ. 2541",
+   "issuing_authority": "Thailand / Department of Health Service Support",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "1998",
+   "version": "B.E. 2541",
+   "official_url": "https://mrd.hss.moph.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "ยังไม่พบตัวบททางการในการค้นครั้งนี้",
+   "domains": [
+    "healthcare"
+   ],
+   "applies_when": {
+    "org_types": [
+     "HLT.ORG.PROVIDER"
+    ]
+   },
+   "condition_th": "สำหรับสถานพยาบาลเอกชนที่อยู่ในขอบเขตกฎหมาย"
+  },
+  {
+   "source_id": "TH-MEDICAL-DEVICE-2551",
+   "title": "Medical Device Act B.E. 2551",
+   "title_th": "พระราชบัญญัติเครื่องมือแพทย์ พ.ศ. 2551",
+   "issuing_authority": "Thailand / Thai FDA",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2008",
+   "version": "B.E. 2551",
+   "official_url": "https://www.fda.moph.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "ยังไม่ได้เปิดตัวบท",
+   "domains": [
+    "healthcare"
+   ],
+   "applies_when": {
+    "flags": {
+     "medical_device_scope": true
+    }
+   },
+   "condition_th": "เฉพาะเมื่อผู้เชี่ยวชาญจัดว่าระบบเข้าข่ายเครื่องมือแพทย์ ไม่ใช่ทุกระบบ"
+  },
+  {
+   "source_id": "TH-JUSTICE-ADMIN-2543",
+   "title": "Act on Administration of Courts of Justice B.E. 2543",
+   "title_th": "พระราชบัญญัติระเบียบบริหารราชการศาลยุติธรรม พ.ศ. 2543",
+   "issuing_authority": "Thailand / Office of the Courts of Justice",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2000",
+   "version": "B.E. 2543",
+   "official_url": "https://www.coj.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "การค้นครั้งนี้ไม่พบตัวบททางการ ต้องตรวจชื่อและฉบับ",
+   "domains": [
+    "justice"
+   ],
+   "applies_when": {
+    "org_types": [
+     "JUS.ORG.COURT_JUSTICE"
+    ]
+   },
+   "condition_th": "สำหรับศาลยุติธรรม"
+  },
+  {
+   "source_id": "TH-ADMIN-COURT-2542",
+   "title": "Act on Establishment of Administrative Courts and Administrative Court Procedure B.E. 2542",
+   "title_th": "พระราชบัญญัติจัดตั้งศาลปกครองและวิธีพิจารณาคดีปกครอง พ.ศ. 2542",
+   "issuing_authority": "Thailand / Administrative Court",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "1999",
+   "version": "B.E. 2542",
+   "official_url": "https://www.admincourt.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "พบการอ้างอิงจากแหล่งรอง ยังไม่ได้เปิดตัวบททางการ",
+   "domains": [
+    "administrative_court",
+    "justice"
+   ],
+   "applies_when": {
+    "org_types": [
+     "ADM.ORG.FIRST",
+     "ADM.ORG.OFFICE",
+     "ADM.ORG.SUPREME",
+     "JUS.ORG.COURT_ADMIN"
+    ]
+   },
+   "condition_th": "สำหรับศาลปกครอง"
+  },
+  {
+   "source_id": "TH-CONST-COURT-2561",
+   "title": "Organic Act on Constitutional Court Procedure B.E. 2561",
+   "title_th": "พระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยวิธีพิจารณาของศาลรัฐธรรมนูญ พ.ศ. 2561",
+   "issuing_authority": "Thailand / Constitutional Court",
+   "jurisdiction": "TH",
+   "document_type": "Organic Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2018",
+   "version": "B.E. 2561",
+   "official_url": "https://www.constitutionalcourt.or.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "พบเอกสารรวมกฎหมายของศาล ยังไม่ได้ตรวจตัวบท",
+   "domains": [
+    "justice"
+   ],
+   "applies_when": {
+    "org_types": [
+     "JUS.ORG.COURT_CONST"
+    ]
+   },
+   "condition_th": "สำหรับศาลรัฐธรรมนูญ"
+  },
+  {
+   "source_id": "TH-COURT-AI-RULE-2568",
+   "title": "Civil Court rule on AI use (cited in internal concept deck)",
+   "title_th": "ข้อกำหนดศาลแพ่งเรื่องการใช้ AI (2568) ตามที่อ้างในเดคแนวคิด",
+   "issuing_authority": "To be confirmed",
+   "jurisdiction": "TH",
+   "document_type": "Court rule",
+   "normative_class": "binding_legislation",
+   "publication_date": "2025",
+   "version": "-",
+   "official_url": "",
+   "verification_status": "draft",
+   "verification_note": "มาจาก EI-GDA-Domain-Adaptive-Concept.pptx เท่านั้น ยังไม่พบแหล่งต้นฉบับ",
+   "domains": [
+    "justice"
+   ],
+   "applies_when": {
+    "org_types": [
+     "JUS.ORG.COURT_JUSTICE"
+    ]
+   },
+   "condition_th": "ต้องยืนยันการมีอยู่และขอบเขตก่อน"
+  },
+  {
+   "source_id": "TH-NATIONAL-EDU-2542",
+   "title": "National Education Act B.E. 2542",
+   "title_th": "พระราชบัญญัติการศึกษาแห่งชาติ พ.ศ. 2542",
+   "issuing_authority": "Thailand / Ministry of Education",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "1999",
+   "version": "B.E. 2542",
+   "official_url": "https://www.moe.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "พบเฉพาะแหล่งรองในการค้นครั้งนี้",
+   "domains": [
+    "education"
+   ],
+   "condition_th": "ต้องตรวจขอบเขตตามประเภทสถานศึกษา"
+  },
+  {
+   "source_id": "TH-HIGHER-EDU-2562",
+   "title": "Higher Education Act B.E. 2562",
+   "title_th": "พระราชบัญญัติการอุดมศึกษา พ.ศ. 2562",
+   "issuing_authority": "Thailand / MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2019",
+   "version": "B.E. 2562",
+   "official_url": "https://www.mhesi.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "การค้นครั้งนี้ไม่พบตัวบท",
+   "domains": [
+    "education",
+    "higher_education"
+   ],
+   "applies_when": {
+    "org_types": [
+     "EDU.ORG.UNIVERSITY",
+     "HED.ORG.PUBLIC",
+     "HED.ORG.AUTONOMOUS",
+     "HED.ORG.PRIVATE"
+    ]
+   },
+   "condition_th": "สำหรับสถาบันอุดมศึกษา"
+  },
+  {
+   "source_id": "TH-CHILD-PROTECT-2546",
+   "title": "Child Protection Act B.E. 2546",
+   "title_th": "พระราชบัญญัติคุ้มครองเด็ก พ.ศ. 2546",
+   "issuing_authority": "Thailand",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "2003",
+   "version": "B.E. 2546",
+   "official_url": "",
+   "verification_status": "pending_verification",
+   "verification_note": "พบเฉพาะแหล่งรอง ยังไม่ได้ตรวจตัวบท",
+   "domains": [
+    "education"
+   ],
+   "applies_when": {
+    "flags": {
+     "involves_minors": true
+    }
+   },
+   "condition_th": "เมื่อผู้ได้รับผลกระทบเป็นผู้เยาว์"
+  },
+  {
+   "source_id": "TH-MUNICIPALITY-2496",
+   "title": "Municipality Act B.E. 2496",
+   "title_th": "พระราชบัญญัติเทศบาล พ.ศ. 2496",
+   "issuing_authority": "Thailand / DLA",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "1953",
+   "version": "B.E. 2496 (มีการแก้ไขเพิ่มเติม)",
+   "official_url": "https://www.dla.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "พบการอ้างอิงจากงานวิจัย ยังไม่ได้เปิดตัวบททางการ",
+   "domains": [
+    "local_government"
+   ],
+   "applies_when": {
+    "org_types": [
+     "LGOV.ORG.MUNICIPALITY"
+    ]
+   },
+   "condition_th": "สำหรับเทศบาล"
+  },
+  {
+   "source_id": "TH-TAO-2537",
+   "title": "Tambon Council and Tambon Administrative Organization Act B.E. 2537",
+   "title_th": "พระราชบัญญัติสภาตำบลและองค์การบริหารส่วนตำบล พ.ศ. 2537",
+   "issuing_authority": "Thailand / DLA",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "1994",
+   "version": "B.E. 2537 (มีการแก้ไขเพิ่มเติม)",
+   "official_url": "https://www.dla.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "พบการอ้างอิงจากงานวิจัย ยังไม่ได้เปิดตัวบททางการ",
+   "domains": [
+    "local_government"
+   ],
+   "applies_when": {
+    "org_types": [
+     "LGOV.ORG.SAO"
+    ]
+   },
+   "condition_th": "สำหรับ อบต."
+  },
+  {
+   "source_id": "TH-PAO-2540",
+   "title": "Provincial Administrative Organization Act B.E. 2540",
+   "title_th": "พระราชบัญญัติองค์การบริหารส่วนจังหวัด พ.ศ. 2540",
+   "issuing_authority": "Thailand / DLA",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "publication_date": "1997",
+   "version": "B.E. 2540 (มีการแก้ไขเพิ่มเติม)",
+   "official_url": "https://www.dla.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "พบการอ้างอิงจากงานวิจัย ยังไม่ได้เปิดตัวบททางการ",
+   "domains": [
+    "local_government"
+   ],
+   "applies_when": {
+    "org_types": [
+     "LGOV.ORG.PAO"
+    ]
+   },
+   "condition_th": "สำหรับ อบจ."
+  },
+  {
+   "source_id": "TH-DGA-DGF",
+   "title": "Government Data Governance Framework",
+   "title_th": "กรอบธรรมาภิบาลข้อมูลภาครัฐ (DGA)",
+   "issuing_authority": "DGA Thailand",
+   "jurisdiction": "TH",
+   "document_type": "Government standard",
+   "normative_class": "mandated_standard",
+   "publication_date": "2023",
+   "version": "มรด. 6 : 2566 (ตาม catalog เดิม)",
+   "official_url": "https://standard.dga.or.th/standard/",
+   "verification_status": "pending_verification",
+   "verification_note": "มาจาก catalog เดิม ต้องตรวจสถานะการบังคับใช้กับหน่วยงาน",
+   "standard_code": "DGA_DGF",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "general",
+    "higher_education",
+    "local_government",
+    "ops_mhesi"
+   ],
+   "applies_when": {
+    "flags": {
+     "is_public_agency": true
+    }
+   },
+   "condition_th": "สำหรับหน่วยงานของรัฐ ต้องตรวจฐานการบังคับ"
+  },
+  {
+   "source_id": "TH-DGA-CATALOG",
+   "title": "Government Data Catalog standards",
+   "title_th": "มาตรฐานบัญชีข้อมูลภาครัฐ (GD Catalog)",
+   "issuing_authority": "DGA Thailand",
+   "jurisdiction": "TH",
+   "document_type": "Government standard",
+   "normative_class": "mandated_standard",
+   "version": "-",
+   "official_url": "https://data.go.th/",
+   "verification_status": "pending_verification",
+   "verification_note": "อ้างจากเดคแนวคิด ยังไม่ได้ระบุเลขมาตรฐานจากต้นฉบับ",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "higher_education",
+    "local_government",
+    "ops_mhesi"
+   ],
+   "applies_when": {
+    "flags": {
+     "is_public_agency": true
+    }
+   },
+   "condition_th": "ต้องตรวจฉบับและขอบเขต"
+  },
+  {
+   "source_id": "TH-ETDA-AIGOV",
+   "title": "AI Governance Guideline for Executives",
+   "title_th": "แนวทางธรรมาภิบาล AI (ETDA/AIGC)",
+   "issuing_authority": "ETDA",
+   "jurisdiction": "TH",
+   "document_type": "Guideline",
+   "normative_class": "non_binding_guideline",
+   "publication_date": "2023",
+   "version": "-",
+   "official_url": "https://www.etda.or.th/th/Useful-Resource/Knowledge-Sharing/Articles/AI-Governance-Guideline.aspx",
+   "verification_status": "source_indexed",
+   "verification_note": "มาจาก catalog เดิม",
+   "standard_code": "ETDA_AI_GOV",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "education",
+    "general",
+    "healthcare",
+    "higher_education",
+    "justice",
+    "local_government",
+    "ops_mhesi"
+   ],
+   "condition_th": "แนวปฏิบัติสมัครใจ"
+  },
+  {
+   "source_id": "ISO-42001",
+   "title": "ISO/IEC 42001:2023 AI management system",
+   "title_th": "ISO/IEC 42001:2023 ระบบบริหารจัดการ AI",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "International",
+   "document_type": "Standard",
+   "normative_class": "voluntary_standard",
+   "publication_date": "2023",
+   "version": "2023",
+   "official_url": "https://www.iso.org/standard/42001",
+   "verification_status": "source_indexed",
+   "verification_note": "iso.org บล็อกการตรวจอัตโนมัติ ใช้ข้อมูล catalog เดิมที่ตรวจเมื่อ 2026-09-23 ไม่ได้บังคับตามกฎหมายไทยโดยอัตโนมัติ",
+   "standard_code": "ISO42001",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "education",
+    "general",
+    "healthcare",
+    "higher_education",
+    "justice",
+    "local_government",
+    "ops_mhesi"
+   ],
+   "condition_th": "มาตรฐานที่เกี่ยวข้อง"
+  },
+  {
+   "source_id": "ISO-23894",
+   "title": "ISO/IEC 23894:2023 Guidance on AI risk management",
+   "title_th": "ISO/IEC 23894:2023 แนวทางบริหารความเสี่ยง AI",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "International",
+   "document_type": "Standard",
+   "normative_class": "voluntary_standard",
+   "publication_date": "2023",
+   "version": "2023",
+   "official_url": "https://www.iso.org/standard/77304.html",
+   "verification_status": "source_indexed",
+   "verification_note": "ใช้ข้อมูล catalog เดิม ไม่ได้บังคับตามกฎหมายไทยโดยอัตโนมัติ",
+   "standard_code": "ISO23894",
+   "domains": [
+    "administrative_court",
+    "general",
+    "healthcare",
+    "justice"
+   ],
+   "condition_th": "มาตรฐานที่เกี่ยวข้อง"
+  },
+  {
+   "source_id": "ISO-42005",
+   "title": "ISO/IEC 42005:2025 AI system impact assessment",
+   "title_th": "ISO/IEC 42005:2025 การประเมินผลกระทบของระบบ AI",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "International",
+   "document_type": "Standard",
+   "normative_class": "voluntary_standard",
+   "publication_date": "2025",
+   "version": "2025",
+   "official_url": "https://www.iso.org/standard/42005",
+   "verification_status": "source_indexed",
+   "verification_note": "ใช้ข้อมูล catalog เดิม",
+   "standard_code": "ISO42005",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "general",
+    "healthcare",
+    "higher_education",
+    "ops_mhesi"
+   ],
+   "applies_when": {
+    "min_risk": "medium"
+   },
+   "condition_th": "ใช้เมื่อระบบมีผลกระทบตั้งแต่ระดับกลาง"
+  },
+  {
+   "source_id": "ISO-14971",
+   "title": "ISO 14971:2019 Medical devices: application of risk management",
+   "title_th": "ISO 14971:2019 การบริหารความเสี่ยงเครื่องมือแพทย์",
+   "issuing_authority": "ISO",
+   "jurisdiction": "International",
+   "document_type": "Standard",
+   "normative_class": "voluntary_standard",
+   "publication_date": "2019",
+   "version": "2019",
+   "official_url": "https://www.iso.org/standard/72704.html",
+   "verification_status": "source_indexed",
+   "verification_note": "พบเลขมาตรฐานจากหน่วยงานมาตรฐานอื่น iso.org บล็อกการตรวจอัตโนมัติ",
+   "domains": [
+    "healthcare"
+   ],
+   "applies_when": {
+    "flags": {
+     "medical_device_scope": true
+    }
+   },
+   "condition_th": "เฉพาะระบบในขอบเขตเครื่องมือแพทย์"
+  },
+  {
+   "source_id": "NIST-AI-RMF",
+   "title": "NIST AI Risk Management Framework (AI RMF 1.0)",
+   "title_th": "NIST AI RMF 1.0",
+   "issuing_authority": "NIST",
+   "jurisdiction": "US (voluntary)",
+   "document_type": "Framework",
+   "normative_class": "voluntary_standard",
+   "publication_date": "2023",
+   "version": "1.0",
+   "official_url": "https://www.nist.gov/itl/ai-risk-management-framework",
+   "verification_status": "source_confirmed",
+   "verification_note": "หน้าทางการตอบกลับได้เมื่อ 2026-11-05",
+   "standard_code": "NIST_AI_RMF",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "education",
+    "general",
+    "higher_education",
+    "local_government",
+    "ops_mhesi"
+   ],
+   "condition_th": "กรอบสมัครใจ"
+  },
+  {
+   "source_id": "CEPEJ-CHARTER-2018",
+   "title": "CEPEJ European Ethical Charter on the use of AI in judicial systems",
+   "title_th": "CEPEJ Ethical Charter ว่าด้วยการใช้ AI ในระบบยุติธรรม",
+   "issuing_authority": "Council of Europe / CEPEJ",
+   "jurisdiction": "Council of Europe",
+   "document_type": "Charter",
+   "normative_class": "non_binding_guideline",
+   "publication_date": "2018",
+   "version": "2018",
+   "official_url": "https://www.coe.int/en/web/cepej/cepej-working-group-cyber-just",
+   "verification_status": "source_indexed",
+   "verification_note": "coe.int บล็อกการตรวจอัตโนมัติ URL นี้เป็นหน้ากลุ่มงาน Cyberjustice ไม่ผูกพันศาลไทยโดยอัตโนมัติ",
+   "domains": [
+    "administrative_court",
+    "justice"
+   ],
+   "condition_th": "แนวปฏิบัติเปรียบเทียบ"
+  },
+  {
+   "source_id": "CEPEJ-GENAI-2025",
+   "title": "CEPEJ Guidelines on the use of generative AI for courts",
+   "title_th": "CEPEJ Guidelines ว่าด้วย Generative AI สำหรับศาล",
+   "issuing_authority": "Council of Europe / CEPEJ",
+   "jurisdiction": "Council of Europe",
+   "document_type": "Guidelines",
+   "normative_class": "non_binding_guideline",
+   "publication_date": "2025-12-19",
+   "version": "2025",
+   "official_url": "https://rm.coe.int/guidelines-on-the-use-of-generative-artificial-intelligence-for-courts/48802dc09f",
+   "verification_status": "source_indexed",
+   "verification_note": "พบจากการค้นหา ยังไม่ได้เปิดเอกสาร",
+   "domains": [
+    "administrative_court",
+    "justice"
+   ],
+   "applies_when": {
+    "use_cases": [
+     "JUS.UC.RESEARCH",
+     "JUS.UC.SUMMARY",
+     "JUS.UC.DRAFTING"
+    ]
+   },
+   "condition_th": "สำหรับระบบแบบ Generative AI"
+  },
+  {
+   "source_id": "UNESCO-COURTS-2025",
+   "title": "UNESCO Guidelines for the use of AI systems in courts and tribunals",
+   "title_th": "UNESCO Guidelines การใช้ AI ในศาลและคณะตุลาการ",
+   "issuing_authority": "UNESCO",
+   "jurisdiction": "International",
+   "document_type": "Guidelines",
+   "normative_class": "non_binding_guideline",
+   "publication_date": "2025",
+   "version": "2025",
+   "official_url": "https://unesdoc.unesco.org/ark:/48223/pf0000396582",
+   "verification_status": "source_indexed",
+   "verification_note": "URL มาจากแหล่งรอง และ unesdoc บล็อกการตรวจอัตโนมัติ ต้องเปิดยืนยันฉบับสุดท้าย",
+   "domains": [
+    "administrative_court",
+    "justice"
+   ],
+   "condition_th": "แนวปฏิบัติสมัครใจ"
+  },
+  {
+   "source_id": "UNESCO-GENAI-EDU-2023",
+   "title": "UNESCO Guidance for generative AI in education and research",
+   "title_th": "UNESCO Guidance ว่าด้วย Generative AI ในการศึกษาและวิจัย",
+   "issuing_authority": "UNESCO",
+   "jurisdiction": "International",
+   "document_type": "Guidance",
+   "normative_class": "non_binding_guideline",
+   "publication_date": "2023",
+   "version": "2023",
+   "official_url": "https://unesdoc.unesco.org/ark:/48223/pf0000386693",
+   "verification_status": "source_indexed",
+   "verification_note": "URL มาจากบันทึกบรรณานุกรม และ unesdoc บล็อกการตรวจอัตโนมัติ",
+   "domains": [
+    "education",
+    "higher_education"
+   ],
+   "condition_th": "แนวปฏิบัติสมัครใจ"
+  },
+  {
+   "source_id": "UNESCO-AI-ETHICS-2021",
+   "title": "UNESCO Recommendation on the Ethics of AI",
+   "title_th": "UNESCO Recommendation ว่าด้วยจริยธรรม AI",
+   "issuing_authority": "UNESCO",
+   "jurisdiction": "International",
+   "document_type": "Recommendation",
+   "normative_class": "non_binding_guideline",
+   "publication_date": "2021",
+   "version": "2021",
+   "official_url": "https://www.unesco.org/en/artificial-intelligence/recommendation-ethics",
+   "verification_status": "source_indexed",
+   "verification_note": "มาจาก catalog เดิม",
+   "standard_code": "UNESCO_AI_ETHICS",
+   "domains": [
+    "general",
+    "education"
+   ],
+   "condition_th": "แนวปฏิบัติสมัครใจ"
+  },
+  {
+   "source_id": "WHO-AI-HEALTH-2021",
+   "title": "WHO Ethics and governance of artificial intelligence for health",
+   "title_th": "WHO จริยธรรมและธรรมาภิบาล AI เพื่อสุขภาพ",
+   "issuing_authority": "WHO",
+   "jurisdiction": "International",
+   "document_type": "Guidance",
+   "normative_class": "non_binding_guideline",
+   "publication_date": "2021",
+   "version": "2021",
+   "official_url": "https://www.who.int/publications/i/item/9789240029200",
+   "verification_status": "source_confirmed",
+   "verification_note": "หน้าทางการตอบกลับได้เมื่อ 2026-11-05",
+   "domains": [
+    "healthcare"
+   ],
+   "condition_th": "แนวปฏิบัติสมัครใจ"
+  },
+  {
+   "source_id": "WHO-LMM-2024",
+   "title": "WHO Guidance on large multi-modal models",
+   "title_th": "WHO Guidance ว่าด้วย Large Multi-Modal Models",
+   "issuing_authority": "WHO",
+   "jurisdiction": "International",
+   "document_type": "Guidance",
+   "normative_class": "non_binding_guideline",
+   "publication_date": "2024-01-18",
+   "version": "2024",
+   "official_url": "https://www.who.int/publications/i/item/9789240084759",
+   "verification_status": "source_confirmed",
+   "verification_note": "หน้าทางการตอบกลับได้เมื่อ 2026-11-05",
+   "domains": [
+    "healthcare"
+   ],
+   "applies_when": {
+    "use_cases": [
+     "HLT.UC.DOCS",
+     "EMS.UC2"
+    ]
+   },
+   "condition_th": "สำหรับระบบแบบ Generative AI"
+  },
+  {
+   "source_id": "ASEAN-AI-2024",
+   "title": "ASEAN Guide on AI Governance and Ethics",
+   "title_th": "ASEAN Guide ว่าด้วยธรรมาภิบาลและจริยธรรม AI",
+   "issuing_authority": "ASEAN",
+   "jurisdiction": "ASEAN",
+   "document_type": "Guide",
+   "normative_class": "non_binding_guideline",
+   "publication_date": "2024",
+   "version": "2024",
+   "official_url": "https://asean.org/book/asean-guide-on-ai-governance-and-ethics/",
+   "verification_status": "source_indexed",
+   "verification_note": "มาจาก catalog เดิม เว็บไซต์ redirect เมื่อตรวจอัตโนมัติ",
+   "standard_code": "ASEAN_AI_2024",
+   "domains": [
+    "local_government",
+    "general"
+   ],
+   "condition_th": "แนวปฏิบัติสมัครใจ"
+  },
+  {
+   "source_id": "TH-OFFICIAL-SECRET-2544",
+   "title": "Regulation on the Maintenance of Official Secrets B.E. 2544 and amendments",
+   "title_th": "ระเบียบว่าด้วยการรักษาความลับของทางราชการ พ.ศ. 2544 และที่แก้ไขเพิ่มเติม",
+   "issuing_authority": "Office of the Prime Minister",
+   "jurisdiction": "TH",
+   "document_type": "Regulation",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2544 และที่แก้ไขเพิ่มเติม (รอระบุฉบับแก้ไข)",
+   "effective_date": "2544",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: ราชกิจจานุเบกษาปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้เปิดตัวบทและฉบับแก้ไข",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "higher_education",
+    "ops_mhesi"
+   ],
+   "condition_th": "เมื่อหน่วยงานของรัฐมีข้อมูลข่าวสารลับ",
+   "scope_th": "หน่วยงานของรัฐ",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท",
+   "applies_when": {
+    "flags": {
+     "is_public_agency": true
+    }
+   }
+  },
+  {
+   "source_id": "OPS-MHESI-DG-POLICY",
+   "title": "OPS-MHESI data governance policy",
+   "title_th": "นโยบายธรรมาภิบาลข้อมูล สำนักงานปลัดกระทรวง อว.",
+   "issuing_authority": "OPS-MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Internal policy",
+   "normative_class": "internal_policy",
+   "version": "รอระบุฉบับ",
+   "effective_date": null,
+   "official_url": "",
+   "url_kind": "none",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "ops_mhesi"
+   ],
+   "condition_th": "ใช้ภายใน สป.อว. เท่านั้น",
+   "scope_th": "สำนักงานปลัดกระทรวง อว.",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "OPS-MHESI-PDPA-POLICY",
+   "title": "OPS-MHESI personal data protection policy",
+   "title_th": "นโยบายคุ้มครองข้อมูลส่วนบุคคล สำนักงานปลัดกระทรวง อว.",
+   "issuing_authority": "OPS-MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Internal policy",
+   "normative_class": "internal_policy",
+   "version": "รอระบุฉบับ",
+   "effective_date": null,
+   "official_url": "",
+   "url_kind": "none",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "ops_mhesi"
+   ],
+   "condition_th": "ใช้ภายใน สป.อว. เท่านั้น",
+   "scope_th": "สำนักงานปลัดกระทรวง อว.",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "OPS-MHESI-SECRET-E-GUIDE",
+   "title": "OPS-MHESI practice for electronic classified information",
+   "title_th": "แนวปฏิบัติการรักษาความลับข้อมูลข่าวสารลับในระบบอิเล็กทรอนิกส์ สป.อว.",
+   "issuing_authority": "OPS-MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Internal practice",
+   "normative_class": "internal_policy",
+   "version": "รอระบุฉบับ",
+   "effective_date": null,
+   "official_url": "",
+   "url_kind": "none",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "ops_mhesi"
+   ],
+   "condition_th": "ใช้ภายใน สป.อว. เท่านั้น",
+   "scope_th": "สำนักงานปลัดกระทรวง อว.",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "OPS-MHESI-CYBER-2569",
+   "title": "OPS-MHESI cybersecurity framework B.E. 2569",
+   "title_th": "กรอบการรักษาความมั่นคงปลอดภัยไซเบอร์ สป.อว. พ.ศ. 2569",
+   "issuing_authority": "OPS-MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Internal framework",
+   "normative_class": "internal_policy",
+   "version": "พ.ศ. 2569 (รอยืนยันชื่อทางการ)",
+   "effective_date": "2569",
+   "official_url": "",
+   "url_kind": "none",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "ops_mhesi"
+   ],
+   "condition_th": "ใช้ภายใน สป.อว. เท่านั้น",
+   "scope_th": "สำนักงานปลัดกระทรวง อว.",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "TH-HED-DATA-MR-2566",
+   "title": "Ministerial Regulation on disclosure and submission of higher-education data B.E. 2566",
+   "title_th": "กฎกระทรวงว่าด้วยการเปิดเผยและการส่งข้อมูลการอุดมศึกษา พ.ศ. 2566",
+   "issuing_authority": "MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Ministerial regulation",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2566 (รอยืนยันชื่อเต็ม)",
+   "effective_date": "2566",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "higher_education"
+   ],
+   "condition_th": "สถาบันอุดมศึกษาที่อยู่ภายใต้ พ.ร.บ. การอุดมศึกษา",
+   "scope_th": "สถาบันอุดมศึกษา",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท",
+   "applies_when": {
+    "org_types": [
+     "HED.ORG.PUBLIC",
+     "HED.ORG.AUTONOMOUS",
+     "HED.ORG.PRIVATE"
+    ]
+   }
+  },
+  {
+   "source_id": "MHESI-GOVERNANCE-2569",
+   "title": "MHESI notification on governance practices for higher education (5 March 2026)",
+   "title_th": "ประกาศกระทรวง อว. เรื่อง แนวปฏิบัติเพื่อให้การจัดการอุดมศึกษาเป็นไปตามหลักธรรมาภิบาล ลงวันที่ 5 มีนาคม 2569",
+   "issuing_authority": "MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Ministerial notification",
+   "normative_class": "binding_legislation",
+   "version": "ลงวันที่ 5 มีนาคม 2569",
+   "effective_date": "2569-03-05",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "higher_education"
+   ],
+   "condition_th": "สถาบันอุดมศึกษา",
+   "scope_th": "สถาบันอุดมศึกษา",
+   "clauses": [
+    {
+     "clause": "ข้อ 3",
+     "note": "ยกเลิกแนวปฏิบัติฉบับเดิม (MHESI-GOVERNANCE-PREV) รอตรวจถ้อยคำ"
+    }
+   ],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท",
+   "supersedes": [
+    "MHESI-GOVERNANCE-PREV"
+   ],
+   "in_force": "pending_verification",
+   "applies_when": {
+    "org_types": [
+     "HED.ORG.PUBLIC",
+     "HED.ORG.AUTONOMOUS",
+     "HED.ORG.PRIVATE"
+    ]
+   }
+  },
+  {
+   "source_id": "MHESI-GOVERNANCE-PREV",
+   "title": "Earlier MHESI governance practice (repealed by clause 3 of the 2026 notification)",
+   "title_th": "แนวปฏิบัติธรรมาภิบาลการจัดการอุดมศึกษาฉบับเดิม (ถูกยกเลิกตามข้อ 3 ของประกาศ 5 มี.ค. 2569)",
+   "issuing_authority": "MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Ministerial notification",
+   "normative_class": "binding_legislation",
+   "version": "รอยืนยันชื่อและปีของฉบับเดิม",
+   "effective_date": null,
+   "official_url": "",
+   "url_kind": "none",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "higher_education"
+   ],
+   "condition_th": "เก็บไว้เพื่อแสดงผลประเมินย้อนหลังเท่านั้น ไม่ใช้กับงานใหม่",
+   "scope_th": "ผลย้อนหลังก่อนวันมีผลของฉบับ 2569",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท",
+   "superseded_by": "MHESI-GOVERNANCE-2569",
+   "in_force": "repealed",
+   "historical_only": true
+  },
+  {
+   "source_id": "MHESI-MONITORING-2566",
+   "title": "MHESI notification on monitoring and inspection of higher-education institutions B.E. 2566",
+   "title_th": "ประกาศกระทรวง อว. เรื่อง การติดตามและตรวจสอบการดำเนินการของสถาบันอุดมศึกษา พ.ศ. 2566",
+   "issuing_authority": "MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Ministerial notification",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2566",
+   "effective_date": "2566",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "higher_education"
+   ],
+   "condition_th": "สถาบันอุดมศึกษา โดยเฉพาะข้อ 1–2",
+   "scope_th": "สถาบันอุดมศึกษา",
+   "clauses": [
+    {
+     "clause": "ข้อ 1–2",
+     "note": "การเปิดเผยข้อมูลด้านความรับผิดชอบต่อสังคม รอตรวจถ้อยคำ"
+    }
+   ],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท",
+   "applies_when": {
+    "org_types": [
+     "HED.ORG.PUBLIC",
+     "HED.ORG.AUTONOMOUS",
+     "HED.ORG.PRIVATE"
+    ]
+   }
+  },
+  {
+   "source_id": "MHESI-DISCLOSURE-2565",
+   "title": "MHESI notification on disclosure of performance under governance practices B.E. 2565",
+   "title_th": "ประกาศกระทรวง อว. เรื่อง การเปิดเผยผลการดำเนินงานตามแนวปฏิบัติธรรมาภิบาลและหลักที่เกี่ยวข้อง พ.ศ. 2565",
+   "issuing_authority": "MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Ministerial notification",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2565",
+   "effective_date": "2565",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "higher_education"
+   ],
+   "condition_th": "แยกจากแนวปฏิบัติเดิมที่ถูกยกเลิก รอยืนยันการใช้ร่วมกับฉบับ 2569 ก่อนใช้เป็นเกณฑ์บังคับ",
+   "scope_th": "สถาบันอุดมศึกษา",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท",
+   "enforcement_hold": true,
+   "hold_reason_th": "รอยืนยันว่ายังใช้ร่วมกับประกาศ 5 มี.ค. 2569 ได้หรือไม่",
+   "applies_when": {
+    "org_types": [
+     "HED.ORG.PUBLIC",
+     "HED.ORG.AUTONOMOUS",
+     "HED.ORG.PRIVATE"
+    ]
+   }
+  },
+  {
+   "source_id": "MHESI-AI-CURRICULUM-2568",
+   "title": "MHESI notification on AI teaching in higher-education curricula B.E. 2568",
+   "title_th": "ประกาศกระทรวง อว. เรื่อง การจัดการเรียนการสอนด้านปัญญาประดิษฐ์ในหลักสูตรระดับอุดมศึกษา พ.ศ. 2568",
+   "issuing_authority": "MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Ministerial notification",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2568 (รอยืนยันชื่อเต็ม)",
+   "effective_date": "2568",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "higher_education"
+   ],
+   "condition_th": "ใช้กับการจัดการเรียนการสอนเท่านั้น",
+   "scope_th": "หลักสูตรระดับอุดมศึกษา",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท",
+   "excluded_use_cases": [
+    "HED.UC.ADMISSION_SCREEN"
+   ],
+   "not_basis_for_th": "ห้ามใช้เป็นฐานข้อบังคับสำหรับการคัดกรองผู้สมัครโดยอัตโนมัติ"
+  },
+  {
+   "source_id": "MHESI-SKILLS-2569",
+   "title": "MHESI notification on desirable skills B.E. 2569 (digital and AI parts only)",
+   "title_th": "ประกาศกระทรวง อว. เรื่อง ทักษะที่พึงประสงค์ พ.ศ. 2569 (เฉพาะส่วนดิจิทัลและ AI)",
+   "issuing_authority": "MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Ministerial notification",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2569 (รอยืนยันชื่อเต็ม)",
+   "effective_date": "2569",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์",
+   "domains": [
+    "higher_education"
+   ],
+   "condition_th": "เฉพาะส่วนทักษะดิจิทัลและ AI",
+   "scope_th": "หลักสูตรระดับอุดมศึกษา",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท",
+   "excluded_use_cases": [
+    "HED.UC.ADMISSION_SCREEN"
+   ],
+   "not_basis_for_th": "ห้ามใช้เป็นฐานข้อบังคับสำหรับการคัดกรองผู้สมัครโดยอัตโนมัติ"
+  },
+  {
+   "source_id": "MHESI-TUC-EDOC",
+   "title": "MHESI notification on electronic documents and digital signatures under the Thai University Consortium",
+   "title_th": "ประกาศกระทรวง อว. เรื่อง เอกสารอิเล็กทรอนิกส์และลายมือชื่อดิจิทัลภายใต้ Thai University Consortium",
+   "issuing_authority": "MHESI",
+   "jurisdiction": "TH",
+   "document_type": "Ministerial notification",
+   "normative_class": "binding_legislation",
+   "version": "รอยืนยันชื่อ ฉบับ และวันที่",
+   "effective_date": "",
+   "official_url": "",
+   "url_kind": "none",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าเว็บไซต์กระทรวง อว. จากสภาพแวดล้อมพัฒนาไม่ได้ จึงยังไม่ได้เปิดตัวบท ต้องตรวจกับราชกิจจานุเบกษาหรือเจ้าของเกณฑ์ และยังไม่พบ URL ต้นทาง",
+   "domains": [
+    "higher_education"
+   ],
+   "condition_th": "เฉพาะกระบวนงานที่ใช้ลายมือชื่อดิจิทัลภายใต้ TUC",
+   "scope_th": "กระบวนงานที่เกี่ยวข้อง",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท",
+   "applies_when": {
+    "flags": {
+     "uses_tuc_esign": true
+    }
+   }
+  },
+  {
+   "source_id": "ETDA-GENAI-GOV",
+   "title": "ETDA Generative AI Governance Guideline",
+   "title_th": "แนวทางการประยุกต์ใช้ Generative AI อย่างมีธรรมาภิบาล (ETDA)",
+   "issuing_authority": "ETDA",
+   "jurisdiction": "TH",
+   "document_type": "Guideline",
+   "normative_class": "non_binding_guideline",
+   "version": "รอระบุฉบับ",
+   "effective_date": null,
+   "official_url": "https://www.etda.or.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าหน้าแรก ETDA ได้ (HTTP 200) ยังไม่ได้ระบุหน้าเอกสารและฉบับ",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "higher_education",
+    "ops_mhesi"
+   ],
+   "condition_th": "แนวทางอ้างอิง ไม่ผูกพันตามกฎหมาย",
+   "scope_th": "ทุกหน่วยงานที่ใช้ Generative AI",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "EIGDA-PILOT-CRITERIA",
+   "title": "Ei-GDA pilot criteria proposed by the project",
+   "title_th": "เกณฑ์นำร่องที่โครงการ Ei-GDA เสนอ",
+   "issuing_authority": "Ei-GDA project",
+   "jurisdiction": "TH",
+   "document_type": "Project-proposed criteria",
+   "normative_class": "project_criteria",
+   "version": "17.0.0-pilot.1",
+   "effective_date": null,
+   "official_url": "",
+   "url_kind": "none",
+   "verification_status": "pending_verification",
+   "verification_note": "เกณฑ์ของโครงการ ไม่มีแหล่งภายนอก",
+   "domains": [
+    "administrative_court",
+    "common_aidg",
+    "higher_education",
+    "ops_mhesi"
+   ],
+   "condition_th": "เกณฑ์ที่โครงการเสนอเอง ต้องให้เจ้าของเกณฑ์อนุมัติก่อนใช้",
+   "scope_th": "รอบนำร่อง",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บผู้ออก) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "TH-CONST-2560",
+   "title": "Constitution of the Kingdom of Thailand B.E. 2560",
+   "title_th": "รัฐธรรมนูญแห่งราชอาณาจักรไทย พ.ศ. 2560",
+   "issuing_authority": "Thailand",
+   "jurisdiction": "TH",
+   "document_type": "Constitution",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2560 (รอตรวจฉบับแก้ไขเพิ่มเติม)",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: ราชกิจจานุเบกษาปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้เปิดตัวบท",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "บทบัญญัติที่เกี่ยวกับศาลปกครองและสิทธิเสรีภาพ ต้องตรวจขอบเขตรายกิจกรรม",
+   "scope_th": "ทุกกิจกรรมของรัฐ ตามที่ตัวบทกำหนด",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "TH-ADMIN-COURT-PROC-2543",
+   "title": "Rules of the General Assembly of Judges of the Supreme Administrative Court on Administrative Procedure B.E. 2543",
+   "title_th": "ระเบียบของที่ประชุมใหญ่ตุลาการในศาลปกครองสูงสุด ว่าด้วยวิธีพิจารณาคดีปกครอง พ.ศ. 2543",
+   "issuing_authority": "Supreme Administrative Court",
+   "jurisdiction": "TH",
+   "document_type": "Court regulation",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2543 และที่แก้ไขเพิ่มเติม (รอตรวจ)",
+   "official_url": "https://www.admincourt.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เข้าหน้าแรกเว็บไซต์ศาลปกครองได้ (HTTP 200) ยังไม่ได้เปิดตัวบท ต้องตรวจชื่อ ฉบับ และสถานะกับราชกิจจานุเบกษาหรือหน่วยงานเจ้าของ",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "กระบวนพิจารณาคดีปกครอง",
+   "scope_th": "ศาลปกครอง",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท",
+   "applies_when": {
+    "org_types": [
+     "ADM.ORG.SUPREME",
+     "ADM.ORG.FIRST",
+     "ADM.ORG.OFFICE"
+    ]
+   }
+  },
+  {
+   "source_id": "TH-ADMIN-PROC-2539",
+   "title": "Administrative Procedure Act B.E. 2539",
+   "title_th": "พระราชบัญญัติวิธีปฏิบัติราชการทางปกครอง พ.ศ. 2539",
+   "issuing_authority": "Thailand",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2539 และที่แก้ไขเพิ่มเติม (รอตรวจ)",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: ราชกิจจานุเบกษาปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้เปิดตัวบท",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "ต้องตรวจว่ากิจกรรมของระบบเป็นการปฏิบัติราชการทางปกครองหรือไม่ ไม่ถือว่าใช้กับทุกกิจกรรมของศาลอัตโนมัติ",
+   "scope_th": "ตามขอบเขตที่ตัวบทกำหนด",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "TH-ETA-2544",
+   "title": "Electronic Transactions Act B.E. 2544",
+   "title_th": "พระราชบัญญัติว่าด้วยธุรกรรมทางอิเล็กทรอนิกส์ พ.ศ. 2544",
+   "issuing_authority": "Thailand",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2544 และที่แก้ไขเพิ่มเติม (รอตรวจ)",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: ราชกิจจานุเบกษาปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้เปิดตัวบท",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "เมื่อมีธุรกรรมหรือเอกสารอิเล็กทรอนิกส์",
+   "scope_th": "ธุรกรรมทางอิเล็กทรอนิกส์",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "TH-E-GOV-OPS-2565",
+   "title": "Act on Electronic Performance of Government Service B.E. 2565",
+   "title_th": "พระราชบัญญัติการปฏิบัติราชการทางอิเล็กทรอนิกส์ พ.ศ. 2565",
+   "issuing_authority": "Thailand",
+   "jurisdiction": "TH",
+   "document_type": "Act",
+   "normative_class": "binding_legislation",
+   "version": "พ.ศ. 2565 (รอตรวจ)",
+   "official_url": "https://www.ratchakitcha.soc.go.th/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: ราชกิจจานุเบกษาปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้เปิดตัวบท",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "เมื่อหน่วยงานปฏิบัติราชการด้วยวิธีการทางอิเล็กทรอนิกส์ ต้องตรวจการใช้บังคับกับศาล",
+   "scope_th": "ตามขอบเขตที่ตัวบทกำหนด",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "ISO-27001",
+   "title": "ISO/IEC 27001 Information security management systems",
+   "title_th": "ISO/IEC 27001 ระบบบริหารความมั่นคงปลอดภัยสารสนเทศ",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "INT",
+   "document_type": "International standard",
+   "normative_class": "voluntary_standard",
+   "version": "รอยืนยันฉบับปี",
+   "official_url": "https://www.iso.org/standard/27001",
+   "url_kind": "standard_page",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เว็บไซต์ ISO ปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้ยืนยันฉบับปีล่าสุด ไม่จัดเก็บข้อความมาตรฐานเพราะมีลิขสิทธิ์",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "มาตรฐานที่เกี่ยวข้อง",
+   "scope_th": "ระบบสารสนเทศ",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "ISO-27701",
+   "title": "ISO/IEC 27701 Privacy information management",
+   "title_th": "ISO/IEC 27701 ระบบบริหารข้อมูลความเป็นส่วนตัว",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "INT",
+   "document_type": "International standard",
+   "normative_class": "voluntary_standard",
+   "version": "รอยืนยันฉบับปี",
+   "official_url": "https://www.iso.org/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เว็บไซต์ ISO ปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้ยืนยันฉบับปีล่าสุด ไม่จัดเก็บข้อความมาตรฐานเพราะมีลิขสิทธิ์",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "มาตรฐานที่เกี่ยวข้อง",
+   "scope_th": "ข้อมูลส่วนบุคคล",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "ISO-38507",
+   "title": "ISO/IEC 38507 Governance implications of the use of AI by organizations",
+   "title_th": "ISO/IEC 38507 ผลต่อการกำกับดูแลเมื่อองค์กรใช้ AI",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "INT",
+   "document_type": "International standard",
+   "normative_class": "voluntary_standard",
+   "version": "รอยืนยันฉบับปี",
+   "official_url": "https://www.iso.org/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เว็บไซต์ ISO ปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้ยืนยันฉบับปีล่าสุด ไม่จัดเก็บข้อความมาตรฐานเพราะมีลิขสิทธิ์",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "มาตรฐานที่เกี่ยวข้อง",
+   "scope_th": "การกำกับดูแลองค์กร",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "ISO-22989",
+   "title": "ISO/IEC 22989 AI concepts and terminology",
+   "title_th": "ISO/IEC 22989 แนวคิดและคำศัพท์ AI",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "INT",
+   "document_type": "International standard",
+   "normative_class": "voluntary_standard",
+   "version": "รอยืนยันฉบับปี",
+   "official_url": "https://www.iso.org/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เว็บไซต์ ISO ปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้ยืนยันฉบับปีล่าสุด ไม่จัดเก็บข้อความมาตรฐานเพราะมีลิขสิทธิ์",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "มาตรฐานที่เกี่ยวข้อง ใช้เป็นคำศัพท์อ้างอิง",
+   "scope_th": "คำศัพท์",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "ISO-5259",
+   "title": "ISO/IEC 5259 series Data quality for analytics and ML",
+   "title_th": "ISO/IEC 5259 (ชุด) คุณภาพข้อมูลสำหรับ analytics และ ML",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "INT",
+   "document_type": "International standard series",
+   "normative_class": "voluntary_standard",
+   "version": "ชุดมาตรฐานหลายส่วน รอยืนยันส่วนและฉบับ",
+   "official_url": "https://www.iso.org/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เว็บไซต์ ISO ปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้ยืนยันฉบับปีล่าสุด ไม่จัดเก็บข้อความมาตรฐานเพราะมีลิขสิทธิ์",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "มาตรฐานที่เกี่ยวข้อง",
+   "scope_th": "ข้อมูลที่ใช้กับ AI",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "ISO-25059",
+   "title": "ISO/IEC 25059 Quality model for AI systems",
+   "title_th": "ISO/IEC 25059 แบบจำลองคุณภาพของระบบ AI",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "INT",
+   "document_type": "International standard",
+   "normative_class": "voluntary_standard",
+   "version": "รอยืนยันฉบับปี",
+   "official_url": "https://www.iso.org/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เว็บไซต์ ISO ปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้ยืนยันฉบับปีล่าสุด ไม่จัดเก็บข้อความมาตรฐานเพราะมีลิขสิทธิ์",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "มาตรฐานที่เกี่ยวข้อง",
+   "scope_th": "คุณภาพระบบ AI",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  },
+  {
+   "source_id": "ISO-5338",
+   "title": "ISO/IEC 5338 AI system life cycle processes",
+   "title_th": "ISO/IEC 5338 กระบวนการวงจรชีวิตระบบ AI",
+   "issuing_authority": "ISO/IEC",
+   "jurisdiction": "INT",
+   "document_type": "International standard",
+   "normative_class": "voluntary_standard",
+   "version": "รอยืนยันฉบับปี",
+   "official_url": "https://www.iso.org/",
+   "url_kind": "publisher_home",
+   "verification_status": "pending_verification",
+   "verification_note": "ตรวจ 2026-11-10: เว็บไซต์ ISO ปฏิเสธการตรวจอัตโนมัติ (HTTP 403) ยังไม่ได้ยืนยันฉบับปีล่าสุด ไม่จัดเก็บข้อความมาตรฐานเพราะมีลิขสิทธิ์",
+   "domains": [
+    "administrative_court"
+   ],
+   "condition_th": "มาตรฐานที่เกี่ยวข้อง",
+   "scope_th": "วงจรชีวิตระบบ AI",
+   "clauses": [],
+   "checked_on": "2026-11-10",
+   "checked_by": "ตรวจอัตโนมัติ (การเข้าถึงหน้าเว็บ) ไม่ใช่การตรวจตัวบท"
+  }
+ ]
+}

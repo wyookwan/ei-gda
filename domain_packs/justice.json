@@ -1,0 +1,75 @@
+{
+  "pack_version": "15.0-beta.1",
+  "status": "pilot_draft",
+  "disclaimer_th": "รายการนี้เป็นข้อเสนอสำหรับการนำร่อง ต้องยืนยันกฎหมายที่มีผลบังคับใช้ ข้อกำหนดรายมาตรา และขอบเขตองค์กรโดยผู้เชี่ยวชาญก่อนใช้ตัดสิน Compliance",
+  "assessment_dimensions": [
+    "Applicability",
+    "Policy & Accountability",
+    "Risk & Human Oversight",
+    "Data Governance & Privacy",
+    "Evidence & Auditability",
+    "Monitoring & Corrective Action"
+  ],
+  "slug": "justice",
+  "title": "Justice",
+  "title_th": "ศาลและกระบวนการยุติธรรม",
+  "icon": "bi-bank",
+  "subdomains": [
+    "ศาลยุติธรรม",
+    "ศาลรัฐธรรมนูญ",
+    "ศาลปกครอง",
+    "หน่วยงานสนับสนุนกระบวนการยุติธรรม"
+  ],
+  "references": [
+    {
+      "name": "CEPEJ AI Ethical Charter",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "EU AI Act Annex III (comparative)",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "Thailand PDPA",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "กฎหมายและระเบียบเฉพาะศาล (ต้องตรวจสอบ)",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    }
+  ],
+  "controls": [
+    {
+      "id": "JUS-01",
+      "title": "Human judicial authority",
+      "title_th": "การคงอำนาจการตัดสินใจของผู้มีหน้าที่ตามกฎหมาย",
+      "evidence_expected": "AI use policy / approval workflow / decision log",
+      "critical": true
+    },
+    {
+      "id": "JUS-02",
+      "title": "Case confidentiality",
+      "title_th": "การคุ้มครองข้อมูลคดีและการกำหนดสิทธิ์เข้าถึง",
+      "evidence_expected": "Access matrix / retention procedure / security review",
+      "critical": false
+    },
+    {
+      "id": "JUS-03",
+      "title": "Legal source provenance",
+      "title_th": "การตรวจสอบความถูกต้องและวันที่มีผลใช้ของแหล่งกฎหมาย",
+      "evidence_expected": "Citation review protocol / legal reference register",
+      "critical": false
+    },
+    {
+      "id": "JUS-04",
+      "title": "Contestability and oversight",
+      "title_th": "ช่องทางตรวจทาน ทักท้วง และแก้ไขผลจาก AI",
+      "evidence_expected": "Appeal or escalation SOP / oversight minutes",
+      "critical": false
+    }
+  ]
+}

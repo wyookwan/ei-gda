@@ -1,0 +1,65 @@
+{
+  "pack_version": "15.0-beta.1",
+  "status": "pilot_draft",
+  "disclaimer_th": "รายการนี้เป็นข้อเสนอสำหรับการนำร่อง ต้องยืนยันกฎหมายที่มีผลบังคับใช้ ข้อกำหนดรายมาตรา และขอบเขตองค์กรโดยผู้เชี่ยวชาญก่อนใช้ตัดสิน Compliance",
+  "assessment_dimensions": [
+    "Applicability",
+    "Policy & Accountability",
+    "Risk & Human Oversight",
+    "Data Governance & Privacy",
+    "Evidence & Auditability",
+    "Monitoring & Corrective Action"
+  ],
+  "slug": "general",
+  "title": "Cross-sector",
+  "title_th": "การกำกับดูแลข้ามภาคส่วน",
+  "icon": "bi-diagram-3",
+  "subdomains": [
+    "General Organization"
+  ],
+  "references": [
+    {
+      "name": "ISO/IEC 42001",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "ISO/IEC 23894",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "NIST AI RMF",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "Thailand PDPA",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    }
+  ],
+  "controls": [
+    {
+      "id": "GEN-01",
+      "title": "AI inventory and ownership",
+      "title_th": "ทะเบียนระบบ AI เจ้าของระบบและวัตถุประสงค์",
+      "evidence_expected": "AI inventory / appointment document",
+      "critical": true
+    },
+    {
+      "id": "GEN-02",
+      "title": "Governance policy",
+      "title_th": "นโยบาย AI และ Data Governance ที่อนุมัติแล้ว",
+      "evidence_expected": "Policy / approval record",
+      "critical": false
+    },
+    {
+      "id": "GEN-03",
+      "title": "Evidence and audit trail",
+      "title_th": "การจัดเก็บและตรวจสอบย้อนกลับของหลักฐาน",
+      "evidence_expected": "Evidence register / audit log",
+      "critical": false
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %}Test Suite Explorer · Ei-GDA{% endblock %}
+{% block page_title %}Test Suite Explorer{% endblock %}
+{% block content %}
+<section class="explorer-hero mb-4">
+  <div>
+    <span class="eyebrow text-white-50">CROSS-FRAMEWORK ASSURANCE MAP</span>
+    <h1>Explore before you assess.</h1>
+    <p>มองเห็นเส้นทางจาก Test Suite ไปยังมาตรฐาน กฎหมาย แนวทาง Domains, Assessment Items และหลักฐานที่คาดหวัง ก่อนเริ่มประเมินจริง</p>
+  </div>
+  <div class="explorer-hero-graphic" aria-hidden="true"><span></span><span></span><span></span><i class="bi bi-bezier2"></i></div>
+</section>
+
+<div class="suite-switcher card mb-4"><div class="card-body">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+    <div><div class="section-title">{{ suites|length }} Ei-GDA Test Suites</div><div class="section-subtitle">เลือก Suite เพื่อสำรวจ Cross-framework map</div></div>
+    <div class="d-flex gap-2 flex-wrap"><a href="{{ url_for('test_suite_tree') }}" class="btn btn-outline-primary"><i class="bi bi-diagram-3 me-1"></i>Tree view</a>{% if selected_suite and session.get('role') == 'user' %}<a href="{{ url_for('dashboard') }}#tnagfTemplateSelect" class="btn btn-primary"><i class="bi bi-play-circle me-1"></i>Start assessment</a>{% endif %}</div>
+  </div>
+  <div class="suite-pill-grid">
+    {% for suite in suites %}
+    <a class="suite-pill {{ 'active' if selected_suite and suite.id == selected_suite.id else '' }}" href="{{ url_for('test_suite_explorer', suite=suite.id) }}">
+      <span class="suite-pill-index">{{ '%02d'|format(loop.index) }}</span><span>{{ suite.name }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</div></div>
+
+{% if selected_suite %}
+<div class="row g-3 mb-4">
+  <div class="col-xl-7"><div class="card h-100"><div class="card-body p-4">
+    <span class="data-chip mb-3"><i class="bi bi-ui-checks-grid"></i> TEST SUITE</span>
+    <h2 class="mb-2">{{ selected_suite.name }}</h2><p class="text-secondary mb-0">{{ selected_suite.description }}</p>
+  </div></div></div>
+  <div class="col-xl-5"><div class="row g-3 h-100">
+    <div class="col-4"><div class="card explorer-stat h-100"><div class="card-body"><small>References</small><strong>{{ standards|length }}</strong></div></div></div>
+    <div class="col-4"><div class="card explorer-stat h-100"><div class="card-body"><small>Domains</small><strong>{{ domain_groups|length }}</strong></div></div></div>
+    <div class="col-4"><div class="card explorer-stat h-100"><div class="card-body"><small>Items</small><strong>{{ total_items }}</strong></div></div></div>
+  </div></div>
+</div>
+
+<div class="assurance-flow card mb-4"><div class="card-body p-4">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4"><div><div class="section-title">Assurance Knowledge Flow</div><div class="section-subtitle">Interactive view of the assessment chain</div></div><span class="data-chip">Traceable by design</span></div>
+  <div class="flow-track">
+    <button class="flow-node is-active" data-scroll-target="suite-overview"><span class="flow-icon"><i class="bi bi-ui-checks-grid"></i></span><small>01</small><strong>Test Suite</strong><em>Assessment context</em></button>
+    <span class="flow-arrow"><i class="bi bi-arrow-right"></i></span>
+    <button class="flow-node" data-scroll-target="references"><span class="flow-icon"><i class="bi bi-journal-check"></i></span><small>02</small><strong>Standards / Laws</strong><em>{{ standards|length }} references</em></button>
+    <span class="flow-arrow"><i class="bi bi-arrow-right"></i></span>
+    <button class="flow-node" data-scroll-target="domains"><span class="flow-icon"><i class="bi bi-diagram-3"></i></span><small>03</small><strong>Domains</strong><em>{{ domain_groups|length }} assurance areas</em></button>
+    <span class="flow-arrow"><i class="bi bi-arrow-right"></i></span>
+    <button class="flow-node" data-scroll-target="items"><span class="flow-icon"><i class="bi bi-list-check"></i></span><small>04</small><strong>Items</strong><em>{{ total_items }} assessment items</em></button>
+    <span class="flow-arrow"><i class="bi bi-arrow-right"></i></span>
+    <button class="flow-node" data-scroll-target="items"><span class="flow-icon"><i class="bi bi-file-earmark-easel"></i></span><small>05</small><strong>Evidence Expected</strong><em>Traceable proof</em></button>
+  </div>
+</div></div>
+
+<div id="suite-overview"></div>
+<section id="references" class="explorer-section mb-4">
+  <div class="alert alert-info small">
+    <strong>Public-source readiness catalog</strong> · ตรวจสอบแหล่งข้อมูล {{ catalog_checked_on }}<br>
+    Items ที่ระบุ Public-scope readiness เป็นคำถามเตรียมประเมินที่ Ei-GDA เรียบเรียงจากขอบเขตสาธารณะของ ISO/IEC ไม่ใช่ข้อความข้อกำหนดหรือรายการตรวจรับรองฉบับเต็ม
+    ตัวอย่างหลักฐานเป็นคำแนะนำของ Ei-GDA โปรดเลือกเฉพาะมาตรฐานที่ตรงกับระบบและบทบาทองค์กร ส่วนฉบับร่างใช้เตรียมความพร้อมเท่านั้น
+  </div>
+  <div class="d-flex justify-content-between align-items-end gap-2 mb-3"><div><span class="eyebrow">REFERENCE LAYER</span><h3 class="mb-1">Standards, Laws & Guidelines</h3><p class="text-secondary mb-0">ปีประกาศ สถานะ แหล่งที่มา และจำนวน Assessment Items ที่เชื่อมกับ Suite นี้</p></div><span class="data-chip">{{ standards|length }} sources</span></div>
+  {% for group in reference_groups %}
+  <div class="reference-group-block mb-3"><div class="reference-group-label">{{ group.label }}</div>
+    <div class="reference-card-grid">
+    {% for ref in group.references %}{% set st = ref.standard %}
+      <article class="reference-card" data-ref-code="{{ st.code }}">
+        <div class="d-flex justify-content-between gap-2"><span class="reference-code">{{ st.code }}</span><span class="reference-count">{{ ref['items']|length }} items</span></div>
+        <h5>{{ st.name }}</h5>
+        {% set metadata = catalog_metadata.get(st.code) %}
+        {% if metadata %}<p class="small text-secondary">{{ metadata.scope_summary }}</p><div class="small mb-2"><strong>{{ metadata.publication_type }}</strong> · {{ metadata.applicability }}</div>{% endif %}
+        <div class="reference-meta"><span><i class="bi bi-calendar3"></i>{{ st.published_year or 'N/A' }}</span><span class="status-dot-label {{ 'developing' if st.status and 'กำลังพัฒนา' in st.status else 'published' }}">{{ st.status or 'ไม่ระบุสถานะ' }}</span></div>
+        <div class="small text-secondary mt-2">{{ st.publisher or '' }}{% if st.jurisdiction %} · {{ st.jurisdiction }}{% endif %}</div>
+        {% if st.reference_url %}<a class="source-link" href="{{ st.reference_url }}" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Official source</a>{% endif %}
+      </article>
+    {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+<section id="domains" class="explorer-section mb-4">
+  <div class="d-flex justify-content-between align-items-end gap-2 mb-3"><div><span class="eyebrow">ASSURANCE DOMAINS</span><h3 class="mb-1">What this Test Suite examines</h3><p class="text-secondary mb-0">Domains มาจากโครงสร้าง Test Suite และเชื่อมไปยังรายการประเมินจากหลาย Reference</p></div></div>
+  <div class="domain-map">
+    {% for domain in domain_groups %}
+    <button class="domain-node" data-domain-filter="{{ domain.name }}"><span>{{ '%02d'|format(loop.index) }}</span><strong>{{ domain.name }}</strong><small>{{ domain['items']|length }} mapped items</small></button>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="items" class="explorer-section mb-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3"><div><span class="eyebrow">ITEM → EVIDENCE MAP</span><h3 class="mb-1">Assessment Items & Evidence Expected</h3><p class="text-secondary mb-0">รายการนี้ใช้เพื่อให้ผู้ใช้เห็นสิ่งที่จะถูกประเมินและตัวอย่างหลักฐานที่ควรเตรียม ไม่ใช่ผลการประเมินล่วงหน้า</p></div>
+    <div class="explorer-search"><i class="bi bi-search"></i><input id="explorerSearch" type="search" placeholder="Search item, domain or reference..."></div>
+  </div>
+  <div class="filter-strip mb-3"><button class="filter-chip active" data-domain-filter="all">All domains</button>{% for domain in domain_groups %}<button class="filter-chip" data-domain-filter="{{ domain.name }}">{{ domain.name }}</button>{% endfor %}</div>
+  <div id="explorerItemList">
+  {% for domain in domain_groups %}
+    <div class="domain-item-group" data-domain="{{ domain.name }}">
+      <div class="domain-item-heading"><span class="domain-bullet"></span><div><strong>{{ domain.name }}</strong><small>{{ domain['items']|length }} mapped items</small></div></div>
+      {% if domain['items'] %}<div class="item-evidence-grid">
+      {% for row in domain['items'] %}
+        <article class="item-evidence-card" data-search="{{ domain.name }} {{ row.standard.code }} {{ row.item.category or '' }} {{ row.item.title }} {{ row.evidence_expected }}">
+          <div class="item-side"><span class="mini-ref">{{ row.standard.code }}</span><small>{{ row.item.item_code }} · {{ row.item.category or 'Assessment item' }}</small><h6>{{ row.item.title }}</h6>
+            {% if row.provenance %}<small class="d-block mt-2">Public-scope readiness · {{ row.provenance.source_topic }}</small><a class="source-link" href="{{ row.provenance.source_url }}" target="_blank" rel="noopener">ISO source · {{ row.provenance.checked_on }}</a>{% endif %}
+          </div>
+          <div class="evidence-bridge"><span></span><i class="bi bi-arrow-right"></i></div>
+          <div class="evidence-side"><span class="evidence-label"><i class="bi bi-file-earmark-check"></i> EVIDENCE EXPECTED</span><p>{{ row.evidence_expected }}</p><small>ปี {{ row.standard.published_year or 'N/A' }} · {{ row.standard.status or 'ไม่ระบุสถานะ' }}</small></div>
+        </article>
+      {% endfor %}
+      </div>{% else %}<div class="empty-domain-note">ยังไม่มี item ที่จับคู่โดยตรงกับ domain นี้ รายการ cross-framework ที่เกี่ยวข้องยังดูได้ในหมวดอื่น</div>{% endif %}
+    </div>
+  {% endfor %}
+  </div>
+</section>
+
+{% if standards_watchlist %}
+<section class="card mb-4"><div class="card-body">
+  <h3>Standards under development — Watchlist</h3>
+  <p class="text-secondary">ยืนยันชื่อและสถานะแล้ว แต่ข้อมูลสาธารณะยังไม่เพียงพอสำหรับจัดทำ items จึงไม่รวมในการให้คะแนน</p>
+  {% for reference in standards_watchlist %}
+  <div class="border-top py-3"><strong>{{ reference.designation }}</strong> · {{ reference.title }}<br>
+    <span class="badge text-bg-warning">{{ reference.status }}</span>
+    <a class="ms-2" href="{{ reference.reference_url }}" target="_blank" rel="noopener">ISO source</a>
+  </div>
+  {% endfor %}
+</div></section>
+{% endif %}
+
+<div class="explorer-cta"><div><span class="eyebrow text-white-50">{{ 'MANAGE CATALOG' if session.get('role') == 'admin' else 'READY TO ASSESS' }}</span><h3>{{ selected_suite.name }}</h3><p>สำรวจขอบเขต รายการประเมิน และหลักฐานที่เกี่ยวข้อง</p></div>{% if session.get('role') == 'admin' %}<a href="{{ url_for('admin_templates') }}" class="btn btn-light btn-lg">จัดการ Test Suites</a>{% elif session.get('role') == 'user' %}<a href="{{ url_for('dashboard') }}" class="btn btn-light btn-lg"><i class="bi bi-stars me-2"></i>Start assessment</a>{% endif %}</div>
+{% else %}<div class="empty-state"><i class="bi bi-bezier2"></i><h5 class="mt-3">No active Test Suite</h5></div>{% endif %}
+{% endblock %}

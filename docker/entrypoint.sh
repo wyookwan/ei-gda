@@ -52,6 +52,9 @@ echo "MySQL ready."
 if [ "${AUTO_MIGRATE:-True}" = "True" ]; then
     echo "Applying database schema and safe migrations..."
     python /app/migrate_v14_eigda.py
+    python /app/migrate_v15_domains.py
+    python /app/migrate_v16_domain_engine.py
+    python /app/migrate_mhesi_pilot.py
 fi
 
 echo "Starting Ei-GDA..."

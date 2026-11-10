@@ -21,7 +21,7 @@
       <div class="card-header d-flex justify-content-between align-items-center"><div><div class="fw-bold">All Accounts</div><small class="text-secondary">Local and ThaiD identities</small></div><span class="badge text-bg-light">{{ users|length }} accounts</span></div>
       <div class="card-body table-responsive">
         <table class="table align-middle">
-          <thead><tr><th>User</th><th>Role</th><th>Identity</th><th>Status</th><th>Last login</th><th>Password</th><th></th></tr></thead>
+          <thead><tr><th>User</th><th>Role</th><th>Identity</th><th>Status</th><th>Last login</th><th>วิธีเข้าสู่ระบบ</th><th></th></tr></thead>
           <tbody>
           {% for u in users %}
             <tr>
@@ -30,7 +30,7 @@
               <td>{% if u.auth_provider == 'thaid' %}<span class="badge rounded-pill bg-primary-subtle text-primary"><i class="bi bi-shield-check me-1"></i>ThaiD</span>{% else %}<span class="badge rounded-pill bg-secondary-subtle text-secondary"><i class="bi bi-key me-1"></i>Local</span>{% endif %}</td>
               <td><span class="badge {{ 'bg-success-subtle text-success' if u.is_active else 'bg-danger-subtle text-danger' }}">{{ 'Active' if u.is_active else 'Disabled' }}</span></td>
               <td><small>{{ u.last_login_at.strftime('%d %b %Y %H:%M') if u.last_login_at else 'Never' }}</small></td>
-              <td><code>{{ u.password_plain or 'SSO account' }}</code></td>
+              <td><span class="text-secondary small">{{ 'ThaiD' if u.auth_provider == 'thaid' else 'รหัสผ่าน (เก็บแบบ hash)' }}</span></td>
               <td>{% if u.role != 'admin' %}<form method="post" action="{{ url_for('toggle_user', user_id=u.id) }}"><button class="btn btn-sm btn-outline-warning">{{ 'Disable' if u.is_active else 'Enable' }}</button></form>{% endif %}</td>
             </tr>
           {% endfor %}

@@ -42,11 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const sidebar = document.getElementById('appSidebar');
   document.querySelector('.sidebar-toggle')?.addEventListener('click', () => sidebar?.classList.toggle('open'));
-  document.querySelectorAll('.side-nav a').forEach(a => {
-    if (a.pathname === window.location.pathname || (a.pathname !== '/' && window.location.pathname.startsWith(a.pathname))) a.classList.add('active');
-  });
+  // Mark only the most specific matching link (so /admin does not stay active on /admin/users).
+  const here = window.location.pathname;
+  const navMatch = [...document.querySelectorAll('.side-nav a')]
+    .filter(a => a.pathname === here || (a.pathname !== '/' && here.startsWith(a.pathname.replace(/\/?$/, '/'))))
+    .sort((x, y) => y.pathname.length - x.pathname.length)[0];
+  // V16 templates mark the active link server-side; only fall back to path matching when none is marked.
+  const serverActive = document.querySelector('.side-nav a.active');
+  if (serverActive) serverActive.setAttribute('aria-current', 'page');
+  else if (navMatch) { navMatch.classList.add('active'); navMatch.setAttribute('aria-current', 'page'); }
 
-  const dz = document.querySelector('.dropzone');
+  const dz = document.querySelector('.dropzone:not([data-managed-upload])');
   const fileInput = dz?.querySelector('input[type=file]');
   if (dz && fileInput) {
     let selectedFiles = [];
@@ -76,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     open: {
       title: 'Open · เอกสารเปิดเผยได้',
       icon: '<i class="bi bi-globe2"></i>',
-      description: 'เอกสารที่ไม่มีข้อมูลลับหรือข้อมูลอ่อนไหว โดย Ei-GDA จะประมวลผลผ่าน Gemini และ Knowledge Graph',
+      description: 'เอกสารที่ไม่มีข้อมูลลับหรือข้อมูลอ่อนไหว โดย Ei-GDA จะส่งข้อความและหลักฐานไปยัง Gemini API ของ Google และใช้ Knowledge Graph',
       examples: ['นโยบาย AI ที่เผยแพร่สาธารณะ', 'คู่มือ/แนวปฏิบัติที่เผยแพร่บนเว็บไซต์องค์กร', 'รายงานวิจัยหรือรายงานประจำปีที่เปิดเผยต่อสาธารณะ', 'เอกสารมาตรฐานหรือเอกสารประชาสัมพันธ์ทั่วไป'],
       route: '<strong>Processing route:</strong> Gemini API + Knowledge Graph'
     },
@@ -85,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
       icon: '<i class="bi bi-shield-lock"></i>',
       description: 'เอกสารที่มีข้อมูลภายใน ข้อมูลส่วนบุคคล ความลับทางธุรกิจ ข้อมูลความมั่นคง หรือข้อมูลที่องค์กรไม่อนุญาตให้ส่งออกไปยังบริการ AI ภายนอก',
       examples: ['นโยบายภายในที่ยังไม่ประกาศ', 'เอกสารที่มีข้อมูลส่วนบุคคลหรือข้อมูลตาม PDPA', 'Risk Register / Incident Report ภายใน', 'รายละเอียดระบบ ความมั่นคงปลอดภัย สถาปัตยกรรม หรือข้อมูลเชิงเทคนิคที่เป็นความลับ'],
-      route: '<strong>Processing route:</strong> Local Model API + Knowledge Graph · ข้อมูลไม่ถูกส่งไปบริการ AI ภายนอก'
+      route: '<strong>Processing route:</strong> Local Model API ที่ระบบตั้งค่าไว้ + Knowledge Graph'
     }
   };
   document.querySelectorAll('[data-classification-info]').forEach(label => {
@@ -118,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tplSelect = document.getElementById('tnagfTemplateSelect');
   const tplMapEl = document.getElementById('template-framework-map');
   const tplInfoEl = document.getElementById('template-info-map');
-  if (tplSelect && tplMapEl && tplInfoEl) {
+  if (tplSelect && tplMapEl && tplInfoEl && !document.getElementById('assessmentBuilder')) {
     let frameworkMap = {}, infoMap = {};
     try { frameworkMap = JSON.parse(tplMapEl.textContent || '{}'); } catch(e) {}
     try { infoMap = JSON.parse(tplInfoEl.textContent || '{}'); } catch(e) {}
@@ -235,8 +241,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const rows=JSON.parse(committeeEl.value||'[]');
         const canvas=document.getElementById('committeeCompareChart');
         if(canvas)new Chart(canvas,{type:'radar',data:{labels:rows.map(x=>x.code),datasets:[
-          {label:'System',data:rows.map(x=>Number(x.system||0)),backgroundColor:'rgba(11,92,255,.10)',borderColor:'#0b5cff',pointBackgroundColor:'#0b5cff'},
-          {label:'Committee',data:rows.map(x=>Number(x.committee||0)),backgroundColor:'rgba(18,183,106,.08)',borderColor:'#12b76a',pointBackgroundColor:'#12b76a'}
+          {label:'System',data:rows.map(x=>Number(x.system||0)),backgroundColor:'rgba(14,107,95,.10)',borderColor:'#0e6b5f',pointBackgroundColor:'#0e6b5f'},
+          {label:'Committee',data:rows.map(x=>Number(x.committee||0)),backgroundColor:'rgba(168,106,18,.08)',borderColor:'#a86a12',pointBackgroundColor:'#a86a12'}
         ]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:5,ticks:{stepSize:1}}}}});
       }catch(e){console.warn(e)}
     }
@@ -246,14 +252,66 @@ document.addEventListener('DOMContentLoaded', () => {
         const arr=JSON.parse(stdEl.value||'[]');
         const labels=arr.map(x=>x.code), values=arr.map(x=>Number(x.avg_score_0_to_5||0));
         const b=document.getElementById('barChart');
-        if(b)new Chart(b,{type:'bar',data:{labels,datasets:[{label:'Maturity 0-5',data:values,borderRadius:8,backgroundColor:'rgba(11,92,255,.78)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true,max:5,ticks:{stepSize:1}}},plugins:{legend:{display:false}}}});
+        if(b)new Chart(b,{type:'bar',data:{labels,datasets:[{label:'Maturity 0-5',data:values,borderRadius:8,backgroundColor:'rgba(14,107,95,.78)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true,max:5,ticks:{stepSize:1}}},plugins:{legend:{display:false}}}});
         const r=document.getElementById('radarChart');
-        if(r)new Chart(r,{type:'radar',data:{labels,datasets:[{label:'Maturity',data:values,backgroundColor:'rgba(11,92,255,.14)',borderColor:'#0b5cff',pointBackgroundColor:'#0b5cff'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:5,ticks:{stepSize:1}}}}});
+        if(r)new Chart(r,{type:'radar',data:{labels,datasets:[{label:'Maturity',data:values,backgroundColor:'rgba(14,107,95,.14)',borderColor:'#0e6b5f',pointBackgroundColor:'#0e6b5f'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:5,ticks:{stepSize:1}}}}});
       }catch(e){console.warn(e)}
     }
     const mdEl=document.getElementById('maturity-distribution-json');
-    if(mdEl){try{const d=JSON.parse(mdEl.value||'{}');const c=document.getElementById('maturityDonut');if(c)new Chart(c,{type:'doughnut',data:{labels:['0 Not Impl.','1 Initial','2 Defined','3 Implemented','4 Managed','5 Optimized'],datasets:[{data:[0,1,2,3,4,5].map(x=>d[String(x)]||0),backgroundColor:['#d92d20','#f79009','#fdb022','#2e90fa','#1570ef','#12b76a']}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%'}})}catch(e){}}
+    if(mdEl){try{const d=JSON.parse(mdEl.value||'{}');const c=document.getElementById('maturityDonut');if(c)new Chart(c,{type:'doughnut',data:{labels:['0 Not Impl.','1 Initial','2 Defined','3 Implemented','4 Managed','5 Optimized'],datasets:[{data:[0,1,2,3,4,5].map(x=>d[String(x)]||0),backgroundColor:['#d92d20','#f79009','#fdb022','#4f8f84','#18263a','#12b76a']}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%'}})}catch(e){}}
     const catEl=document.getElementById('category-summary-json');
     if(catEl){try{const a=JSON.parse(catEl.value||'[]').sort((x,y)=>y.avg_score_0_to_5-x.avg_score_0_to_5).slice(0,12);const c=document.getElementById('categoryChart');if(c)new Chart(c,{type:'bar',data:{labels:a.map(x=>x.category),datasets:[{data:a.map(x=>x.avg_score_0_to_5),backgroundColor:'rgba(18,183,106,.75)',borderRadius:6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{beginAtZero:true,max:5,ticks:{stepSize:1}}},plugins:{legend:{display:false}}}})}catch(e){}}
   }
 });
+
+// V14.2 Test Suite Explorer interactions
+(() => {
+  const search = document.getElementById('explorerSearch');
+  const groups = [...document.querySelectorAll('.domain-item-group')];
+  const chips = [...document.querySelectorAll('.filter-chip')];
+  if (!groups.length) return;
+  let activeDomain = 'all';
+  const applyExplorerFilter = () => {
+    const q = (search?.value || '').trim().toLowerCase();
+    groups.forEach(group => {
+      const domainMatch = activeDomain === 'all' || group.dataset.domain === activeDomain;
+      let visibleCards = 0;
+      group.querySelectorAll('.item-evidence-card').forEach(card => {
+        const searchMatch = !q || (card.dataset.search || '').toLowerCase().includes(q);
+        const show = domainMatch && searchMatch;
+        card.classList.toggle('d-none', !show);
+        if (show) visibleCards += 1;
+      });
+      const hasCards = group.querySelectorAll('.item-evidence-card').length > 0;
+      group.classList.toggle('d-none', !domainMatch || (q && hasCards && visibleCards === 0));
+    });
+  };
+  search?.addEventListener('input', applyExplorerFilter);
+  document.querySelectorAll('[data-domain-filter]').forEach(button => button.addEventListener('click', () => {
+    activeDomain = button.dataset.domainFilter || 'all';
+    chips.forEach(chip => chip.classList.toggle('active', chip.dataset.domainFilter === activeDomain));
+    applyExplorerFilter();
+    if (button.classList.contains('domain-node')) document.getElementById('items')?.scrollIntoView({behavior:'smooth'});
+  }));
+  document.querySelectorAll('[data-scroll-target]').forEach(button => button.addEventListener('click', () => {
+    document.getElementById(button.dataset.scrollTarget)?.scrollIntoView({behavior:'smooth'});
+  }));
+})();
+
+// Dashboard: deep-link to the selected Test Suite in Explorer.
+(() => {
+  const select = document.getElementById('tnagfTemplateSelect');
+  const link = document.getElementById('suiteExplorerLink');
+  if (!select || !link) return;
+  const base = link.getAttribute('href');
+  const sync = () => {
+    if (select.value) {
+      link.href = `${base}?suite=${encodeURIComponent(select.value)}`;
+      link.classList.remove('d-none');
+    } else {
+      link.href = base;
+      link.classList.add('d-none');
+    }
+  };
+  select.addEventListener('change', sync); sync();
+})();

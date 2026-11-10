@@ -3,36 +3,35 @@
 {% block content %}
 <div class="auth-card">
   <section class="auth-visual">
-    <a class="brand p-0" href="#"><span class="brand-mark"><i class="bi bi-shield-check"></i></span><span><strong>Ei-GDA Platform</strong><small>AI & Data Governance Assessment</small></span></a>
-    <h1>Governance assurance, made structured and traceable.</h1>
-    <p>Assess multiple governance documents directly against selected standards, laws, and guidelines with traceable evidence and committee validation.</p>
-    <div class="feature-list">
-      <div><i class="bi bi-diagram-3"></i>Knowledge Graph-assisted contextual assessment</div>
-      <div><i class="bi bi-bar-chart"></i>Interactive compliance dashboards and reports</div>
-      <div><i class="bi bi-person-check"></i>Human committee review and audit trail</div>
-    </div>
+    <a class="brand" href="#"><span class="brand-mark"><i class="bi bi-shield-check"></i></span><span><strong>Ei-GDA</strong><small>AI &amp; Data Governance Assurance</small></span></a>
+    <h1>ประเมินธรรมาภิบาล <span class="nobr">AI และข้อมูล</span> <span class="nobr">ด้วยหลักฐาน</span><span class="nobr">ที่ตรวจย้อนได้</span></h1>
+    <p>อัปโหลดเอกสารของหน่วยงาน เทียบกับมาตรฐาน กฎหมาย และแนวปฏิบัติที่เลือก แล้วให้คณะกรรมการทบทวนผลทุกรายการ</p>
+    <ol class="auth-steps">
+      <li><b>1</b><span>เลือกภาคส่วนและชุดเกณฑ์ที่ใช้ประเมิน</span></li>
+      <li><b>2</b><span>ระบบอ่านเอกสาร PDF และชี้หลักฐานถึงระดับหน้า</span></li>
+      <li><b>3</b><span>คณะกรรมการทบทวน เทียบผลกับระบบ และบันทึกใน audit log</span></li>
+    </ol>
   </section>
   <section class="auth-form">
-    <span class="eyebrow">Secure access</span>
-    <h2 class="mt-2">Welcome back</h2>
-    <p class="text-secondary mb-4">Sign in to continue to your assessment workspace.</p>
+    <h2>เข้าสู่ระบบ</h2>
+    <p class="text-secondary mb-4">ใช้บัญชีของหน่วยงาน หรือยืนยันตัวตนด้วย ThaiD</p>
     <form method="post">
-      <div class="mb-3"><label class="form-label">Username or email</label><div class="input-group"><span class="input-group-text bg-white border-end-0"><i class="bi bi-person"></i></span><input class="form-control border-start-0" name="username_or_email" autocomplete="username" required></div></div>
-      <div class="mb-4"><label class="form-label">Password</label><div class="input-group"><span class="input-group-text bg-white border-end-0"><i class="bi bi-lock"></i></span><input class="form-control border-start-0" type="password" name="password" autocomplete="current-password" required></div></div>
-      <button class="btn btn-primary w-100 py-3">Sign in <i class="bi bi-arrow-right ms-2"></i></button>
+      <div class="mb-3"><label class="form-label" for="loginUser">ชื่อผู้ใช้หรืออีเมล</label><input id="loginUser" class="form-control" name="username_or_email" autocomplete="username" required></div>
+      <div class="mb-4"><label class="form-label" for="loginPass">รหัสผ่าน</label><input id="loginPass" class="form-control" type="password" name="password" autocomplete="current-password" required></div>
+      <button class="btn btn-primary w-100 py-2">เข้าสู่ระบบ</button>
     </form>
-    <div class="auth-divider"><span>or continue with</span></div>
+    <div class="auth-divider"><span>หรือ</span></div>
     {% if thaid_enabled %}
-      <a href="{{ url_for('thaid_login') }}" class="btn btn-thaid w-100 py-3">
-        <span class="thaid-mark">TH</span><span>Sign in with ThaiD</span><i class="bi bi-box-arrow-up-right ms-auto"></i>
+      <a href="{{ url_for('thaid_login') }}" class="btn btn-thaid w-100 py-2">
+        <span class="thaid-mark">TH</span><span>เข้าสู่ระบบด้วย ThaiD</span><i class="bi bi-box-arrow-up-right ms-auto"></i>
       </a>
-      <p class="text-center text-secondary small mt-2 mb-0"><i class="bi bi-shield-lock me-1"></i>Identity verification is handled by ThaiD.</p>
+      <p class="text-center text-secondary small mt-2 mb-0">ThaiD เป็นผู้ยืนยันตัวตน ระบบนี้ไม่เก็บรหัสผ่าน ThaiD</p>
     {% else %}
-      <button class="btn btn-thaid w-100 py-3" disabled title="Configure ThaiD values in .env">
-        <span class="thaid-mark">TH</span><span>Sign in with ThaiD</span><span class="badge text-bg-light ms-auto">Not configured</span>
+      <button class="btn btn-thaid w-100 py-2" disabled title="Configure ThaiD values in .env">
+        <span class="thaid-mark">TH</span><span>เข้าสู่ระบบด้วย ThaiD</span><span class="badge text-bg-light ms-auto">ยังไม่ได้ตั้งค่า</span>
       </button>
     {% endif %}
-    <p class="text-center text-secondary small mt-4 mb-0">New organization user? <a href="{{ url_for('register') }}" class="fw-bold">Create an account</a></p>
+    <p class="text-center text-secondary small mt-4 mb-0">ยังไม่มีบัญชี? <a href="{{ url_for('register') }}" class="fw-semibold">สมัครบัญชีหน่วยงาน</a></p>
   </section>
 </div>
 {% endblock %}

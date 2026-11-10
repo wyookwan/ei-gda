@@ -1,80 +1,47 @@
 services:
-
-  mysql:
+  db:
     image: mysql:8.4
-    container_name: eigda-mysql
     restart: unless-stopped
-
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DB}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-
+      MYSQL_DATABASE: ${MYSQL_DB:-eigda_db}
+      MYSQL_USER: ${MYSQL_USER:-eigda_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
     volumes:
       - eigda_mysql_data:/var/lib/mysql
-
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD || exit 1"
-        ]
+      test: [CMD-SHELL, 'MYSQL_PWD="$$MYSQL_PASSWORD" mysql -h 127.0.0.1 -u"$$MYSQL_USER" "$$MYSQL_DATABASE" -e "SELECT 1" >/dev/null 2>&1']
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 20
       start_period: 30s
-
-    networks:
-      - eigda-network
-
-
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-
-    container_name: eigda-web
-    init: true
+    build: .
     restart: unless-stopped
-
-    env_file:
-      - .env
-
+    env_file: .env
     environment:
-      MYSQL_HOST: mysql
+      MYSQL_HOST: db
       MYSQL_PORT: 3306
-      APP_HOST: 0.0.0.0
-      APP_PORT: 5000
-      DEBUG: "False"
-      AUTO_MIGRATE: "True"
-
+      MYSQL_DB: ${MYSQL_DB:-eigda_db}
+      MYSQL_USER: ${MYSQL_USER:-eigda_user}
+      DEBUG: 'False'
+      UPLOAD_FOLDER: /app/uploads
+      REPORT_FOLDER: /app/reports
     ports:
-      - "5000:5000"
-
+      - '${APP_BIND_ADDRESS:-127.0.0.1}:${APP_PORT:-5000}:5000'
     volumes:
-      - ./uploads:/app/uploads
-      - ./reports:/app/reports
-
+      - eigda_uploads:/app/uploads
+      - eigda_reports:/app/reports
     depends_on:
-      mysql:
+      db:
         condition: service_healthy
-
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:5000/healthz"]
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/login', timeout=5)"]
       interval: 30s
-      timeout: 5s
+      timeout: 10s
       retries: 3
-      start_period: 40s
-
-    networks:
-      - eigda-network
-
-
+    stop_grace_period: 60s
 volumes:
   eigda_mysql_data:
-
-
-networks:
-  eigda-network:
-    driver: bridge
+  eigda_uploads:
+  eigda_reports:

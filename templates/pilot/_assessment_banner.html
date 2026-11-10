@@ -1,0 +1,7 @@
+{% import 'pilot/_ui.html' as pui with context %}{% if assessment.organization_id or assessment.workflow_status %}<div class="pilot-banner" role="note">
+<div><span class="small-note">หน่วยงาน</span><strong>{{ assessment.organization.name if assessment.organization else assessment.organization_name }}</strong></div>
+{% if assessment.round %}<div><span class="small-note">รอบประเมิน</span><strong>{{ assessment.round.title }}</strong></div>{% endif %}
+{% if assessment.criteria_set %}<div><span class="small-note">ชุดเกณฑ์</span><strong>{{ pui.criteria_badge(assessment.criteria_set) }}</strong></div>{% endif %}
+<div><span class="small-note">สถานะงาน</span><strong>{{ pui.wf_badge(assessment.workflow_status) }}</strong></div>
+<a class="btn btn-sm btn-primary ms-auto" href="{{ url_for('pilot.workflow', assessment_id=assessment.id) }}"><i class="bi bi-arrow-repeat me-1"></i>ส่งงานและติดตาม</a>
+</div>{% endif %}

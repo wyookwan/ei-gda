@@ -1,0 +1,709 @@
+{
+ "schema": "eigda.domain-pack/2",
+ "pack_version": "17.0.0-pilot.1",
+ "slug": "common_aidg",
+ "kind": "layer",
+ "title": "Common AI & Data Governance",
+ "title_th": "เกณฑ์ร่วมธรรมาภิบาล AI และข้อมูล",
+ "icon": "bi-stack",
+ "accent": "#33507a",
+ "display_order": 90,
+ "status": "layer",
+ "inherits": "general",
+ "summary_th": "ชั้นเกณฑ์ร่วมที่ OPS-MHESI Pack และ Higher Education Pack ใช้ แต่ละ Control ใช้เมื่อเข้าเงื่อนไขของตัวเอง",
+ "key_concerns": [
+  "เจ้าของงานและสิทธิ์ข้ามหน่วยงาน",
+  "ชั้นข้อมูลก่อนส่งให้โมเดล",
+  "การทบทวนโดยมนุษย์"
+ ],
+ "organization_types": [],
+ "functional_areas": [],
+ "use_cases": [],
+ "dimensions": [
+  {
+   "id": "CMN.DIM.ACCOUNT",
+   "title": "Ownership & Access",
+   "title_th": "เจ้าของงานและสิทธิ์"
+  },
+  {
+   "id": "CMN.DIM.DATA",
+   "title": "Data Governance",
+   "title_th": "ธรรมาภิบาลข้อมูล"
+  },
+  {
+   "id": "CMN.DIM.PRIVACY",
+   "title": "Personal Data",
+   "title_th": "ข้อมูลส่วนบุคคล"
+  },
+  {
+   "id": "CMN.DIM.SECURITY",
+   "title": "Logging & Incidents",
+   "title_th": "บันทึกการเข้าถึงและเหตุการณ์"
+  },
+  {
+   "id": "CMN.DIM.AI_RISK",
+   "title": "AI Register & Risk",
+   "title_th": "ทะเบียน AI และความเสี่ยง"
+  },
+  {
+   "id": "CMN.DIM.OVERSIGHT",
+   "title": "Human Oversight & Follow-up",
+   "title_th": "การกำกับโดยมนุษย์และการติดตาม"
+  }
+ ],
+ "data_categories": [],
+ "profile_questions": [],
+ "evidence_requirements": [
+  {
+   "id": "EV.CMN.ACCESS_POLICY",
+   "title": "Ownership & access policy",
+   "title_th": "นโยบายเจ้าของงานและสิทธิ์เข้าถึงข้ามหน่วยงาน",
+   "why_th": "กำหนดว่าใครเป็นเจ้าของงานและใครเข้าถึงข้อมูลของหน่วยงานอื่นได้",
+   "keywords": [
+    "เจ้าของข้อมูล",
+    "สิทธิ์การเข้าถึง",
+    "access control",
+    "data owner",
+    "ข้ามหน่วยงาน",
+    "การอนุญาต",
+    "access rights",
+    "cross-agency access"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.CMN.ACCESS_REVIEW",
+   "title": "Access review record",
+   "title_th": "บันทึกการทบทวนสิทธิ์เข้าถึง",
+   "why_th": "แสดงว่ามีการทบทวนและถอนสิทธิ์จริง",
+   "keywords": [
+    "ทบทวนสิทธิ์",
+    "access review",
+    "ถอนสิทธิ์",
+    "รายชื่อผู้มีสิทธิ์",
+    "บันทึกการอนุมัติสิทธิ์",
+    "access revocation"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.CMN.DATA_GOV_POLICY",
+   "title": "Data governance policy",
+   "title_th": "นโยบายธรรมาภิบาลข้อมูล",
+   "why_th": "กำหนดบทบาทเจ้าของข้อมูลและผู้ดูแลข้อมูล",
+   "keywords": [
+    "ธรรมาภิบาลข้อมูล",
+    "data governance",
+    "บริกรข้อมูล",
+    "data steward",
+    "คณะกรรมการธรรมาภิบาลข้อมูล",
+    "data governance policy"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.CMN.DATASET_REGISTER",
+   "title": "Dataset register",
+   "title_th": "ทะเบียนชุดข้อมูลพร้อมเจ้าของข้อมูล",
+   "why_th": "แสดงว่าชุดข้อมูลที่ใช้กับ AI มีเจ้าของและคำอธิบาย",
+   "keywords": [
+    "บัญชีข้อมูล",
+    "data catalog",
+    "ทะเบียนชุดข้อมูล",
+    "ชุดข้อมูล",
+    "metadata",
+    "คำอธิบายชุดข้อมูล",
+    "dataset register"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.CMN.CLASSIFICATION_POLICY",
+   "title": "Data classification policy",
+   "title_th": "หลักเกณฑ์จัดชั้นข้อมูลและสิทธิ์ส่งให้โมเดล",
+   "why_th": "กำหนดว่าข้อมูลชั้นใดส่งให้ผู้ให้บริการโมเดลประเภทใดได้",
+   "keywords": [
+    "ชั้นความลับ",
+    "การจัดชั้นข้อมูล",
+    "data classification",
+    "ข้อมูลเปิดเผย",
+    "ข้อมูลลับ",
+    "ส่งให้โมเดล",
+    "model processing rule"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.CMN.MODEL_DATA_LOG",
+   "title": "Pre-model screening record",
+   "title_th": "บันทึกการคัดกรองเอกสารก่อนส่งให้โมเดล",
+   "why_th": "แสดงว่ามีการตรวจชั้นข้อมูลจริงก่อนส่ง",
+   "keywords": [
+    "คัดกรองเอกสาร",
+    "ปกปิดข้อมูล",
+    "redact",
+    "บันทึกการส่งข้อมูล",
+    "ตรวจชั้นข้อมูล",
+    "pre-model screening",
+    "redaction log"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.CMN.PRIVACY_POLICY",
+   "title": "Privacy policy & lawful basis",
+   "title_th": "นโยบายคุ้มครองข้อมูลส่วนบุคคลและฐานการประมวลผล",
+   "why_th": "ระบุฐานทางกฎหมายและวัตถุประสงค์",
+   "keywords": [
+    "ข้อมูลส่วนบุคคล",
+    "ฐานการประมวลผล",
+    "privacy notice",
+    "ประกาศความเป็นส่วนตัว",
+    "pdpa",
+    "ความยินยอม",
+    "lawful basis"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.CMN.ROPA",
+   "title": "Record of processing",
+   "title_th": "บันทึกรายการกิจกรรมการประมวลผล (RoPA) หรือ DPIA",
+   "why_th": "แสดงการประมวลผลจริงตามที่ประกาศ",
+   "keywords": [
+    "ropa",
+    "บันทึกรายการ",
+    "dpia",
+    "ประเมินผลกระทบด้านข้อมูลส่วนบุคคล",
+    "กิจกรรมการประมวลผล",
+    "record of processing"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.CMN.INCIDENT_PROCEDURE",
+   "title": "Incident procedure",
+   "title_th": "ขั้นตอนจัดการเหตุการณ์และการเก็บบันทึก",
+   "why_th": "กำหนดการแจ้ง การตอบสนอง และระยะเวลาเก็บบันทึก",
+   "keywords": [
+    "เหตุการณ์ผิดปกติ",
+    "incident",
+    "แจ้งเหตุ",
+    "ขั้นตอนการตอบสนอง",
+    "ระยะเวลาเก็บ",
+    "incident response procedure",
+    "log retention"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.CMN.ACCESS_LOG",
+   "title": "Access log & incident record",
+   "title_th": "บันทึกการเข้าถึงและรายงานเหตุการณ์",
+   "why_th": "แสดงว่ามีการเก็บและตรวจบันทึกจริง",
+   "keywords": [
+    "log",
+    "บันทึกการเข้าถึง",
+    "audit trail",
+    "รายงานเหตุการณ์",
+    "ตรวจสอบบันทึก",
+    "access log"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.CMN.AI_POLICY",
+   "title": "AI governance policy",
+   "title_th": "นโยบายการใช้ AI และการประเมินความเสี่ยง",
+   "why_th": "กำหนดเกณฑ์ความเสี่ยงและผู้อนุมัติ",
+   "keywords": [
+    "นโยบาย ai",
+    "ai policy",
+    "ปัญญาประดิษฐ์",
+    "ระดับความเสี่ยง",
+    "generative ai",
+    "ธรรมาภิบาล ai",
+    "ai risk criteria"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.CMN.AI_REGISTER",
+   "title": "AI register & risk assessment",
+   "title_th": "ทะเบียนระบบ AI และผลประเมินความเสี่ยง",
+   "why_th": "แสดงว่ารู้ว่าใช้ระบบใด เจ้าของคือใคร และประเมินความเสี่ยงแล้ว",
+   "keywords": [
+    "ทะเบียนระบบ ai",
+    "ai register",
+    "ai inventory",
+    "ประเมินความเสี่ยง",
+    "risk assessment",
+    "เจ้าของระบบ"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.CMN.HUMAN_REVIEW_PROC",
+   "title": "Human review procedure",
+   "title_th": "ขั้นตอนการทบทวนโดยมนุษย์และช่องทางขอทบทวน",
+   "why_th": "กำหนดว่าใครทบทวนผลของ AI และผู้ได้รับผลกระทบขอทบทวนได้อย่างไร",
+   "keywords": [
+    "ทบทวนโดยมนุษย์",
+    "human review",
+    "ขอทบทวน",
+    "อุทธรณ์",
+    "appeal",
+    "ผู้มีอำนาจตัดสินใจ",
+    "human review procedure",
+    "right to request review"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.CMN.APPEAL_RECORD",
+   "title": "Review & appeal records",
+   "title_th": "บันทึกคำขอทบทวนและผลการทบทวน",
+   "why_th": "แสดงว่าช่องทางขอทบทวนใช้ได้จริง",
+   "keywords": [
+    "บันทึกการทบทวน",
+    "คำร้องขอทบทวน",
+    "ผลการพิจารณาอุทธรณ์",
+    "สถิติคำร้อง",
+    "appeal log",
+    "review request log"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.CMN.CAPA_PROC",
+   "title": "Corrective action procedure",
+   "title_th": "ขั้นตอนการแก้ไขและติดตามประเด็น",
+   "why_th": "กำหนดผู้รับผิดชอบ กำหนดส่ง และผู้ปิดประเด็น",
+   "keywords": [
+    "แผนการแก้ไข",
+    "corrective action",
+    "ติดตามผล",
+    "กำหนดส่ง",
+    "ผู้รับผิดชอบ",
+    "corrective action procedure"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.CMN.CAPA_LOG",
+   "title": "Corrective action log",
+   "title_th": "บันทึกการติดตามและปิดประเด็น",
+   "why_th": "แสดงว่าประเด็นถูกติดตามจนปิดจริง",
+   "keywords": [
+    "ปิดประเด็น",
+    "บันทึกการติดตาม",
+    "สถานะการแก้ไข",
+    "รายงานความคืบหน้า",
+    "corrective action log",
+    "issue closure"
+   ],
+   "evidence_kind": "practice"
+  }
+ ],
+ "rubric": {
+  "id": "RUBRIC.COMMON_AIDG",
+  "version": "1.0",
+  "gate_min_level": 2,
+  "coverage_caps": [
+   [
+    0.34,
+    1
+   ],
+   [
+    0.67,
+    2
+   ],
+   [
+    1.01,
+    3
+   ]
+  ],
+  "human_review": "critical_or_high_risk",
+  "levels": {
+   "0": "ไม่พบหลักฐานที่ตรวจสอบได้",
+   "1": "มีข้อกำหนดในนโยบาย แต่ยังไม่พบหลักฐานการปฏิบัติ",
+   "2": "มีข้อกำหนดและหลักฐานการปฏิบัติบางส่วน",
+   "3": "มีข้อกำหนด หลักฐานการปฏิบัติจริง และบันทึกการทบทวนครบ"
+  }
+ },
+ "suite_focus": {},
+ "controls": [
+  {
+   "id": "CMN-01",
+   "title": "Work ownership & cross-organization access",
+   "title_th": "เจ้าของงานและสิทธิ์ข้ามหน่วยงาน",
+   "objective_th": "งานประเมิน ข้อมูล และหลักฐานมีหน่วยงานเจ้าของ ผู้รับผิดชอบ และสิทธิ์ข้ามหน่วยงานที่อนุมัติไว้",
+   "scope_th": "ทุกหน่วยงานที่ใช้หรือแลกเปลี่ยนข้อมูลกับระบบ AI",
+   "requirement_type": "standard",
+   "suites": [
+    "TS02",
+    "TS04"
+   ],
+   "dimensions": [
+    "CMN.DIM.ACCOUNT"
+   ],
+   "references": [
+    "TH-DIGITAL-GOV-2562",
+    "TH-DGA-DGF"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-DIGITAL-GOV-2562",
+     "clause": "รอระบุมาตราเรื่องการบริหารและแลกเปลี่ยนข้อมูล",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-DGA-DGF",
+     "clause": "รอระบุหมวดบทบาทเจ้าของข้อมูล",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.CMN.ACCESS_POLICY",
+    "EV.CMN.ACCESS_REVIEW"
+   ],
+   "evidence_policy": [
+    "EV.CMN.ACCESS_POLICY"
+   ],
+   "evidence_practice": [
+    "EV.CMN.ACCESS_REVIEW"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "high",
+   "critical_when": {
+    "flags": {
+     "shares_data_across_orgs": true
+    }
+   },
+   "critical_condition_th": "เป็นประเด็นสำคัญเมื่อมีการแลกเปลี่ยนข้อมูลข้ามหน่วยงาน"
+  },
+  {
+   "id": "CMN-02",
+   "title": "Dataset register & data owners",
+   "title_th": "ทะเบียนชุดข้อมูลและเจ้าของข้อมูล",
+   "objective_th": "ชุดข้อมูลที่ใช้กับ AI อยู่ในทะเบียน มีเจ้าของข้อมูลและคำอธิบายที่ตรวจได้",
+   "scope_th": "ชุดข้อมูลทุกชุดที่ระบบ AI ใช้ฝึก ค้นคืน หรืออ้างอิง",
+   "requirement_type": "standard",
+   "suites": [
+    "TS05"
+   ],
+   "dimensions": [
+    "CMN.DIM.DATA"
+   ],
+   "references": [
+    "TH-DGA-DGF",
+    "TH-DGA-CATALOG"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-DGA-DGF",
+     "clause": "รอระบุหมวดบัญชีข้อมูล",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-DGA-CATALOG",
+     "clause": "รอระบุเลขมาตรฐาน",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.CMN.DATA_GOV_POLICY",
+    "EV.CMN.DATASET_REGISTER"
+   ],
+   "evidence_policy": [
+    "EV.CMN.DATA_GOV_POLICY"
+   ],
+   "evidence_practice": [
+    "EV.CMN.DATASET_REGISTER"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium"
+  },
+  {
+   "id": "CMN-03",
+   "title": "Data classes & model processing rights",
+   "title_th": "ชั้นข้อมูลและสิทธิ์ส่งให้โมเดล",
+   "objective_th": "กำหนดชั้นข้อมูล การมีข้อมูลส่วนบุคคล และสิทธิ์ส่งให้ผู้ให้บริการโมเดลแต่ละประเภทแยกกัน ค่าเริ่มต้นคือไม่อนุญาต",
+   "scope_th": "เอกสารและข้อมูลทุกชิ้นก่อนส่งให้โมเดลประมวลผล",
+   "requirement_type": "law",
+   "suites": [
+    "TS04",
+    "TS05"
+   ],
+   "dimensions": [
+    "CMN.DIM.DATA"
+   ],
+   "references": [
+    "TH-OFFICIAL-INFO-2540",
+    "TH-OFFICIAL-SECRET-2544",
+    "TH-DGA-DGF"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-OFFICIAL-INFO-2540",
+     "clause": "มาตรา 14–15 (ข้อมูลข่าวสารที่ไม่ต้องเปิดเผย) รอตรวจตัวบท",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-OFFICIAL-SECRET-2544",
+     "clause": "รอระบุข้อเรื่องชั้นความลับและการส่ง",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.CMN.CLASSIFICATION_POLICY",
+    "EV.CMN.MODEL_DATA_LOG"
+   ],
+   "evidence_policy": [
+    "EV.CMN.CLASSIFICATION_POLICY"
+   ],
+   "evidence_practice": [
+    "EV.CMN.MODEL_DATA_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": true,
+   "risk": "high",
+   "critical_condition_th": "สำคัญเสมอ เพราะเอกสารที่ส่งให้โมเดลผิดชั้นเรียกคืนไม่ได้"
+  },
+  {
+   "id": "CMN-04",
+   "title": "Personal data processing",
+   "title_th": "การประมวลผลข้อมูลส่วนบุคคล",
+   "objective_th": "มีฐานการประมวลผล บันทึกรายการ และมาตรการตามความเสี่ยงของข้อมูลส่วนบุคคลที่ระบบ AI ใช้",
+   "scope_th": "เมื่อระบบใช้ข้อมูลส่วนบุคคล",
+   "requirement_type": "law",
+   "suites": [
+    "TS04"
+   ],
+   "dimensions": [
+    "CMN.DIM.PRIVACY"
+   ],
+   "references": [
+    "TH-PDPA-2562"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-PDPA-2562",
+     "clause": "มาตรา 24 และ 26 (ฐานการประมวลผล) มาตรา 37 (มาตรการรักษาความปลอดภัย) มาตรา 39 (บันทึกรายการ) รอตรวจตัวบท",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.CMN.PRIVACY_POLICY",
+    "EV.CMN.ROPA"
+   ],
+   "evidence_policy": [
+    "EV.CMN.PRIVACY_POLICY"
+   ],
+   "evidence_practice": [
+    "EV.CMN.ROPA"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "high",
+   "applies_when": {
+    "data_categories_min_sensitivity": "personal"
+   },
+   "critical_when": {
+    "data_categories_min_sensitivity": "sensitive"
+   },
+   "critical_condition_th": "สำคัญเมื่อใช้ข้อมูลอ่อนไหว"
+  },
+  {
+   "id": "CMN-05",
+   "title": "Access logging & incident handling",
+   "title_th": "บันทึกการเข้าถึงและการจัดการเหตุการณ์",
+   "objective_th": "บันทึกการเปิดไฟล์ ดาวน์โหลด ส่งออก และเหตุผิดปกติ โดยไม่เก็บเนื้อหาเอกสาร และมีขั้นตอนจัดการเหตุการณ์",
+   "scope_th": "ระบบ AI และระบบที่เก็บหลักฐาน",
+   "requirement_type": "law",
+   "suites": [
+    "TS04",
+    "TS07"
+   ],
+   "dimensions": [
+    "CMN.DIM.SECURITY"
+   ],
+   "references": [
+    "TH-CYBER-2562",
+    "TH-PDPA-2562"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-CYBER-2562",
+     "clause": "รอตรวจว่าหน่วยงานเข้าข่ายโครงสร้างพื้นฐานสำคัญหรือไม่",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-PDPA-2562",
+     "clause": "มาตรา 37 (แจ้งเหตุละเมิด) รอตรวจตัวบท",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.CMN.INCIDENT_PROCEDURE",
+    "EV.CMN.ACCESS_LOG"
+   ],
+   "evidence_policy": [
+    "EV.CMN.INCIDENT_PROCEDURE"
+   ],
+   "evidence_practice": [
+    "EV.CMN.ACCESS_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium"
+  },
+  {
+   "id": "CMN-06",
+   "title": "AI register & risk assessment",
+   "title_th": "ทะเบียน AI และการประเมินความเสี่ยง",
+   "objective_th": "ระบบ AI ทุกระบบอยู่ในทะเบียน ระบุเจ้าของ วัตถุประสงค์ ผู้ได้รับผลกระทบ ผู้ให้บริการ และระดับความเสี่ยงที่ทบทวนตามรอบ",
+   "scope_th": "ระบบ AI ทุกระบบของหน่วยงาน",
+   "requirement_type": "guideline",
+   "suites": [
+    "TS01",
+    "TS02",
+    "TS04"
+   ],
+   "dimensions": [
+    "CMN.DIM.AI_RISK"
+   ],
+   "references": [
+    "ETDA-GENAI-GOV",
+    "TH-ETDA-AIGOV",
+    "ISO-42001"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "ETDA-GENAI-GOV",
+     "clause": "รอระบุหัวข้อเรื่องการบริหารความเสี่ยง",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "ISO-42001",
+     "clause": "Clause 6.1 (ตามฉบับที่องค์กรถือ)",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.CMN.AI_POLICY",
+    "EV.CMN.AI_REGISTER"
+   ],
+   "evidence_policy": [
+    "EV.CMN.AI_POLICY"
+   ],
+   "evidence_practice": [
+    "EV.CMN.AI_REGISTER"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "high",
+   "critical_when": {
+    "min_risk": "high"
+   },
+   "critical_condition_th": "สำคัญเมื่อความเสี่ยงระดับสูงขึ้นไป"
+  },
+  {
+   "id": "CMN-07",
+   "title": "Human review for high-impact AI",
+   "title_th": "การทบทวนโดยมนุษย์สำหรับ AI ที่มีผลกระทบสูง",
+   "objective_th": "ผลของ AI ที่กระทบสิทธิหรือการตัดสินใจสำคัญต้องมีผู้มีอำนาจทบทวน และผู้ได้รับผลกระทบมีช่องทางขอทบทวนที่ใช้ได้จริง",
+   "scope_th": "เมื่อ AI มีผลต่อสิทธิหรือการตัดสินใจสำคัญ",
+   "requirement_type": "guideline",
+   "suites": [
+    "TS02",
+    "TS07",
+    "TS08"
+   ],
+   "dimensions": [
+    "CMN.DIM.OVERSIGHT"
+   ],
+   "references": [
+    "ETDA-GENAI-GOV",
+    "ISO-42005",
+    "NIST-AI-RMF"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "ETDA-GENAI-GOV",
+     "clause": "รอระบุหัวข้อเรื่อง human oversight",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "NIST-AI-RMF",
+     "clause": "GOVERN 3.2 / MANAGE 2 (ตามฉบับ 1.0)",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.CMN.HUMAN_REVIEW_PROC",
+    "EV.CMN.APPEAL_RECORD"
+   ],
+   "evidence_policy": [
+    "EV.CMN.HUMAN_REVIEW_PROC"
+   ],
+   "evidence_practice": [
+    "EV.CMN.APPEAL_RECORD"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": true,
+   "risk": "high",
+   "applies_when": {
+    "min_risk": "high"
+   },
+   "critical_condition_th": "สำคัญเสมอเมื่อใช้ เพราะเกี่ยวกับสิทธิของผู้ได้รับผลกระทบ"
+  },
+  {
+   "id": "CMN-08",
+   "title": "Revision requests & evidence follow-up",
+   "title_th": "การส่งกลับแก้ไขและติดตามหลักฐาน",
+   "objective_th": "ประเด็นที่ผู้ตรวจขอแก้ไขมีผู้รับผิดชอบ กำหนดส่ง หลักฐานที่ใช้ปิด และผู้ยืนยันการปิดประเด็น",
+   "scope_th": "ทุกงานประเมินในรอบนำร่อง",
+   "requirement_type": "project_criteria",
+   "suites": [
+    "TS07"
+   ],
+   "dimensions": [
+    "CMN.DIM.OVERSIGHT"
+   ],
+   "references": [
+    "EIGDA-PILOT-CRITERIA"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "EIGDA-PILOT-CRITERIA",
+     "clause": "ข้อ CMN-08 (เกณฑ์ที่โครงการเสนอ)",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.CMN.CAPA_PROC",
+    "EV.CMN.CAPA_LOG"
+   ],
+   "evidence_policy": [
+    "EV.CMN.CAPA_PROC"
+   ],
+   "evidence_practice": [
+    "EV.CMN.CAPA_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium"
+  }
+ ]
+}

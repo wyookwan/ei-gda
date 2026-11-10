@@ -1,0 +1,643 @@
+{
+ "schema": "eigda.domain-pack/2",
+ "pack_version": "17.0.0-pilot.1",
+ "slug": "higher_education",
+ "title": "Higher Education",
+ "title_th": "สถาบันอุดมศึกษา (Higher Education Pack)",
+ "icon": "bi-bank",
+ "accent": "#0d6e6e",
+ "display_order": 7,
+ "status": "pilot_draft",
+ "inherits": "general",
+ "layers": [
+  "common_aidg"
+ ],
+ "extends": "education",
+ "extends_controls": [
+  "EDU-01",
+  "EDU-02",
+  "EDU-03",
+  "EDU-07",
+  "EDU-08"
+ ],
+ "aliases": {
+  "HED.ORG.PUBLIC": "EDU.ORG.UNIVERSITY",
+  "HED.ORG.AUTONOMOUS": "EDU.ORG.UNIVERSITY",
+  "HED.ORG.PRIVATE": "EDU.ORG.UNIVERSITY",
+  "HED.FA.TEACH": "EDU.FA.TEACH",
+  "HED.FA.ADMISSION": "EDU.FA.ADMISSION",
+  "HED.FA.RESEARCH": "EDU.FA.RESEARCH",
+  "HED.FA.GOVERN": "EDU.FA.ADMIN",
+  "HED.FA.REPORTING": "EDU.FA.ADMIN",
+  "HED.UC.AI_TEACHING": "EDU.UC.TUTOR",
+  "HED.UC.ADMISSION_SCREEN": "EDU.UC.ADMISSION",
+  "HED.DATA.STUDENT": "EDU.DATA.STUDENT",
+  "HED.DATA.APPLICANT": "EDU.DATA.STUDENT",
+  "HED.DATA.CONTENT": "EDU.DATA.CONTENT"
+ },
+ "summary_th": "ขยายจาก Education Pack สำหรับการกำกับระดับสถาบัน การเรียนการสอนด้าน AI และ AI ช่วยคัดกรองผู้สมัคร ซึ่งแยกเป็นคนละกรณีใช้งาน",
+ "provisional_note_th": "ประกาศ อว. ที่อ้างอิงยังรอยืนยันฉบับและข้อ ประกาศด้านหลักสูตรไม่ใช้เป็นฐานข้อบังคับของการคัดกรองผู้สมัคร",
+ "key_concerns": [
+  "การกำกับระดับสถาบันและการเปิดเผยผล",
+  "การเรียนการสอนด้าน AI",
+  "สิทธิขอทบทวนของผู้สมัคร"
+ ],
+ "organization_types": [
+  {
+   "id": "HED.ORG.PUBLIC",
+   "title": "Public university",
+   "title_th": "มหาวิทยาลัยของรัฐ"
+  },
+  {
+   "id": "HED.ORG.AUTONOMOUS",
+   "title": "Autonomous university",
+   "title_th": "มหาวิทยาลัยในกำกับของรัฐ"
+  },
+  {
+   "id": "HED.ORG.PRIVATE",
+   "title": "Private higher-education institution",
+   "title_th": "สถาบันอุดมศึกษาเอกชน"
+  }
+ ],
+ "functional_areas": [
+  {
+   "id": "HED.FA.GOVERN",
+   "title": "Institutional governance",
+   "title_th": "การกำกับดูแลสถาบัน"
+  },
+  {
+   "id": "HED.FA.TEACH",
+   "title": "Teaching & curriculum",
+   "title_th": "การจัดการเรียนการสอนและหลักสูตร"
+  },
+  {
+   "id": "HED.FA.ADMISSION",
+   "title": "Admission",
+   "title_th": "การรับเข้าศึกษา"
+  },
+  {
+   "id": "HED.FA.RESEARCH",
+   "title": "Research",
+   "title_th": "การวิจัย"
+  },
+  {
+   "id": "HED.FA.REPORTING",
+   "title": "Reporting to the ministry",
+   "title_th": "การรายงานและส่งข้อมูลต่อกระทรวง"
+  }
+ ],
+ "use_cases": [
+  {
+   "id": "HED.UC.INSTITUTION_POLICY",
+   "title": "Institution-wide AI & data governance policy",
+   "title_th": "นโยบาย AI และ Data Governance ระดับสถาบัน",
+   "functional_areas": [
+    "HED.FA.GOVERN"
+   ],
+   "dimensions": [
+    "HED.DIM.GOVERNANCE"
+   ],
+   "floor_impact": "information"
+  },
+  {
+   "id": "HED.UC.AI_TEACHING",
+   "title": "AI in teaching",
+   "title_th": "AI ในการจัดการเรียนการสอน",
+   "functional_areas": [
+    "HED.FA.TEACH"
+   ],
+   "dimensions": [
+    "HED.DIM.LEARNING"
+   ],
+   "floor_impact": "assistive"
+  },
+  {
+   "id": "HED.UC.ADMISSION_SCREEN",
+   "title": "AI-assisted applicant screening",
+   "title_th": "AI ช่วยคัดกรองผู้สมัคร",
+   "functional_areas": [
+    "HED.FA.ADMISSION"
+   ],
+   "dimensions": [
+    "HED.DIM.APPLICANT"
+   ],
+   "floor_impact": "significant"
+  },
+  {
+   "id": "HED.UC.DATA_SUBMISSION",
+   "title": "Higher-education data submission",
+   "title_th": "การส่งข้อมูลการอุดมศึกษาให้กระทรวง",
+   "functional_areas": [
+    "HED.FA.REPORTING"
+   ],
+   "dimensions": [
+    "HED.DIM.GOVERNANCE"
+   ],
+   "floor_impact": "information"
+  }
+ ],
+ "dimensions": [
+  {
+   "id": "HED.DIM.GOVERNANCE",
+   "title": "Institutional governance & disclosure",
+   "title_th": "การกำกับและการเปิดเผยผลของสถาบัน"
+  },
+  {
+   "id": "HED.DIM.LEARNING",
+   "title": "AI teaching & learning outcomes",
+   "title_th": "การเรียนการสอนด้าน AI และผลลัพธ์การเรียนรู้"
+  },
+  {
+   "id": "HED.DIM.APPLICANT",
+   "title": "Applicant rights",
+   "title_th": "สิทธิของผู้สมัคร"
+  }
+ ],
+ "data_categories": [
+  {
+   "id": "HED.DATA.PUBLISHED",
+   "title_th": "ข้อมูลที่สถาบันเผยแพร่แล้ว",
+   "sensitivity": "public"
+  },
+  {
+   "id": "HED.DATA.CONTENT",
+   "title_th": "เนื้อหาการเรียนการสอน",
+   "sensitivity": "internal"
+  },
+  {
+   "id": "HED.DATA.APPLICANT",
+   "title_th": "ข้อมูลผู้สมัคร",
+   "sensitivity": "personal"
+  },
+  {
+   "id": "HED.DATA.STUDENT",
+   "title_th": "ข้อมูลนักศึกษาและผลการเรียน",
+   "sensitivity": "personal"
+  },
+  {
+   "id": "HED.DATA.SENSITIVE",
+   "title_th": "ข้อมูลอ่อนไหวของผู้สมัครหรือนักศึกษา",
+   "sensitivity": "sensitive"
+  }
+ ],
+ "profile_questions": [
+  {
+   "id": "is_public_agency",
+   "label_th": "สถาบันนี้เป็นหน่วยงานของรัฐหรือไม่",
+   "help_th": "ใช้คัดกฎหมายภาครัฐ"
+  },
+  {
+   "id": "shares_data_across_orgs",
+   "label_th": "ระบบแลกเปลี่ยนข้อมูลกับหน่วยงานอื่นหรือไม่",
+   "help_th": "เช่น ส่งข้อมูลให้กระทรวงหรือรับข้อมูลจากระบบกลาง"
+  },
+  {
+   "id": "uses_external_vendor",
+   "label_th": "ใช้ผู้ให้บริการโมเดลภายนอกหรือไม่",
+   "help_th": "มีผลต่อสิทธิ์ส่งเอกสารให้โมเดล"
+  },
+  {
+   "id": "uses_tuc_esign",
+   "label_th": "ใช้เอกสารอิเล็กทรอนิกส์หรือลายมือชื่อดิจิทัลภายใต้ Thai University Consortium หรือไม่",
+   "help_th": "ถ้าใช่ จะเพิ่ม Control เรื่องเอกสารอิเล็กทรอนิกส์"
+  }
+ ],
+ "evidence_requirements": [
+  {
+   "id": "EV.HED.GOV_POLICY",
+   "title": "Governance, internal control & conflict-of-interest policy",
+   "title_th": "นโยบายธรรมาภิบาล การควบคุมภายใน และผลประโยชน์ทับซ้อน",
+   "why_th": "แสดงข้อกำหนดระดับสถาบัน",
+   "keywords": [
+    "ธรรมาภิบาล",
+    "การควบคุมภายใน",
+    "ผลประโยชน์ทับซ้อน",
+    "conflict of interest",
+    "สภามหาวิทยาลัย",
+    "good governance",
+    "internal control"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.HED.DISCLOSURE_REPORT",
+   "title": "Performance disclosure report",
+   "title_th": "รายงานเปิดเผยผลการดำเนินงาน",
+   "why_th": "แสดงการเปิดเผยจริงต่อสาธารณะ",
+   "keywords": [
+    "เปิดเผยผลการดำเนินงาน",
+    "รายงานประจำปี",
+    "ความรับผิดชอบต่อสังคม",
+    "รายงานผลการควบคุมภายใน",
+    "performance disclosure",
+    "social responsibility report"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.HED.AI_CURRICULUM",
+   "title": "AI teaching plan",
+   "title_th": "แผนการจัดการเรียนการสอนด้าน AI ในหลักสูตร",
+   "why_th": "แสดงข้อกำหนดของหลักสูตร",
+   "keywords": [
+    "หลักสูตร",
+    "รายวิชา ai",
+    "มคอ",
+    "ผลลัพธ์การเรียนรู้ที่คาดหวัง",
+    "ทักษะดิจิทัล",
+    "ai curriculum",
+    "learning outcomes plan"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.HED.LEARNING_OUTCOME",
+   "title": "Learning-outcome evidence",
+   "title_th": "หลักฐานผลลัพธ์การเรียนรู้ด้าน AI",
+   "why_th": "แสดงผลที่เกิดกับผู้เรียนจริง",
+   "keywords": [
+    "ผลการประเมินผู้เรียน",
+    "ผลลัพธ์การเรียนรู้",
+    "learning outcome",
+    "ผลสัมฤทธิ์",
+    "การทวนสอบ",
+    "learning outcome evidence",
+    "student assessment results"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.HED.ADMISSION_RULES",
+   "title": "Admission rules naming the AI role",
+   "title_th": "ประกาศหลักเกณฑ์การคัดเลือกที่ระบุบทบาทของ AI",
+   "why_th": "ผู้สมัครต้องรู้ว่า AI ใช้ในขั้นใดและมนุษย์ตัดสินขั้นใด",
+   "keywords": [
+    "หลักเกณฑ์การคัดเลือก",
+    "ประกาศรับสมัคร",
+    "คัดกรองผู้สมัคร",
+    "ผู้สมัคร",
+    "ใช้ ai ในการคัดกรอง",
+    "admission criteria",
+    "applicant screening"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.HED.APPLICANT_APPEAL",
+   "title": "Applicant review channel & records",
+   "title_th": "ช่องทางผู้สมัครขอทบทวนผลและบันทึกการทบทวน",
+   "why_th": "ยืนยันว่าผู้สมัครขอทบทวนได้จริงและมีผู้พิจารณา",
+   "keywords": [
+    "ขอทบทวนผล",
+    "ช่องทางอุทธรณ์",
+    "คำร้องผู้สมัคร",
+    "ผลการพิจารณาคำร้อง",
+    "ทบทวนโดยคณะกรรมการ",
+    "applicant appeal",
+    "request a review of the result"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.HED.DATA_SUBMISSION_PROC",
+   "title": "Data submission procedure",
+   "title_th": "ขั้นตอนการส่งและเปิดเผยข้อมูลการอุดมศึกษา",
+   "why_th": "ระบุชุดข้อมูล รอบส่ง และผู้รับผิดชอบ",
+   "keywords": [
+    "ส่งข้อมูล",
+    "การเปิดเผยข้อมูล",
+    "ข้อมูลการอุดมศึกษา",
+    "กฎกระทรวง",
+    "data submission procedure"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.HED.DATA_SUBMISSION_LOG",
+   "title": "Data submission record",
+   "title_th": "บันทึกการส่งข้อมูลและผลตรวจความถูกต้อง",
+   "why_th": "แสดงการส่งจริง",
+   "keywords": [
+    "บันทึกการส่ง",
+    "ผลตรวจข้อมูล",
+    "รอบการส่ง",
+    "ตอบรับข้อมูล",
+    "data submission record"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.HED.ESIGN_PROC",
+   "title": "Electronic document & signature procedure",
+   "title_th": "ขั้นตอนเอกสารอิเล็กทรอนิกส์และลายมือชื่อดิจิทัล",
+   "why_th": "ระบุเอกสารที่ลงนามดิจิทัลและผู้มีอำนาจ",
+   "keywords": [
+    "ลายมือชื่อดิจิทัล",
+    "เอกสารอิเล็กทรอนิกส์",
+    "digital signature",
+    "thai university consortium",
+    "tuc",
+    "digital signature procedure"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.HED.ESIGN_RECORD",
+   "title": "Signed document verification record",
+   "title_th": "บันทึกการลงนามและการตรวจสอบลายมือชื่อ",
+   "why_th": "แสดงการลงนามและตรวจสอบจริง",
+   "keywords": [
+    "ตรวจสอบลายมือชื่อ",
+    "ใบรับรอง",
+    "certificate",
+    "บันทึกการลงนาม",
+    "signature verification record"
+   ],
+   "evidence_kind": "practice"
+  }
+ ],
+ "rubric": {
+  "id": "RUBRIC.HIGHER_EDUCATION",
+  "version": "1.0",
+  "gate_min_level": 2,
+  "coverage_caps": [
+   [
+    0.34,
+    1
+   ],
+   [
+    0.67,
+    2
+   ],
+   [
+    1.01,
+    3
+   ]
+  ],
+  "human_review": "critical_or_high_risk",
+  "levels": {
+   "0": "ไม่พบหลักฐานที่ตรวจสอบได้",
+   "1": "มีข้อกำหนดในนโยบาย แต่ยังไม่พบหลักฐานการปฏิบัติ",
+   "2": "มีข้อกำหนดและหลักฐานการปฏิบัติบางส่วน",
+   "3": "มีข้อกำหนด หลักฐานการปฏิบัติจริง และบันทึกการทบทวนครบ"
+  }
+ },
+ "suite_focus": {
+  "TS01": "ขอบเขตระบบของสถาบัน",
+  "TS02": "การกำกับระดับสถาบันและสภามหาวิทยาลัย",
+  "TS03": "ความเป็นธรรมต่อผู้สมัครและผู้เรียน",
+  "TS04": "ข้อมูลผู้สมัครและนักศึกษา",
+  "TS05": "คุณภาพข้อมูลที่ส่งกระทรวง",
+  "TS06": "ผลทดสอบการคัดกรองและการวัดผล",
+  "TS07": "การทบทวนและติดตามผล",
+  "TS08": "ผลกระทบต่อผู้สมัครและผู้เรียน"
+ },
+ "controls": [
+  {
+   "id": "HED-01",
+   "title": "Disclosure, internal control & conflict of interest",
+   "title_th": "การเปิดเผยผลดำเนินงาน การควบคุมภายใน และผลประโยชน์ทับซ้อน",
+   "objective_th": "สถาบันมีข้อกำหนดเรื่องธรรมาภิบาล การควบคุมภายใน และผลประโยชน์ทับซ้อน และเปิดเผยผลการดำเนินงานจริง",
+   "scope_th": "ระดับสถาบัน ทุกงานประเมินของสถาบันอุดมศึกษา",
+   "requirement_type": "law",
+   "suites": [
+    "TS02"
+   ],
+   "dimensions": [
+    "HED.DIM.GOVERNANCE"
+   ],
+   "references": [
+    "MHESI-GOVERNANCE-2569",
+    "MHESI-MONITORING-2566",
+    "MHESI-DISCLOSURE-2565"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "MHESI-GOVERNANCE-2569",
+     "clause": "รอระบุข้อ (ฉบับลงวันที่ 5 มี.ค. 2569)",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "MHESI-MONITORING-2566",
+     "clause": "ข้อ 1–2 (การเปิดเผยข้อมูลด้านความรับผิดชอบต่อสังคม) รอตรวจตัวบท",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "MHESI-DISCLOSURE-2565",
+     "clause": "ระงับการใช้เป็นเกณฑ์บังคับจนยืนยันการใช้ร่วมกับฉบับ 2569",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.HED.GOV_POLICY",
+    "EV.HED.DISCLOSURE_REPORT"
+   ],
+   "evidence_policy": [
+    "EV.HED.GOV_POLICY"
+   ],
+   "evidence_practice": [
+    "EV.HED.DISCLOSURE_REPORT"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium"
+  },
+  {
+   "id": "HED-02",
+   "title": "AI teaching readiness & learning-outcome evidence",
+   "title_th": "ความพร้อมด้าน AI ในการเรียนการสอนและหลักฐานผลลัพธ์การเรียนรู้",
+   "objective_th": "หลักสูตรมีการจัดการเรียนการสอนด้าน AI ตามประกาศ และมีหลักฐานผลลัพธ์การเรียนรู้ของผู้เรียน",
+   "scope_th": "การจัดการเรียนการสอนด้าน AI เท่านั้น ไม่ใช้กับการคัดกรองผู้สมัคร",
+   "requirement_type": "law",
+   "suites": [
+    "TS06",
+    "TS08"
+   ],
+   "dimensions": [
+    "HED.DIM.LEARNING"
+   ],
+   "references": [
+    "MHESI-AI-CURRICULUM-2568",
+    "MHESI-SKILLS-2569",
+    "UNESCO-GENAI-EDU-2023"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "MHESI-AI-CURRICULUM-2568",
+     "clause": "รอระบุข้อ",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "MHESI-SKILLS-2569",
+     "clause": "เฉพาะส่วนทักษะดิจิทัลและ AI รอระบุข้อ",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.HED.AI_CURRICULUM",
+    "EV.HED.LEARNING_OUTCOME"
+   ],
+   "evidence_policy": [
+    "EV.HED.AI_CURRICULUM"
+   ],
+   "evidence_practice": [
+    "EV.HED.LEARNING_OUTCOME"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium",
+   "applies_when": {
+    "use_cases": [
+     "HED.UC.AI_TEACHING"
+    ]
+   }
+  },
+  {
+   "id": "HED-03",
+   "title": "Applicant screening: human decision & review channel",
+   "title_th": "AI ช่วยคัดกรองผู้สมัคร: การตัดสินโดยมนุษย์และช่องทางขอทบทวน",
+   "objective_th": "AI ใช้เพียงช่วยคัดกรอง ผู้มีอำนาจตัดสินผล ผู้สมัครรู้ว่ามีการใช้ AI และขอทบทวนผลได้จริง",
+   "scope_th": "เฉพาะกรณี AI ช่วยคัดกรองผู้สมัคร",
+   "requirement_type": "guideline",
+   "suites": [
+    "TS03",
+    "TS07",
+    "TS08"
+   ],
+   "dimensions": [
+    "HED.DIM.APPLICANT"
+   ],
+   "references": [
+    "ETDA-GENAI-GOV",
+    "TH-PDPA-2562",
+    "NIST-AI-RMF"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "ETDA-GENAI-GOV",
+     "clause": "รอระบุหัวข้อเรื่อง human oversight",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-PDPA-2562",
+     "clause": "มาตรา 24 (ฐานการประมวลผลข้อมูลผู้สมัคร) รอตรวจตัวบท",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.HED.ADMISSION_RULES",
+    "EV.HED.APPLICANT_APPEAL"
+   ],
+   "evidence_policy": [
+    "EV.HED.ADMISSION_RULES"
+   ],
+   "evidence_practice": [
+    "EV.HED.APPLICANT_APPEAL"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": true,
+   "risk": "high",
+   "applies_when": {
+    "use_cases": [
+     "HED.UC.ADMISSION_SCREEN"
+    ]
+   },
+   "critical_condition_th": "สำคัญเสมอ เพราะผลคัดกรองกระทบสิทธิการเข้าศึกษา"
+  },
+  {
+   "id": "HED-04",
+   "title": "Higher-education data submission & disclosure",
+   "title_th": "การส่งและเปิดเผยข้อมูลการอุดมศึกษา",
+   "objective_th": "สถาบันส่งและเปิดเผยข้อมูลตามกฎกระทรวง โดยตรวจความถูกต้องก่อนส่ง",
+   "scope_th": "งานส่งข้อมูลต่อกระทรวง",
+   "requirement_type": "law",
+   "suites": [
+    "TS05"
+   ],
+   "dimensions": [
+    "HED.DIM.GOVERNANCE"
+   ],
+   "references": [
+    "TH-HED-DATA-MR-2566",
+    "TH-HIGHER-EDU-2562"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-HED-DATA-MR-2566",
+     "clause": "รอระบุข้อ",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-HIGHER-EDU-2562",
+     "clause": "รอระบุมาตรา",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.HED.DATA_SUBMISSION_PROC",
+    "EV.HED.DATA_SUBMISSION_LOG"
+   ],
+   "evidence_policy": [
+    "EV.HED.DATA_SUBMISSION_PROC"
+   ],
+   "evidence_practice": [
+    "EV.HED.DATA_SUBMISSION_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium",
+   "applies_when": {
+    "functional_areas": [
+     "HED.FA.REPORTING"
+    ]
+   }
+  },
+  {
+   "id": "HED-05",
+   "title": "Electronic documents & digital signatures (TUC)",
+   "title_th": "เอกสารอิเล็กทรอนิกส์และลายมือชื่อดิจิทัล (TUC)",
+   "objective_th": "เอกสารที่ลงนามดิจิทัลภายใต้ Thai University Consortium มีขั้นตอนและการตรวจสอบลายมือชื่อ",
+   "scope_th": "เมื่อกระบวนงานใช้ลายมือชื่อดิจิทัลภายใต้ TUC",
+   "requirement_type": "internal_notice",
+   "suites": [
+    "TS07"
+   ],
+   "dimensions": [
+    "HED.DIM.GOVERNANCE"
+   ],
+   "references": [
+    "MHESI-TUC-EDOC"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "MHESI-TUC-EDOC",
+     "clause": "รอระบุชื่อประกาศ ฉบับ และข้อ",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.HED.ESIGN_PROC",
+    "EV.HED.ESIGN_RECORD"
+   ],
+   "evidence_policy": [
+    "EV.HED.ESIGN_PROC"
+   ],
+   "evidence_practice": [
+    "EV.HED.ESIGN_RECORD"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดในนโยบายและหลักฐานการปฏิบัติจริงที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนด หรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium",
+   "applies_when": {
+    "flags": {
+     "uses_tuc_esign": true
+    }
+   }
+  }
+ ]
+}

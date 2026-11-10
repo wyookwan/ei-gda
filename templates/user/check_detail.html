@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Assessment #{{ check.id }} · Ei-GDA{% endblock %}
-{% block page_title %}Assessment Detail{% endblock %}
+{% block page_title %}Assessment Report{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">{% endblock %}
 {% block content %}
+<div class="domain-context-banner"><div><strong>Domain: {{ (check.domain_slug or 'general') | replace('_',' ') | title }}</strong> · {{ check.domain_subdomain or 'ไม่ระบุประเภทหน่วยงาน' }}<div class="small text-secondary">{{ check.assessment_use_case or 'ยังไม่ระบุ AI Use Case' }}</div></div><a class="btn btn-outline-primary" href="{{ url_for('domain_review', check_id=check.id) }}">Domain Evidence Review</a></div>
+<section id="reportWorkspace" class="report-workspace" data-check-id="{{ check.id }}">
+<div class="report-heading"><div><span class="eyebrow">ASSESSMENT #{{ check.id }}</span><h1>{{ test_suite.name if test_suite else 'Assessment report' }}</h1><p>สำรวจผลประเมินและตรวจสอบหลักฐานได้ทีละรายการ</p></div></div>
 <div class="row g-3 mb-3">
   <div class="col-md"><div class="card stat-card"><div class="card-body"><div class="stat-title">Source PDFs</div><div class="stat-value">{{ source_files|length if source_files else 1 }}</div></div></div></div>
   <div class="col-md"><div class="card stat-card"><div class="card-body"><div class="stat-title">System Compliance</div><div class="stat-value">{{ check.compliance_score }}%</div></div></div></div>
   <div class="col-md"><div class="card stat-card"><div class="card-body"><div class="stat-title">Maturity</div><div class="stat-value fs-5">{{ check.maturity_level or '-' }}</div></div></div></div>
-  <div class="col-md"><div class="card stat-card"><div class="card-body"><div class="stat-title">Processing</div><div class="stat-value fs-6">Local Model</div><small class="text-secondary">{{ (check.data_classification or 'open')|capitalize }}</small></div></div></div>
+  <div class="col-md"><div class="card stat-card"><div class="card-body"><div class="stat-title">Processing</div><div class="stat-value fs-6">{{ check.processing_provider or 'Pending' }}</div><small class="text-secondary">{{ (check.data_classification or 'open')|capitalize }}</small></div></div></div>
 </div>
 
 <div class="d-flex gap-2 flex-wrap mb-3">
@@ -15,8 +19,24 @@
   {% if check.report_pdf_path %}<a class="btn btn-outline-secondary" href="{{ url_for('download_system_report', check_id=check.id) }}"><i class="bi bi-file-earmark-pdf me-1"></i>System PDF</a>{% endif %}
 </div>
 
-<div class="row g-3">
-<div class="col-lg-4">
+
+<div class="report-tabs" role="tablist" aria-label="ส่วนของรายงาน">
+<button id="tab-overview" role="tab" aria-selected="true" aria-controls="report-overview" data-report-tab="overview">ภาพรวมและกราฟ</button>
+<button id="tab-items" role="tab" aria-selected="false" aria-controls="report-items" tabindex="-1" data-report-tab="items">รายการประเมิน <span>{{ compliance_results|length }}</span></button>
+<button id="tab-context" role="tab" aria-selected="false" aria-controls="report-context" tabindex="-1" data-report-tab="context">เอกสารและรายละเอียด</button>
+</div>
+<section id="report-overview" role="tabpanel" aria-labelledby="tab-overview" class="report-panel">
+<div class="report-insight-grid" id="reportInsights"></div>
+<div class="report-chart-header"><div><h2 id="reportChartTitle">Reference maturity</h2><p>คะแนน 0–5 · คลิกกราฟเพื่อเปิดรายการประเมินที่เกี่ยวข้อง</p></div><label>มุมมอง<select id="reportChartView" class="form-select"><option value="reference">เปรียบเทียบ References</option><option value="category">เปรียบเทียบหมวดหมู่</option><option value="distribution">การกระจายคะแนน</option><option value="heatmap">แผนที่คะแนนราย Item</option></select></label></div>
+<div id="reportChart" class="report-chart" aria-labelledby="reportChartTitle"></div>
+<div class="report-pagination"><span id="chartPageStatus" role="status"></span><div><button type="button" id="chartPrev" class="btn btn-sm btn-outline-secondary" aria-label="กราฟหน้าก่อน">←</button><button type="button" id="chartNext" class="btn btn-sm btn-outline-secondary" aria-label="กราฟหน้าถัดไป">→</button></div></div>
+<p class="report-footnote">กราฟคำนวณจากผลราย Item ที่บันทึกไว้ คะแนนที่ไม่มีข้อมูลไม่นับเป็นศูนย์ · การพบ Evidence ไม่ได้ยืนยันว่าผ่านเกณฑ์</p>
+</section>
+<section id="report-items" role="tabpanel" aria-labelledby="tab-items" class="report-panel" hidden>
+<div class="report-filter-grid"><label>ค้นหารายการ<input type="search" id="reportSearch" class="form-control" placeholder="รหัส ชื่อ Gap หรือ Evidence…"></label><label>Reference<select id="reportReference" class="form-select"><option value="">ทั้งหมด</option>{% for st in selected_standards %}<option value="{{ st.code }}">{{ st.code }} · {{ st.name }}</option>{% endfor %}</select></label><label>คะแนน / Evidence<select id="reportScore" class="form-select"><option value="">ทั้งหมด</option><option value="low">คะแนนต่ำกว่า 3</option><option value="missing">ไม่มี Evidence</option><option value="unscored">ยังไม่มีคะแนน</option>{% for score in range(6) %}<option value="{{ score }}">คะแนน {{ score }}{% if score < 5 %} ถึงต่ำกว่า {{ score + 1 }}{% endif %}</option>{% endfor %}</select></label><button id="reportReset" type="button" class="btn btn-outline-secondary">ล้างตัวกรอง</button></div>
+<div class="report-master-detail"><div><div id="reportItemList" class="report-item-list" aria-label="รายการประเมิน"></div><div class="report-pagination"><span id="reportPageStatus" role="status"></span><div><button id="reportPrev" type="button" class="btn btn-sm btn-outline-secondary" aria-label="รายการหน้าก่อน">←</button><button id="reportNext" type="button" class="btn btn-sm btn-outline-secondary" aria-label="รายการหน้าถัดไป">→</button></div></div></div><article id="reportItemDetail" class="report-item-detail" tabindex="0" aria-label="รายละเอียดผลประเมิน"></article></div>
+</section>
+<section id="report-context" role="tabpanel" aria-labelledby="tab-context" class="report-panel report-context" hidden>
   <div class="card shadow-sm mb-3"><div class="card-header fw-bold">Assessment Summary</div><div class="card-body">
     <p><strong>Test Suite:</strong> {{ test_suite.name if test_suite else '-' }}</p>
     <p><strong>Assessment references:</strong> {% for st in selected_standards %}<span class="badge bg-light text-dark me-1 mb-1">{{ st.code }}</span>{% endfor %}</p>
@@ -25,27 +45,14 @@
     <div class="mb-3"><strong>Source documents:</strong><div class="list-group list-group-flush mt-2">
       {% for f in source_files %}<a target="_blank" href="{{ url_for('source_pdf', check_id=check.id, file_id=f.id) }}" class="list-group-item list-group-item-action px-0 d-flex justify-content-between gap-2"><span><i class="bi bi-file-earmark-pdf text-danger me-1"></i>{{ f.original_filename }}</span><small class="text-secondary">{{ f.page_count }} pages</small></a>{% endfor %}
     </div></div>
-    {% if session.get('role') == 'user' %}<form method="post" action="{{ url_for('run_compliance', check_id=check.id) }}" class="d-grid gap-2" data-loading-title="กำลังประเมินด้วย Local Model" data-loading-message="กำลังค้น Evidence สร้าง Knowledge Graph และประเมิน Compliance"><button class="btn btn-primary">Run / Re-run Assessment</button></form>
+    {% if session.get('role') == 'user' %}<form method="post" action="{{ url_for('run_compliance', check_id=check.id) }}" class="d-grid gap-2" data-loading-title="กำลังประเมินเอกสาร" data-loading-message="กำลังค้น Evidence สร้าง Knowledge Graph และประเมิน Compliance"><button class="btn btn-primary">Run / Re-run Assessment</button></form>
     {% elif session.get('role') == 'committee' %}<a class="btn btn-primary w-100" href="{{ url_for('committee_review', check_id=check.id) }}">Open Committee Review</a>{% endif %}
   </div></div>
-  <div class="card shadow-sm mb-3"><div class="card-header fw-bold">Evidence Traceability</div><div class="card-body small text-secondary"><i class="bi bi-search me-1 text-primary"></i>คลิกคะแนนเพื่อดูไฟล์ หน้า ข้อความ Evidence เหตุผล Gap และ Recommendation ของแต่ละ Item</div></div>
+  <div class="card shadow-sm mb-3"><div class="card-header fw-bold">Evidence Traceability</div><div class="card-body small text-secondary"><i class="bi bi-search me-1 text-primary"></i>เปิดแท็บรายการประเมิน แล้วเลือกรายการเพื่อดูไฟล์ หน้า ข้อความ Evidence เหตุผล Gap และ Recommendation</div></div>
   {% if committee_reviews %}<div class="card shadow-sm"><div class="card-header fw-bold">Committee Review Status</div><div class="card-body">{% for r in committee_reviews %}<div class="border-bottom pb-2 mb-2"><strong>{{ r.committee.full_name if r.committee else 'Committee' }}</strong><small class="d-block text-secondary">Updated {{ r.updated_at.strftime('%d %b %Y %H:%M') if r.updated_at else '-' }}</small>{% if r.comments %}<div class="small mt-1">{{ r.comments }}</div>{% endif %}</div>{% endfor %}<a class="btn btn-sm btn-outline-primary" href="{{ url_for('assessment_comparison', check_id=check.id) }}">View comparison</a></div></div>{% endif %}
-</div>
-
-<div class="col-lg-8">
-  <div class="card shadow-sm mb-3"><div class="card-header"><div class="section-title">Compliance Insights</div><div class="section-subtitle">Item-level maturity on a fixed 0–5 scale, grounded in traceable evidence.</div></div><div class="card-body">
-    <div class="row g-4 chart-grid"><div class="col-md-6"><div class="chart-panel"><h6>Reference Comparison</h6><canvas id="barChart"></canvas></div></div><div class="col-md-6"><div class="chart-panel"><h6>Governance Radar</h6><canvas id="radarChart"></canvas></div></div><div class="col-md-6"><div class="chart-panel"><h6>Maturity Distribution</h6><canvas id="maturityDonut"></canvas></div></div><div class="col-md-6"><div class="chart-panel"><h6>Category Maturity</h6><canvas id="categoryChart"></canvas></div></div></div>
-    <input type="hidden" id="standard-summary-json" value='{{ standard_summary|tojson }}'><input type="hidden" id="category-summary-json" value='{{ category_summary|tojson }}'><input type="hidden" id="maturity-distribution-json" value='{{ maturity_distribution|tojson }}'>
-  </div></div>
-
-  <div class="card shadow-sm mb-3"><div class="card-header"><div class="section-title">Gap Analysis & Recommendation by Reference</div><div class="section-subtitle">Gap และข้อเสนอแนะถูกแยกเป็น Tab ของแต่ละมาตรฐาน กฎหมาย หรือแนวทางที่เลือก</div></div><div class="card-body">
-    <ul class="nav nav-tabs" role="tablist">{% for st in selected_standards %}<li class="nav-item" role="presentation"><button class="nav-link {% if loop.first %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#gap-{{ st.id }}" type="button">{{ st.code }}</button></li>{% endfor %}</ul>
-    <div class="tab-content border border-top-0 rounded-bottom p-3">{% for st in selected_standards %}<div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="gap-{{ st.id }}"><div class="mb-2"><strong>{{ st.name }}</strong></div><div class="row g-2">{% set items = grouped_assessment.get(st.code, []) %}{% for item in items %}<div class="col-12"><div class="committee-evidence-box"><div class="d-flex justify-content-between gap-2"><strong>{{ item.item_code }} · {{ item.title }}</strong><span class="data-chip">{{ item.score }}/5</span></div><div class="row mt-2"><div class="col-md-6"><small class="text-secondary">Gap</small><div>{{ item.gap or '-' }}</div></div><div class="col-md-6"><small class="text-secondary">Recommendation</small><div>{{ item.recommendation or '-' }}</div></div></div></div></div>{% else %}<div class="text-secondary">No assessment items for this reference.</div>{% endfor %}</div></div>{% endfor %}</div>
-  </div></div>
-
-  <div class="card shadow-sm"><div class="card-header"><div class="section-title">Compliance Details</div><div class="section-subtitle">Click a score to inspect evidence provenance and the complete assessment rationale.</div></div><div class="card-body table-responsive"><table class="table align-middle"><thead><tr><th>Reference / Item</th><th>Score</th><th>Maturity</th><th>Evidence</th></tr></thead><tbody>{% for item in compliance_results %}<tr><td><span class="badge bg-light text-dark mb-1">{{ item.standard or '-' }}</span><br><strong>{{ item.item_code }}</strong><br><span class="small">{{ item.title }}</span></td><td><button type="button" class="btn btn-sm btn-primary" data-evidence-index="{{ loop.index0 }}">{{ item.score }} / 5 <i class="bi bi-search ms-1"></i></button></td><td><span class="badge bg-light text-dark">{{ item.maturity or '-' }}</span></td><td class="small">{% if item.evidence %}<span class="badge text-bg-success">{{ item.evidence|length }} evidence</span><br><span class="text-secondary">{{ item.evidence[0].filename }} · p.{{ item.evidence[0].page }}</span>{% else %}<span class="badge text-bg-secondary">No trace</span>{% endif %}</td></tr>{% else %}<tr><td colspan="4">No compliance results yet.</td></tr>{% endfor %}</tbody></table></div></div>
-</div></div>
-
-<script type="application/json" id="compliance-evidence-json">{{ compliance_results|tojson }}</script>
-<div class="modal fade" id="evidenceDetailModal" data-check-id="{{ check.id }}" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><div><div class="eyebrow">EVIDENCE-GROUNDED ASSESSMENT</div><h5 class="modal-title" id="evidenceModalItem">Compliance Item</h5></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3 mb-3"><div class="col-md-3"><div class="committee-evidence-box"><strong>Score</strong><div class="fs-4 text-primary" id="evidenceModalScore">-</div></div></div><div class="col-md-3"><div class="committee-evidence-box"><strong>Maturity</strong><div id="evidenceModalMaturity">-</div></div></div><div class="col-md-6"><div class="committee-evidence-box"><strong>Assessment reason</strong><div id="evidenceModalReason">-</div></div></div></div><div class="row g-3 mb-4"><div class="col-md-6"><div class="committee-evidence-box h-100"><strong>Identified gap</strong><div id="evidenceModalGap">-</div></div></div><div class="col-md-6"><div class="committee-evidence-box h-100"><strong>Recommendation</strong><div id="evidenceModalRecommendation">-</div></div></div></div><h6><i class="bi bi-journal-text me-1"></i>Traceable evidence</h6><div id="evidenceModalList"></div></div></div></div></div>
+</section>
+<noscript><p class="alert alert-info">เปิด JavaScript เพื่อใช้ตัวกรองและกราฟ รายการผลประเมินทั้งหมดแสดงด้านล่าง</p>{% for item in compliance_results %}<article class="card p-3 mb-2"><h2>{{ item.item_code }} · {{ item.title }}</h2><p>{{ item.standard }} · {{ item.category }} · {{ item.score }}/5 · {{ item.maturity }}</p><p>{{ item.reason }}</p><p>Gap: {{ item.gap }}</p><p>Recommendation: {{ item.recommendation }}</p>{% for e in item.evidence or [] %}<p>{{ e.filename }} · p.{{ e.page }} · {{ e.snippet }}</p>{% endfor %}</article>{% endfor %}</noscript>
+</section>
+<script type="application/json" id="report-results-json">{{ compliance_results|tojson }}</script>
 {% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/report.js') }}"></script>{% endblock %}

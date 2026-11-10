@@ -1,0 +1,1275 @@
+{
+ "schema": "eigda.domain-pack/2",
+ "pack_version": "17.1.0-adm.1",
+ "slug": "administrative_court",
+ "title": "Administrative Court",
+ "title_th": "ศาลปกครอง",
+ "category": "Administrative Justice",
+ "category_th": "งานยุติธรรมทางปกครอง",
+ "icon": "bi-bank2",
+ "accent": "#6b3fa0",
+ "display_order": 8,
+ "status": "pilot_draft",
+ "inherits": "general",
+ "layers": [
+  "common_aidg"
+ ],
+ "summary_th": "การประเมินธรรมาภิบาล ความพร้อม และความน่าเชื่อถือของระบบ AI ที่ใช้ในงานศาลปกครอง",
+ "provisional_note_th": "กรอบประเมินเฉพาะ Domain ที่เสนอ (Proposed) Control ทุกข้อเป็นสถานะเสนอ และแหล่งอ้างอิงทุกฉบับรอตรวจกับต้นฉบับ จึงยังไม่ใช้สรุปการปฏิบัติตามกฎหมาย",
+ "key_concerns": [
+  "อำนาจวินิจฉัยของตุลาการ",
+  "ความถูกต้องของการอ้างอิงกฎหมายและคำพิพากษา",
+  "ความลับของสำนวนคดี"
+ ],
+ "organization_types": [
+  {
+   "id": "ADM.ORG.SUPREME",
+   "title": "Supreme Administrative Court",
+   "title_th": "ศาลปกครองสูงสุด"
+  },
+  {
+   "id": "ADM.ORG.FIRST",
+   "title": "Administrative Court of First Instance",
+   "title_th": "ศาลปกครองชั้นต้น"
+  },
+  {
+   "id": "ADM.ORG.OFFICE",
+   "title": "Office of the Administrative Courts",
+   "title_th": "สำนักงานศาลปกครอง"
+  }
+ ],
+ "functional_areas": [
+  {
+   "id": "ADM.FA.INTAKE",
+   "title": "Case intake",
+   "title_th": "การรับคำฟ้องและตรวจคำฟ้อง"
+  },
+  {
+   "id": "ADM.FA.RESEARCH",
+   "title": "Legal research",
+   "title_th": "การค้นคว้าข้อกฎหมายและคำพิพากษา"
+  },
+  {
+   "id": "ADM.FA.DRAFTING",
+   "title": "Judicial drafting support",
+   "title_th": "การช่วยร่างเอกสารในคดี"
+  },
+  {
+   "id": "ADM.FA.PUBLIC",
+   "title": "Public information service",
+   "title_th": "การให้บริการข้อมูลแก่ประชาชน"
+  },
+  {
+   "id": "ADM.FA.ADMIN",
+   "title": "Court administration",
+   "title_th": "การบริหารงานศาล",
+   "org_types": [
+    "ADM.ORG.OFFICE"
+   ]
+  }
+ ],
+ "use_cases": [
+  {
+   "id": "ADM.UC.RESEARCH",
+   "title": "Legal research assistant",
+   "title_th": "ผู้ช่วยค้นคว้ากฎหมายและคำพิพากษา",
+   "functional_areas": [
+    "ADM.FA.RESEARCH"
+   ],
+   "dimensions": [
+    "ADM.DIM.ACCURACY"
+   ],
+   "floor_impact": "assistive"
+  },
+  {
+   "id": "ADM.UC.SUMMARY",
+   "title": "Case file summarisation",
+   "title_th": "การสรุปสำนวนคดี",
+   "functional_areas": [
+    "ADM.FA.INTAKE",
+    "ADM.FA.DRAFTING"
+   ],
+   "dimensions": [
+    "ADM.DIM.CONFIDENTIAL",
+    "ADM.DIM.OVERSIGHT"
+   ],
+   "floor_impact": "assistive"
+  },
+  {
+   "id": "ADM.UC.DRAFTING",
+   "title": "Drafting assistance for orders and judgments",
+   "title_th": "การช่วยร่างคำสั่งหรือคำพิพากษา",
+   "functional_areas": [
+    "ADM.FA.DRAFTING"
+   ],
+   "dimensions": [
+    "ADM.DIM.INDEPENDENCE",
+    "ADM.DIM.OVERSIGHT"
+   ],
+   "floor_impact": "significant"
+  },
+  {
+   "id": "ADM.UC.TRIAGE",
+   "title": "Case intake triage",
+   "title_th": "การคัดแยกคำฟ้องเบื้องต้น",
+   "functional_areas": [
+    "ADM.FA.INTAKE"
+   ],
+   "dimensions": [
+    "ADM.DIM.FAIRNESS",
+    "ADM.DIM.OVERSIGHT"
+   ],
+   "floor_impact": "significant"
+  },
+  {
+   "id": "ADM.UC.PUBLIC_QA",
+   "title": "Public Q&A on filing administrative cases",
+   "title_th": "ผู้ช่วยตอบคำถามประชาชนเรื่องการฟ้องคดีปกครอง",
+   "functional_areas": [
+    "ADM.FA.PUBLIC"
+   ],
+   "dimensions": [
+    "ADM.DIM.ACCURACY",
+    "ADM.DIM.TRANSPARENCY"
+   ],
+   "floor_impact": "assistive"
+  }
+ ],
+ "dimensions": [
+  {
+   "id": "ADM.DIM.INDEPENDENCE",
+   "title": "Judicial independence",
+   "title_th": "ความเป็นอิสระของตุลาการ"
+  },
+  {
+   "id": "ADM.DIM.ACCURACY",
+   "title": "Legal accuracy & grounding",
+   "title_th": "ความถูกต้องและแหล่งอ้างอิงทางกฎหมาย"
+  },
+  {
+   "id": "ADM.DIM.CONFIDENTIAL",
+   "title": "Case confidentiality",
+   "title_th": "ความลับของสำนวน"
+  },
+  {
+   "id": "ADM.DIM.FAIRNESS",
+   "title": "Fairness",
+   "title_th": "ความเป็นธรรม"
+  },
+  {
+   "id": "ADM.DIM.TRANSPARENCY",
+   "title": "Transparency",
+   "title_th": "ความโปร่งใส"
+  },
+  {
+   "id": "ADM.DIM.OVERSIGHT",
+   "title": "Human oversight",
+   "title_th": "การกำกับโดยมนุษย์"
+  },
+  {
+   "id": "ADM.DIM.RISK",
+   "title": "Risk & incidents",
+   "title_th": "ความเสี่ยงและเหตุการณ์ผิดปกติ"
+  },
+  {
+   "id": "ADM.DIM.LEGAL",
+   "title": "Legal compliance",
+   "title_th": "ความสอดคล้องกับกฎหมาย"
+  }
+ ],
+ "data_categories": [
+  {
+   "id": "ADM.DATA.PUBLISHED",
+   "title_th": "กฎหมายและคำพิพากษาที่เผยแพร่แล้ว",
+   "sensitivity": "public"
+  },
+  {
+   "id": "ADM.DATA.INTERNAL",
+   "title_th": "ข้อมูลบริหารงานศาล",
+   "sensitivity": "internal"
+  },
+  {
+   "id": "ADM.DATA.PARTY",
+   "title_th": "ข้อมูลส่วนบุคคลของคู่กรณี",
+   "sensitivity": "personal"
+  },
+  {
+   "id": "ADM.DATA.CASE_FILE",
+   "title_th": "สำนวนคดีที่ยังไม่เปิดเผย",
+   "sensitivity": "sensitive"
+  }
+ ],
+ "profile_questions": [
+  {
+   "id": "is_public_agency",
+   "label_th": "หน่วยงานนี้เป็นหน่วยงานของรัฐหรือไม่",
+   "help_th": "ศาลปกครองและสำนักงานศาลปกครองเป็นหน่วยงานของรัฐ",
+   "default": true
+  },
+  {
+   "id": "public_facing",
+   "label_th": "ประชาชนหรือคู่กรณีใช้ระบบโดยตรงหรือไม่",
+   "help_th": "ถ้าใช่ ความถูกต้องของข้อมูลกระบวนพิจารณาจะเป็นประเด็นสำคัญ"
+  },
+  {
+   "id": "influences_decision",
+   "label_th": "ผลลัพธ์ถูกใช้ประกอบการวินิจฉัยคดีหรือไม่",
+   "help_th": "ถ้าใช่ ต้องมีหลักฐานว่าตุลาการเป็นผู้วินิจฉัย"
+  },
+  {
+   "id": "uses_external_vendor",
+   "label_th": "ระบบส่งข้อมูลไปยังผู้ให้บริการภายนอกหรือไม่",
+   "help_th": "มีผลต่อความลับของสำนวน"
+  }
+ ],
+ "evidence_requirements": [
+  {
+   "id": "EV.ADM.AI_POLICY",
+   "title": "Court AI usage policy",
+   "title_th": "นโยบายหรือคำสั่งการใช้ AI ในงานศาล",
+   "why_th": "กำหนดขอบเขตการใช้และข้อห้าม",
+   "keywords": [
+    "นโยบายการใช้ ai",
+    "ai usage policy",
+    "ขอบเขตการใช้ ai",
+    "ข้อห้าม"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.ROLE_MATRIX",
+   "title": "Role & responsibility matrix",
+   "title_th": "ผังบทบาทและอำนาจหน้าที่",
+   "why_th": "ระบุว่าผู้ใดมีอำนาจวินิจฉัยและผู้ใดตรวจทาน",
+   "keywords": [
+    "role and responsibility",
+    "raci",
+    "อำนาจหน้าที่",
+    "ผู้มีอำนาจ"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.REVIEW_LOG",
+   "title": "Human review & approval logs",
+   "title_th": "บันทึกการตรวจทานและอนุมัติโดยมนุษย์",
+   "why_th": "แสดงว่าผลของ AI ผ่านการตรวจทานจริง",
+   "keywords": [
+    "approval log",
+    "human review workflow",
+    "บันทึกการตรวจทาน",
+    "ผู้ตรวจทาน"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.ADM.SOURCE_REGISTRY",
+   "title": "Legal source registry",
+   "title_th": "ทะเบียนแหล่งกฎหมายและคำพิพากษาที่ระบบใช้",
+   "why_th": "ระบุแหล่งที่ระบบอ้างอิงได้",
+   "keywords": [
+    "source registry",
+    "ทะเบียนแหล่งข้อมูล",
+    "แหล่งอ้างอิง",
+    "คลังคำพิพากษา"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.CITATION_LOG",
+   "title": "Citation verification logs & evaluation",
+   "title_th": "บันทึกการตรวจการอ้างอิงและรายงานประเมิน",
+   "why_th": "แสดงว่ามีการตรวจการอ้างอิงจริง",
+   "keywords": [
+    "citation verification",
+    "ตรวจสอบการอ้างอิง",
+    "evaluation report",
+    "hallucination"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.ADM.ACCESS_POLICY",
+   "title": "Access control & data classification",
+   "title_th": "นโยบายควบคุมสิทธิ์และการจัดชั้นข้อมูลสำนวน",
+   "why_th": "กำหนดว่าใครเข้าถึงสำนวนใดได้",
+   "keywords": [
+    "access control policy",
+    "data classification",
+    "สิทธิ์การเข้าถึง",
+    "ชั้นความลับ"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.ACCESS_LOG",
+   "title": "Access logs & security tests",
+   "title_th": "บันทึกการเข้าถึงและผลทดสอบความปลอดภัย",
+   "why_th": "แสดงการควบคุมที่ใช้งานจริง",
+   "keywords": [
+    "access log",
+    "security test report",
+    "บันทึกการเข้าถึง",
+    "ทดสอบเจาะระบบ"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.ADM.VERSION_REGISTRY",
+   "title": "Legal version registry",
+   "title_th": "ทะเบียนฉบับและวันที่มีผลของกฎหมาย",
+   "why_th": "ระบุฉบับที่ใช้ตอบในแต่ละช่วงเวลา",
+   "keywords": [
+    "legal version registry",
+    "effective date",
+    "วันที่มีผลใช้บังคับ",
+    "ฉบับแก้ไข"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.UPDATE_LOG",
+   "title": "Legal update logs",
+   "title_th": "บันทึกการปรับปรุงฐานกฎหมาย",
+   "why_th": "แสดงว่ามีการปรับปรุงเมื่อกฎหมายเปลี่ยน",
+   "keywords": [
+    "update log",
+    "บันทึกการปรับปรุง",
+    "effective date metadata"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.ADM.FAIRNESS_PLAN",
+   "title": "Fairness testing plan",
+   "title_th": "แผนทดสอบความเป็นธรรม",
+   "why_th": "กำหนดกลุ่มและเกณฑ์ที่ทดสอบ",
+   "keywords": [
+    "fairness test plan",
+    "แผนทดสอบความเป็นธรรม",
+    "bias evaluation"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.FAIRNESS_RESULT",
+   "title": "Fairness & bias results with corrective actions",
+   "title_th": "ผลทดสอบความเป็นธรรมและบันทึกการแก้ไข",
+   "why_th": "แสดงผลทดสอบจริงและการแก้ไข",
+   "keywords": [
+    "fairness test report",
+    "bias evaluation results",
+    "corrective action record",
+    "ผลทดสอบความเป็นธรรม"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.ADM.LEGAL_BASIS",
+   "title": "Legal basis & applicability register",
+   "title_th": "ทะเบียนฐานอำนาจและการใช้บังคับของกฎหมาย",
+   "why_th": "ระบุว่ากฎหมายใดใช้กับกิจกรรมใดของระบบ",
+   "keywords": [
+    "legal basis register",
+    "applicability",
+    "ฐานอำนาจ",
+    "การใช้บังคับ"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.LEGAL_REVIEW",
+   "title": "Legal review record",
+   "title_th": "บันทึกการตรวจความสอดคล้องทางกฎหมาย",
+   "why_th": "แสดงว่าผู้มีอำนาจตรวจแล้ว",
+   "keywords": [
+    "legal review",
+    "ความเห็นทางกฎหมาย",
+    "บันทึกการตรวจทางกฎหมาย"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.ADM.DISCLOSURE",
+   "title": "AI-use disclosure to users and parties",
+   "title_th": "ประกาศแจ้งการใช้ AI ต่อผู้ใช้และคู่กรณี",
+   "why_th": "ผู้ใช้รู้ว่ากำลังใช้ AI และรู้ข้อจำกัด",
+   "keywords": [
+    "ai disclosure",
+    "แจ้งการใช้ ai",
+    "ข้อจำกัดของระบบ",
+    "transparency notice"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.EXPLANATION",
+   "title": "Output explanation records",
+   "title_th": "บันทึกเหตุผลหรือแหล่งที่มาของผลลัพธ์",
+   "why_th": "ผลลัพธ์ตรวจย้อนกลับได้",
+   "keywords": [
+    "explanation record",
+    "แหล่งที่มาของคำตอบ",
+    "เหตุผลประกอบ"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.ADM.RISK_REGISTER",
+   "title": "AI risk register & incident procedure",
+   "title_th": "ทะเบียนความเสี่ยง AI และขั้นตอนจัดการเหตุการณ์",
+   "why_th": "ระบุความเสี่ยงและวิธีตอบสนอง",
+   "keywords": [
+    "risk register",
+    "incident procedure",
+    "ทะเบียนความเสี่ยง",
+    "เหตุการณ์ผิดปกติ"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.INCIDENT_LOG",
+   "title": "Incident & red-team records",
+   "title_th": "บันทึกเหตุการณ์และผลทดสอบเชิงรุก",
+   "why_th": "แสดงการทดสอบและตอบสนองจริง",
+   "keywords": [
+    "incident log",
+    "red team",
+    "prompt injection test",
+    "บันทึกเหตุการณ์"
+   ],
+   "evidence_kind": "practice"
+  },
+  {
+   "id": "EV.ADM.PUBLIC_CONTENT",
+   "title": "Approved public procedure content",
+   "title_th": "เนื้อหาขั้นตอนการฟ้องคดีที่ได้รับอนุมัติ",
+   "why_th": "ระบบตอบจากเนื้อหาที่อนุมัติแล้ว",
+   "keywords": [
+    "approved content",
+    "ขั้นตอนการฟ้องคดี",
+    "เนื้อหาที่อนุมัติ"
+   ],
+   "evidence_kind": "policy"
+  },
+  {
+   "id": "EV.ADM.PUBLIC_EVAL",
+   "title": "Public answer accuracy tests",
+   "title_th": "ผลทดสอบความถูกต้องของคำตอบต่อประชาชน",
+   "why_th": "แสดงผลทดสอบก่อนเปิดใช้",
+   "keywords": [
+    "answer accuracy test",
+    "ผลทดสอบคำตอบ",
+    "ทดสอบก่อนเปิดใช้"
+   ],
+   "evidence_kind": "practice"
+  }
+ ],
+ "rubric": {
+  "id": "RUBRIC.ADMINISTRATIVE_COURT",
+  "version": "1.0",
+  "gate_min_level": 2,
+  "coverage_caps": [
+   [
+    0.34,
+    1
+   ],
+   [
+    0.67,
+    2
+   ],
+   [
+    1.01,
+    3
+   ]
+  ],
+  "human_review": "critical_or_high_risk",
+  "levels": {
+   "0": "ไม่พบหลักฐานที่ตรวจสอบได้",
+   "1": "มีข้อกำหนดหรือแนวปฏิบัติ แต่ยังไม่พบหลักฐานการปฏิบัติจริง",
+   "2": "มีข้อกำหนดและหลักฐานการปฏิบัติบางส่วน",
+   "3": "มีข้อกำหนด หลักฐานการปฏิบัติ และบันทึกการตรวจทานครบ"
+  }
+ },
+ "suite_focus": {
+  "TS01": "ขอบเขตระบบและแหล่งข้อมูลกฎหมาย",
+  "TS02": "อำนาจวินิจฉัยและความรับผิดชอบ",
+  "TS03": "ความเป็นธรรมและความโปร่งใสต่อคู่กรณี",
+  "TS04": "ความลับของสำนวนและความมั่นคงปลอดภัย",
+  "TS05": "ฉบับและวันที่มีผลของกฎหมาย",
+  "TS06": "ความถูกต้องของการอ้างอิง",
+  "TS07": "การตรวจทานและติดตามตลอดวงจร",
+  "TS08": "ผลกระทบต่อคู่กรณีตาม Use Case"
+ },
+ "sila_test_pack": "administrative_court_redteam",
+ "controls": [
+  {
+   "id": "JUD-CTRL-001",
+   "title": "Human decision authority",
+   "title_th": "อำนาจวินิจฉัยคดีของตุลาการ",
+   "objective_th": "ระบบ AI ต้องไม่แสดงตนว่ามีอำนาจตัดสินคดีแทนตุลาการ และมีขอบเขตการใช้งานกับกระบวนการตรวจทานที่เหมาะสม",
+   "scope_th": "ทุกระบบ AI ในงานศาลปกครอง",
+   "requirement_type": "guideline",
+   "control_status": "proposed",
+   "suites": [
+    "TS02",
+    "TS08"
+   ],
+   "dimensions": [
+    "ADM.DIM.INDEPENDENCE"
+   ],
+   "references": [
+    "CEPEJ-CHARTER-2018",
+    "UNESCO-COURTS-2025",
+    "TH-ADMIN-COURT-2542"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "CEPEJ-CHARTER-2018",
+     "clause": "หลักการ \"under user control\" (รอตรวจถ้อยคำ)",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-ADMIN-COURT-2542",
+     "clause": "รอระบุมาตรา/ข้อจากตัวบทที่ตรวจแล้ว",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.AI_POLICY",
+    "EV.ADM.ROLE_MATRIX",
+    "EV.ADM.REVIEW_LOG"
+   ],
+   "evidence_policy": [
+    "EV.ADM.AI_POLICY",
+    "EV.ADM.ROLE_MATRIX"
+   ],
+   "evidence_practice": [
+    "EV.ADM.REVIEW_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": true,
+   "risk": "critical",
+   "sila_tests": [
+    "JUD-SILA-008"
+   ],
+   "critical_condition_th": "สำคัญเสมอ การใช้ AI ตัดสินคดีแทนผู้มีอำนาจเป็นความเสี่ยงร้ายแรง"
+  },
+  {
+   "id": "JUD-CTRL-002",
+   "title": "Legal citation verification",
+   "title_th": "การตรวจสอบแหล่งอ้างอิงกฎหมายและคำพิพากษา",
+   "objective_th": "มีกลไกตรวจแหล่งอ้างอิงทางกฎหมายและคำพิพากษาก่อนนำเสนอเป็นข้อเท็จจริง",
+   "scope_th": "ระบบที่ตอบหรือร่างเอกสารโดยอ้างกฎหมายหรือคำพิพากษา",
+   "requirement_type": "guideline",
+   "control_status": "proposed",
+   "suites": [
+    "TS05",
+    "TS06"
+   ],
+   "dimensions": [
+    "ADM.DIM.ACCURACY"
+   ],
+   "references": [
+    "CEPEJ-GENAI-2025",
+    "UNESCO-COURTS-2025"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "CEPEJ-GENAI-2025",
+     "clause": "รอระบุหัวข้อเรื่องการตรวจผลลัพธ์",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "UNESCO-COURTS-2025",
+     "clause": "รอระบุหัวข้อ",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.SOURCE_REGISTRY",
+    "EV.ADM.CITATION_LOG"
+   ],
+   "evidence_policy": [
+    "EV.ADM.SOURCE_REGISTRY"
+   ],
+   "evidence_practice": [
+    "EV.ADM.CITATION_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": true,
+   "risk": "critical",
+   "sila_tests": [
+    "JUD-SILA-001",
+    "JUD-SILA-002",
+    "JUD-SILA-003"
+   ],
+   "applies_when": {
+    "use_cases": [
+     "ADM.UC.RESEARCH",
+     "ADM.UC.SUMMARY",
+     "ADM.UC.DRAFTING",
+     "ADM.UC.PUBLIC_QA"
+    ]
+   },
+   "critical_condition_th": "สำคัญเสมอ การอ้างคำพิพากษาที่ไม่มีอยู่จริงเป็นข้อบกพร่องร้ายแรง"
+  },
+  {
+   "id": "JUD-CTRL-003",
+   "title": "Case confidentiality",
+   "title_th": "ความลับของสำนวนคดี",
+   "objective_th": "จำกัดการเข้าถึงและประมวลผลข้อมูลสำนวนตามสิทธิ์และข้อกำหนดที่เกี่ยวข้อง",
+   "scope_th": "ระบบที่เข้าถึงสำนวนหรือข้อมูลคู่กรณี",
+   "requirement_type": "law",
+   "control_status": "proposed",
+   "suites": [
+    "TS01",
+    "TS04"
+   ],
+   "dimensions": [
+    "ADM.DIM.CONFIDENTIAL"
+   ],
+   "references": [
+    "TH-OFFICIAL-INFO-2540",
+    "TH-PDPA-2562",
+    "ISO-27001"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-OFFICIAL-INFO-2540",
+     "clause": "รอระบุมาตรา/ข้อจากตัวบทที่ตรวจแล้ว",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-PDPA-2562",
+     "clause": "รอระบุมาตรา/ข้อจากตัวบทที่ตรวจแล้ว",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "ISO-27001",
+     "clause": "Annex A ตามฉบับที่องค์กรถือ (ไม่คัดลอกข้อความมาตรฐาน)",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.ACCESS_POLICY",
+    "EV.ADM.ACCESS_LOG"
+   ],
+   "evidence_policy": [
+    "EV.ADM.ACCESS_POLICY"
+   ],
+   "evidence_practice": [
+    "EV.ADM.ACCESS_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": true,
+   "risk": "critical",
+   "sila_tests": [
+    "JUD-SILA-005"
+   ],
+   "applies_when": {
+    "data_categories_min_sensitivity": "personal"
+   },
+   "critical_condition_th": "สำคัญเสมอ การเปิดเผยสำนวนโดยไม่มีสิทธิ์หรือขาดการควบคุมสิทธิ์เป็นข้อบกพร่องร้ายแรง"
+  },
+  {
+   "id": "JUD-CTRL-004",
+   "title": "Legal version control",
+   "title_th": "การควบคุมฉบับและวันที่มีผลของกฎหมาย",
+   "objective_th": "ระบุหรือควบคุมช่วงเวลามีผลใช้บังคับของกฎหมายและเอกสารอ้างอิงที่ใช้ตอบ",
+   "scope_th": "ระบบที่ตอบหรือค้นคืนกฎหมาย",
+   "requirement_type": "project_criteria",
+   "control_status": "proposed",
+   "suites": [
+    "TS05",
+    "TS07"
+   ],
+   "dimensions": [
+    "ADM.DIM.ACCURACY"
+   ],
+   "references": [
+    "EIGDA-PILOT-CRITERIA",
+    "CEPEJ-GENAI-2025"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "EIGDA-PILOT-CRITERIA",
+     "clause": "JUD-CTRL-004 (เกณฑ์ที่โครงการเสนอ)",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.VERSION_REGISTRY",
+    "EV.ADM.UPDATE_LOG"
+   ],
+   "evidence_policy": [
+    "EV.ADM.VERSION_REGISTRY"
+   ],
+   "evidence_practice": [
+    "EV.ADM.UPDATE_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "high",
+   "sila_tests": [
+    "JUD-SILA-004"
+   ],
+   "applies_when": {
+    "use_cases": [
+     "ADM.UC.RESEARCH",
+     "ADM.UC.DRAFTING",
+     "ADM.UC.PUBLIC_QA"
+    ]
+   }
+  },
+  {
+   "id": "JUD-CTRL-005",
+   "title": "Fairness & bias monitoring",
+   "title_th": "การติดตามความเป็นธรรมและอคติ",
+   "objective_th": "มีการทดสอบและติดตามคำตอบที่อาจไม่เป็นธรรมต่อผู้ใช้บริการหรือคู่กรณี",
+   "scope_th": "ระบบที่ผลลัพธ์กระทบผู้ใช้บริการหรือคู่กรณี",
+   "requirement_type": "guideline",
+   "control_status": "proposed",
+   "suites": [
+    "TS03",
+    "TS06"
+   ],
+   "dimensions": [
+    "ADM.DIM.FAIRNESS"
+   ],
+   "references": [
+    "CEPEJ-CHARTER-2018",
+    "ISO-23894"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "CEPEJ-CHARTER-2018",
+     "clause": "หลักการ non-discrimination (รอตรวจถ้อยคำ)",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.FAIRNESS_PLAN",
+    "EV.ADM.FAIRNESS_RESULT"
+   ],
+   "evidence_policy": [
+    "EV.ADM.FAIRNESS_PLAN"
+   ],
+   "evidence_practice": [
+    "EV.ADM.FAIRNESS_RESULT"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "high",
+   "sila_tests": [
+    "JUD-SILA-006"
+   ],
+   "critical_when": {
+    "min_risk": "high"
+   },
+   "critical_condition_th": "สำคัญเมื่อความเสี่ยงระดับสูง เช่น การคัดแยกคำฟ้อง"
+  },
+  {
+   "id": "JUD-CTRL-006",
+   "title": "Legal basis & applicability",
+   "title_th": "ฐานอำนาจและการใช้บังคับของกฎหมาย",
+   "objective_th": "ระบุว่ากฎหมายและระเบียบใดใช้กับกิจกรรมใดของระบบ โดยไม่ถือว่าทุกฉบับใช้กับทุกกิจกรรมอัตโนมัติ",
+   "scope_th": "ทุกระบบ AI ในงานศาลปกครอง",
+   "requirement_type": "law",
+   "control_status": "proposed",
+   "suites": [
+    "TS02"
+   ],
+   "dimensions": [
+    "ADM.DIM.LEGAL"
+   ],
+   "references": [
+    "TH-ADMIN-COURT-2542",
+    "TH-ADMIN-COURT-PROC-2543",
+    "TH-ADMIN-PROC-2539",
+    "TH-E-GOV-OPS-2565",
+    "TH-ETA-2544"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "TH-ADMIN-COURT-2542",
+     "clause": "รอระบุมาตรา/ข้อจากตัวบทที่ตรวจแล้ว",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-ADMIN-COURT-PROC-2543",
+     "clause": "รอระบุมาตรา/ข้อจากตัวบทที่ตรวจแล้ว",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-ADMIN-PROC-2539",
+     "clause": "รอระบุมาตรา/ข้อจากตัวบทที่ตรวจแล้ว",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-E-GOV-OPS-2565",
+     "clause": "รอระบุมาตรา/ข้อจากตัวบทที่ตรวจแล้ว",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-ETA-2544",
+     "clause": "รอระบุมาตรา/ข้อจากตัวบทที่ตรวจแล้ว",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.LEGAL_BASIS",
+    "EV.ADM.LEGAL_REVIEW"
+   ],
+   "evidence_policy": [
+    "EV.ADM.LEGAL_BASIS"
+   ],
+   "evidence_practice": [
+    "EV.ADM.LEGAL_REVIEW"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium",
+   "sila_tests": []
+  },
+  {
+   "id": "JUD-CTRL-007",
+   "title": "Transparency of AI use",
+   "title_th": "ความโปร่งใสต่อผู้ใช้และคู่กรณี",
+   "objective_th": "ผู้ใช้และคู่กรณีรู้ว่ามีการใช้ AI รู้ข้อจำกัด และผลลัพธ์อธิบายแหล่งที่มาได้",
+   "scope_th": "ระบบที่ผลลัพธ์ถึงผู้ใช้หรือคู่กรณี",
+   "requirement_type": "guideline",
+   "control_status": "proposed",
+   "suites": [
+    "TS03"
+   ],
+   "dimensions": [
+    "ADM.DIM.TRANSPARENCY"
+   ],
+   "references": [
+    "UNESCO-COURTS-2025",
+    "CEPEJ-CHARTER-2018"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "CEPEJ-CHARTER-2018",
+     "clause": "หลักการ transparency, impartiality and fairness (รอตรวจถ้อยคำ)",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.DISCLOSURE",
+    "EV.ADM.EXPLANATION"
+   ],
+   "evidence_policy": [
+    "EV.ADM.DISCLOSURE"
+   ],
+   "evidence_practice": [
+    "EV.ADM.EXPLANATION"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "medium",
+   "sila_tests": []
+  },
+  {
+   "id": "JUD-CTRL-008",
+   "title": "Human review of AI outputs",
+   "title_th": "การตรวจทานผลลัพธ์ AI ก่อนนำไปใช้",
+   "objective_th": "ผลลัพธ์ที่ใช้ในงานคดีผ่านการตรวจทานโดยผู้มีหน้าที่ก่อนนำไปใช้ และบันทึกการแก้ไขหรือไม่รับผล",
+   "scope_th": "ผลลัพธ์ที่ใช้ในงานคดี",
+   "requirement_type": "guideline",
+   "control_status": "proposed",
+   "suites": [
+    "TS02",
+    "TS07"
+   ],
+   "dimensions": [
+    "ADM.DIM.OVERSIGHT"
+   ],
+   "references": [
+    "UNESCO-COURTS-2025",
+    "ISO-42001"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "UNESCO-COURTS-2025",
+     "clause": "รอระบุหัวข้อเรื่อง human oversight",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.ROLE_MATRIX",
+    "EV.ADM.REVIEW_LOG"
+   ],
+   "evidence_policy": [
+    "EV.ADM.ROLE_MATRIX"
+   ],
+   "evidence_practice": [
+    "EV.ADM.REVIEW_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "high",
+   "sila_tests": [
+    "JUD-SILA-008"
+   ],
+   "critical_when": {
+    "flags": {
+     "influences_decision": true
+    }
+   },
+   "critical_condition_th": "สำคัญเมื่อผลลัพธ์ใช้ประกอบการวินิจฉัยคดี"
+  },
+  {
+   "id": "JUD-CTRL-009",
+   "title": "AI risk & incident management",
+   "title_th": "การบริหารความเสี่ยงและเหตุการณ์ผิดปกติของ AI",
+   "objective_th": "มีทะเบียนความเสี่ยง ขั้นตอนจัดการเหตุการณ์ และการทดสอบเชิงรุกรวมถึง prompt injection",
+   "scope_th": "ทุกระบบ AI ในงานศาลปกครอง",
+   "requirement_type": "standard",
+   "control_status": "proposed",
+   "suites": [
+    "TS04",
+    "TS07"
+   ],
+   "dimensions": [
+    "ADM.DIM.RISK"
+   ],
+   "references": [
+    "ISO-23894",
+    "TH-CYBER-2562",
+    "ISO-42001"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "ISO-23894",
+     "clause": "ตามฉบับที่องค์กรถือ (ไม่คัดลอกข้อความมาตรฐาน)",
+     "status": "pending_verification"
+    },
+    {
+     "source_id": "TH-CYBER-2562",
+     "clause": "รอตรวจว่าหน่วยงานเข้าข่ายหรือไม่",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.RISK_REGISTER",
+    "EV.ADM.INCIDENT_LOG"
+   ],
+   "evidence_policy": [
+    "EV.ADM.RISK_REGISTER"
+   ],
+   "evidence_practice": [
+    "EV.ADM.INCIDENT_LOG"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": false,
+   "risk": "high",
+   "sila_tests": [
+    "JUD-SILA-007"
+   ]
+  },
+  {
+   "id": "JUD-CTRL-010",
+   "title": "Accuracy of procedural information to the public",
+   "title_th": "ความถูกต้องของข้อมูลกระบวนพิจารณาที่ให้ประชาชน",
+   "objective_th": "ผู้ช่วยตอบประชาชนตอบจากเนื้อหาที่อนุมัติ ระบุข้อจำกัด และมีผลทดสอบความถูกต้องก่อนเปิดใช้",
+   "scope_th": "ผู้ช่วยตอบคำถามประชาชน",
+   "requirement_type": "project_criteria",
+   "control_status": "proposed",
+   "suites": [
+    "TS06",
+    "TS08"
+   ],
+   "dimensions": [
+    "ADM.DIM.ACCURACY",
+    "ADM.DIM.TRANSPARENCY"
+   ],
+   "references": [
+    "EIGDA-PILOT-CRITERIA",
+    "UNESCO-COURTS-2025"
+   ],
+   "reference_clauses": [
+    {
+     "source_id": "EIGDA-PILOT-CRITERIA",
+     "clause": "JUD-CTRL-010 (เกณฑ์ที่โครงการเสนอ)",
+     "status": "pending_verification"
+    }
+   ],
+   "evidence": [
+    "EV.ADM.PUBLIC_CONTENT",
+    "EV.ADM.PUBLIC_EVAL"
+   ],
+   "evidence_policy": [
+    "EV.ADM.PUBLIC_CONTENT"
+   ],
+   "evidence_practice": [
+    "EV.ADM.PUBLIC_EVAL"
+   ],
+   "decision_method_th": "หลักฐานเพียงพอ เมื่อพบทั้งข้อกำหนดและหลักฐานการปฏิบัติที่ตรวจย้อนกลับได้ / ขอหลักฐานเพิ่ม เมื่อพบเพียงข้อกำหนดหรือหลักฐานไม่ครบ / ไม่เข้าเงื่อนไข เมื่อหลักฐานขัดกับข้อกำหนดหรือไม่มีทั้งสองส่วน",
+   "version": "1.0",
+   "critical": true,
+   "risk": "high",
+   "sila_tests": [
+    "JUD-SILA-001",
+    "JUD-SILA-004"
+   ],
+   "applies_when": {
+    "use_cases": [
+     "ADM.UC.PUBLIC_QA"
+    ]
+   },
+   "critical_condition_th": "สำคัญเสมอ ข้อมูลกระบวนพิจารณาที่ผิดอาจทำให้ประชาชนเสียสิทธิ เช่น พ้นระยะเวลาฟ้อง"
+  }
+ ],
+ "domain_suites": [
+  {
+   "id": "JUD-01",
+   "title": "Legal Compliance",
+   "title_th": "ความสอดคล้องกับกฎหมายและระเบียบ",
+   "criticality": "high",
+   "description_th": "ฐานอำนาจและการใช้บังคับของกฎหมายกับกิจกรรมของระบบ AI",
+   "objective_th": "ยืนยันว่ากฎหมายที่ใช้กับแต่ละกิจกรรมถูกระบุและตรวจแล้ว",
+   "sections": [
+    {
+     "id": "JUD-01.1",
+     "title_th": "ฐานอำนาจและการใช้บังคับ",
+     "control_ids": [
+      "JUD-CTRL-006"
+     ]
+    }
+   ],
+   "status": "proposed",
+   "assessment_criteria_th": "ประเมินราย Control ตามเกณฑ์ระดับ 0–3 ของ Domain; Control วิกฤตแสดงสถานะแยกจากคะแนนเฉลี่ย",
+   "maturity_mapping": {
+    "0": "ยังไม่มีหลักฐาน",
+    "1": "มีข้อกำหนด",
+    "2": "มีการปฏิบัติบางส่วน",
+    "3": "ปฏิบัติครบและตรวจทานแล้ว"
+   },
+   "sila_tests": []
+  },
+  {
+   "id": "JUD-02",
+   "title": "Judicial Independence",
+   "title_th": "ความเป็นอิสระและความเป็นกลางในการพิจารณา",
+   "criticality": "critical",
+   "description_th": "AI ไม่เข้ามาแทนอำนาจวินิจฉัยของตุลาการ",
+   "objective_th": "ยืนยันขอบเขตการใช้และอำนาจวินิจฉัยของมนุษย์",
+   "sections": [
+    {
+     "id": "JUD-02.1",
+     "title_th": "อำนาจวินิจฉัย",
+     "control_ids": [
+      "JUD-CTRL-001"
+     ]
+    }
+   ],
+   "status": "proposed",
+   "assessment_criteria_th": "ประเมินราย Control ตามเกณฑ์ระดับ 0–3 ของ Domain; Control วิกฤตแสดงสถานะแยกจากคะแนนเฉลี่ย",
+   "maturity_mapping": {
+    "0": "ยังไม่มีหลักฐาน",
+    "1": "มีข้อกำหนด",
+    "2": "มีการปฏิบัติบางส่วน",
+    "3": "ปฏิบัติครบและตรวจทานแล้ว"
+   },
+   "sila_tests": [
+    "JUD-SILA-008"
+   ]
+  },
+  {
+   "id": "JUD-03",
+   "title": "Data Protection & Confidentiality",
+   "title_th": "การคุ้มครองข้อมูลและความลับของสำนวน",
+   "criticality": "critical",
+   "description_th": "การควบคุมสิทธิ์และการประมวลผลข้อมูลสำนวนและคู่กรณี",
+   "objective_th": "ยืนยันว่าข้อมูลสำนวนเข้าถึงได้ตามสิทธิ์เท่านั้น",
+   "sections": [
+    {
+     "id": "JUD-03.1",
+     "title_th": "การควบคุมสิทธิ์และชั้นข้อมูล",
+     "control_ids": [
+      "JUD-CTRL-003"
+     ]
+    }
+   ],
+   "status": "proposed",
+   "assessment_criteria_th": "ประเมินราย Control ตามเกณฑ์ระดับ 0–3 ของ Domain; Control วิกฤตแสดงสถานะแยกจากคะแนนเฉลี่ย",
+   "maturity_mapping": {
+    "0": "ยังไม่มีหลักฐาน",
+    "1": "มีข้อกำหนด",
+    "2": "มีการปฏิบัติบางส่วน",
+    "3": "ปฏิบัติครบและตรวจทานแล้ว"
+   },
+   "sila_tests": [
+    "JUD-SILA-005"
+   ]
+  },
+  {
+   "id": "JUD-04",
+   "title": "Legal Accuracy & Grounding",
+   "title_th": "ความถูกต้องของข้อมูลกฎหมายและแหล่งอ้างอิง",
+   "criticality": "critical",
+   "description_th": "การอ้างอิงที่ตรวจได้และฉบับกฎหมายที่ถูกต้องตามช่วงเวลา",
+   "objective_th": "ยืนยันว่าการอ้างอิงมีอยู่จริงและเป็นฉบับที่มีผล",
+   "sections": [
+    {
+     "id": "JUD-04.1",
+     "title_th": "การตรวจแหล่งอ้างอิง",
+     "control_ids": [
+      "JUD-CTRL-002"
+     ]
+    },
+    {
+     "id": "JUD-04.2",
+     "title_th": "ฉบับและวันที่มีผล",
+     "control_ids": [
+      "JUD-CTRL-004"
+     ]
+    },
+    {
+     "id": "JUD-04.3",
+     "title_th": "ข้อมูลกระบวนพิจารณาต่อประชาชน",
+     "control_ids": [
+      "JUD-CTRL-010"
+     ]
+    }
+   ],
+   "status": "proposed",
+   "assessment_criteria_th": "ประเมินราย Control ตามเกณฑ์ระดับ 0–3 ของ Domain; Control วิกฤตแสดงสถานะแยกจากคะแนนเฉลี่ย",
+   "maturity_mapping": {
+    "0": "ยังไม่มีหลักฐาน",
+    "1": "มีข้อกำหนด",
+    "2": "มีการปฏิบัติบางส่วน",
+    "3": "ปฏิบัติครบและตรวจทานแล้ว"
+   },
+   "sila_tests": [
+    "JUD-SILA-001",
+    "JUD-SILA-002",
+    "JUD-SILA-003",
+    "JUD-SILA-004"
+   ]
+  },
+  {
+   "id": "JUD-05",
+   "title": "Fairness & Non-discrimination",
+   "title_th": "ความเป็นธรรมและการไม่เลือกปฏิบัติ",
+   "criticality": "high",
+   "description_th": "การทดสอบและติดตามความไม่เป็นธรรมต่อคู่กรณี",
+   "objective_th": "ยืนยันว่ามีผลทดสอบและการแก้ไข",
+   "sections": [
+    {
+     "id": "JUD-05.1",
+     "title_th": "การทดสอบความเป็นธรรม",
+     "control_ids": [
+      "JUD-CTRL-005"
+     ]
+    }
+   ],
+   "status": "proposed",
+   "assessment_criteria_th": "ประเมินราย Control ตามเกณฑ์ระดับ 0–3 ของ Domain; Control วิกฤตแสดงสถานะแยกจากคะแนนเฉลี่ย",
+   "maturity_mapping": {
+    "0": "ยังไม่มีหลักฐาน",
+    "1": "มีข้อกำหนด",
+    "2": "มีการปฏิบัติบางส่วน",
+    "3": "ปฏิบัติครบและตรวจทานแล้ว"
+   },
+   "sila_tests": [
+    "JUD-SILA-006"
+   ]
+  },
+  {
+   "id": "JUD-06",
+   "title": "Transparency & Explainability",
+   "title_th": "ความโปร่งใสและการอธิบายผลลัพธ์",
+   "criticality": "medium",
+   "description_th": "การแจ้งการใช้ AI และการอธิบายแหล่งที่มาของผลลัพธ์",
+   "objective_th": "ยืนยันว่าผู้ใช้รู้และตรวจย้อนกลับได้",
+   "sections": [
+    {
+     "id": "JUD-06.1",
+     "title_th": "การแจ้งและการอธิบาย",
+     "control_ids": [
+      "JUD-CTRL-007"
+     ]
+    }
+   ],
+   "status": "proposed",
+   "assessment_criteria_th": "ประเมินราย Control ตามเกณฑ์ระดับ 0–3 ของ Domain; Control วิกฤตแสดงสถานะแยกจากคะแนนเฉลี่ย",
+   "maturity_mapping": {
+    "0": "ยังไม่มีหลักฐาน",
+    "1": "มีข้อกำหนด",
+    "2": "มีการปฏิบัติบางส่วน",
+    "3": "ปฏิบัติครบและตรวจทานแล้ว"
+   },
+   "sila_tests": []
+  },
+  {
+   "id": "JUD-07",
+   "title": "Human Oversight",
+   "title_th": "การกำกับดูแลและตรวจทานโดยมนุษย์",
+   "criticality": "high",
+   "description_th": "การตรวจทานผลลัพธ์ก่อนใช้และบันทึกการตัดสินใจ",
+   "objective_th": "ยืนยันว่ามีการตรวจทานที่ใช้งานจริง",
+   "sections": [
+    {
+     "id": "JUD-07.1",
+     "title_th": "การตรวจทานผลลัพธ์",
+     "control_ids": [
+      "JUD-CTRL-008",
+      "JUD-CTRL-001"
+     ]
+    }
+   ],
+   "status": "proposed",
+   "assessment_criteria_th": "ประเมินราย Control ตามเกณฑ์ระดับ 0–3 ของ Domain; Control วิกฤตแสดงสถานะแยกจากคะแนนเฉลี่ย",
+   "maturity_mapping": {
+    "0": "ยังไม่มีหลักฐาน",
+    "1": "มีข้อกำหนด",
+    "2": "มีการปฏิบัติบางส่วน",
+    "3": "ปฏิบัติครบและตรวจทานแล้ว"
+   },
+   "sila_tests": [
+    "JUD-SILA-008"
+   ]
+  },
+  {
+   "id": "JUD-08",
+   "title": "Risk & Incident Management",
+   "title_th": "การบริหารความเสี่ยงและเหตุการณ์ผิดปกติ",
+   "criticality": "high",
+   "description_th": "ทะเบียนความเสี่ยง การจัดการเหตุการณ์ และการทดสอบเชิงรุก",
+   "objective_th": "ยืนยันว่ามีการทดสอบและตอบสนองจริง",
+   "sections": [
+    {
+     "id": "JUD-08.1",
+     "title_th": "ความเสี่ยงและเหตุการณ์",
+     "control_ids": [
+      "JUD-CTRL-009"
+     ]
+    }
+   ],
+   "status": "proposed",
+   "assessment_criteria_th": "ประเมินราย Control ตามเกณฑ์ระดับ 0–3 ของ Domain; Control วิกฤตแสดงสถานะแยกจากคะแนนเฉลี่ย",
+   "maturity_mapping": {
+    "0": "ยังไม่มีหลักฐาน",
+    "1": "มีข้อกำหนด",
+    "2": "มีการปฏิบัติบางส่วน",
+    "3": "ปฏิบัติครบและตรวจทานแล้ว"
+   },
+   "sila_tests": [
+    "JUD-SILA-007"
+   ]
+  }
+ ]
+}

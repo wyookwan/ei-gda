@@ -1,0 +1,293 @@
+{% extends 'base.html' %}{% import 'gov/_macros.html' as ui %}
+{% block title %}Knowledge Graph · EI-GDA{% endblock %}{% block page_title %}Knowledge Graph ของ Test Suite{% endblock %}
+{% block breadcrumb %}{{ ui.crumbs([('Test Suites', url_for('test_suite_tree')), ('Knowledge Graph 3D', None)]) }}{% endblock %}
+{% block content %}<div class="gov">
+<div class="page-head">
+  <div>
+    <h1>Knowledge Graph ของ Test Suite</h1>
+    <p class="lead-text">ดูว่าชุดทดสอบที่เลือกอ้างอิงมาตรฐานและกฎหมายฉบับใด แต่ละฉบับมีหมวดและข้อประเมินอะไร และข้อประเมินต่างฉบับเชื่อมกันผ่านคำสำคัญเดียวกันอย่างไร</p>
+  </div>
+</div>
+
+{% if not suites %}
+<div class="panel empty"><i class="bi bi-diagram-3"></i>ยังไม่มี Test Suite ที่เปิดใช้งาน ให้ผู้ดูแลเปิดใช้งานที่หน้า Test Suites ก่อน</div>
+{% else %}
+{% set chosen_suites = suites|selectattr('id','in',chosen)|list %}
+<details class="panel kg-picker" {{ 'open' if not request.args.getlist('suite') }}>
+  <summary class="kg-picker-summary">
+    <span><span class="form-label d-block mb-0">Test Suite ที่แสดง ({{ chosen_suites|length }} จาก {{ suites|length }} ชุด)</span>
+    <span class="small-note">{% for s in chosen_suites %}{{ s.suite_code or s.name }}{{ ', ' if not loop.last }}{% endfor %}</span></span>
+    <span class="btn btn-sm btn-outline-secondary kg-picker-toggle">เปลี่ยนชุดทดสอบ</span>
+  </summary>
+<form method="get" action="{{ url_for('gov.suite_graph') }}">
+  <div class="kg-picker-head">
+    <span class="small-note">เลือกได้หลายชุด มาตรฐานที่หลายชุดใช้ร่วมกันจะเป็นจุดเชื่อมระหว่างชุด</span>
+    <div class="d-flex gap-2">
+      <button class="btn btn-sm btn-outline-secondary" type="button" data-kg-all>เลือกทั้งหมด</button>
+      <button class="btn btn-sm btn-outline-secondary" type="button" data-kg-none>ล้าง</button>
+    </div>
+  </div>
+  <div class="choice-grid kg-suites">
+    {% for s in suites %}
+    <label class="choice"><input type="checkbox" name="suite" value="{{ s.id }}" {{ 'checked' if s.id in chosen }}><span>{{ s.suite_code or '' }} {{ s.name }}</span></label>
+    {% endfor %}
+  </div>
+  <div class="kg-picker-foot">
+    <label class="form-check mb-0"><input class="form-check-input" type="checkbox" name="keywords" value="1" {{ 'checked' if show_keywords }} id="kgKeywords"><span class="form-check-label" for="kgKeywords">แสดงคำสำคัญที่ใช้ร่วมกัน (เส้นเชื่อมข้ามมาตรฐาน)</span></label>
+    <input type="hidden" name="keywords" value="0" disabled id="kgKeywordsOff">
+    <button class="btn btn-primary">แสดงกราฟ</button>
+  </div>
+</form>
+</details>
+
+<div class="metric-row kg-stats" id="kgStats" aria-live="polite">
+  <div class="metric"><div class="k">Test Suite</div><div class="v" data-stat="suites">–</div></div>
+  <div class="metric"><div class="k">มาตรฐานและกฎหมาย</div><div class="v" data-stat="standards">–</div><div class="d" data-stat-note="shared_standards"></div></div>
+  <div class="metric"><div class="k">หมวด</div><div class="v" data-stat="categories">–</div></div>
+  <div class="metric"><div class="k">ข้อประเมิน</div><div class="v" data-stat="items">–</div></div>
+  <div class="metric"><div class="k">คำสำคัญร่วม</div><div class="v" data-stat="keywords">–</div></div>
+</div>
+
+<div class="kg-layout">
+  <section class="kg-stage" aria-label="กราฟความรู้แบบสามมิติ">
+    <div class="kg-toolbar">
+      <div class="kg-search"><i class="bi bi-search" aria-hidden="true"></i><label class="visually-hidden" for="kgSearch">ค้นหาโหนด</label><input id="kgSearch" list="kgNodeList" placeholder="ค้นหามาตรฐาน หมวด ข้อประเมิน หรือคำสำคัญ" autocomplete="off"><datalist id="kgNodeList"></datalist></div>
+      <label class="visually-hidden" for="kgLayout">รูปแบบการจัดวาง</label>
+      <select class="form-select form-select-sm kg-select" id="kgLayout">
+        <option value="radialout">จัดเป็นวงชั้น</option>
+        <option value="td">จัดเป็นชั้นบนลงล่าง</option>
+        <option value="">จัดวางอิสระ</option>
+      </select>
+      <button class="btn btn-sm kg-btn" type="button" id="kgReset"><i class="bi bi-aspect-ratio"></i>มุมมองเริ่มต้น</button>
+      <button class="btn btn-sm kg-btn" type="button" id="kgRotate" aria-pressed="false"><i class="bi bi-arrow-repeat"></i>หมุนอัตโนมัติ</button>
+    </div>
+    <div id="kgCanvas" class="kg-canvas"></div>
+    <div class="kg-loading" id="kgLoading"><span class="spinner-border spinner-border-sm" aria-hidden="true"></span>กำลังสร้างกราฟ</div>
+    <fieldset class="kg-legend">
+      <legend class="visually-hidden">แสดงหรือซ่อนชั้นข้อมูล</legend>
+      <label><input type="checkbox" data-kind="suite" checked><span class="dot" style="--c:#ffffff"></span>Test Suite</label>
+      <label><input type="checkbox" data-kind="standard-international" checked><span class="dot" style="--c:#7cb8ff"></span>มาตรฐานสากล</label>
+      <label><input type="checkbox" data-kind="standard-thai" checked><span class="dot" style="--c:#5fd3b5"></span>มาตรฐานและกฎหมายไทย</label>
+      <label><input type="checkbox" data-kind="category" checked><span class="dot" style="--c:#97a3b3"></span>หมวด</label>
+      <label><input type="checkbox" data-kind="item" checked><span class="dot" style="--c:#dfe5ec"></span>ข้อประเมิน</label>
+      <label><input type="checkbox" data-kind="keyword" checked><span class="dot" style="--c:#f2b84b"></span>คำสำคัญร่วม</label>
+    </fieldset>
+    <p class="kg-hint">ลากเพื่อหมุน · ล้อเมาส์เพื่อซูม · คลิกขวาลากเพื่อเลื่อน</p>
+  </section>
+
+  <aside class="panel kg-side" id="kgSide" aria-live="polite">
+    <div class="kg-empty">
+      <h2>ยังไม่ได้เลือกโหนด</h2>
+      <p class="small-note">คลิกโหนดในกราฟ หรือพิมพ์ชื่อในช่องค้นหา เพื่อดูว่าโหนดนั้นเชื่อมกับอะไรบ้าง</p>
+      <ul class="kg-howto">
+        <li><b>วงในสุด</b> คือ Test Suite ถัดออกไปเป็นมาตรฐาน หมวด ข้อประเมิน และคำสำคัญร่วม</li>
+        <li><b>Test Suite</b> โหนดใหญ่สีขาว เชื่อมกับมาตรฐานที่ชุดนั้นใช้</li>
+        <li><b>มาตรฐานที่หลายชุดใช้ร่วมกัน</b> คือจุดที่ชุดทดสอบเชื่อมถึงกัน</li>
+        <li><b>คำสำคัญร่วม</b> เชื่อมข้อประเมินจากต่างมาตรฐานที่ระบบ Hybrid KG ใช้ค้นหลักฐานชุดเดียวกัน</li>
+      </ul>
+    </div>
+  </aside>
+</div>
+{% endif %}
+</div>{% endblock %}
+
+{% block scripts %}{% if suites %}
+<script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1.73.4/dist/3d-force-graph.min.js"></script>
+<script>
+(function(){
+  var dataUrl = {{ url_for('gov.suite_graph_json')|tojson }} + window.location.search;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var COLORS = {suite:'#ffffff', 'standard-international':'#7cb8ff', 'standard-thai':'#5fd3b5', category:'#97a3b3', item:'#dfe5ec', keyword:'#f2b84b'};
+  var KIND_TH = {suite:'Test Suite', 'standard-international':'มาตรฐานสากล', 'standard-thai':'มาตรฐานและกฎหมายไทย', category:'หมวด', item:'ข้อประเมิน', keyword:'คำสำคัญร่วม'};
+  var DIM = '#3d4a5d';
+  var el = document.getElementById('kgCanvas'), side = document.getElementById('kgSide'), loading = document.getElementById('kgLoading');
+  var visible = new Set(Object.keys(COLORS));
+  var byId = {}, neighbors = {}, linksOf = {}, selected = null, hiNodes = new Set(), hiLinks = new Set(), Graph = null, fitted = false;
+
+  // picker helpers
+  document.querySelector('[data-kg-all]').addEventListener('click', function(){ document.querySelectorAll('.kg-suites input').forEach(function(i){ i.checked = true; }); });
+  document.querySelector('[data-kg-none]').addEventListener('click', function(){ document.querySelectorAll('.kg-suites input').forEach(function(i){ i.checked = false; }); });
+  var kw = document.getElementById('kgKeywords'), kwOff = document.getElementById('kgKeywordsOff');
+  function syncKw(){ kwOff.disabled = kw.checked; } kw.addEventListener('change', syncKw); syncKw();
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function kindOf(n){ return n.kind === 'standard' ? 'standard-' + n.region : n.kind; }
+  function size(n){
+    switch(n.kind){
+      case 'suite': return 24;
+      case 'standard': return 7 + Math.min(n.items || 0, 40) / 4 + (n.shared_by > 1 ? 6 : 0);
+      case 'category': return 2.2;
+      case 'keyword': return 1.6 + Math.min(n.items || 0, 30) / 6;
+      default: return 0.9;
+    }
+  }
+  function nodeColor(n){
+    if (selected && !hiNodes.has(n.id)) return DIM;
+    return COLORS[kindOf(n)];
+  }
+  function endId(x){ return typeof x === 'object' ? x.id : x; }
+  function tooltip(n){
+    var code = n.code ? '<b>' + esc(n.code) + '</b> ' : '';
+    return '<div class="kg-tip"><small>' + esc(KIND_TH[kindOf(n)]) + '</small>' + code + esc(n.label) + '</div>';
+  }
+
+  function renderStats(s){
+    Object.keys(s).forEach(function(k){ var t = document.querySelector('[data-stat="' + k + '"]'); if (t) t.textContent = s[k].toLocaleString('th-TH'); });
+    var note = document.querySelector('[data-stat-note="shared_standards"]');
+    note.textContent = s.suites > 1 ? 'ใช้ร่วมกันหลายชุด ' + s.shared_standards + ' ฉบับ' : '';
+  }
+
+  function detail(n){
+    var k = kindOf(n), rows = [];
+    function row(label, value){ if (value !== '' && value != null) rows.push('<dt>' + label + '</dt><dd>' + esc(value) + '</dd>'); }
+    if (n.kind === 'suite'){ row('รหัส', n.code); row('จำนวนมาตรฐานที่ใช้', n.standards); }
+    if (n.kind === 'standard'){ row('รหัส', n.code); row('ผู้ออก', n.publisher); row('ขอบเขต', n.jurisdiction); row('ปี', n.year); row('สถานะ', n.status); row('จำนวนข้อประเมิน', n.items); row('Test Suite ที่ใช้', n.shared_by); }
+    if (n.kind === 'item'){ row('รหัสข้อ', n.code); row('น้ำหนัก', n.weight); row('หลักฐานที่คาดหวัง', n.evidence); }
+    if (n.kind === 'category' && byId[n.standard_id]){ row('อยู่ในมาตรฐาน', byId[n.standard_id].code); }
+    if (n.kind === 'item' && byId[n.standard_id]){ row('อยู่ในมาตรฐาน', byId[n.standard_id].code + ' ' + byId[n.standard_id].label); }
+    if (n.kind === 'keyword'){ row('ใช้ในข้อประเมิน', n.items + ' ข้อ'); }
+    if (n.kind === 'suite' && n.detail){ row('คำอธิบาย', n.detail); }
+
+    var groups = {};
+    (neighbors[n.id] || []).forEach(function(id){ var m = byId[id]; if (!m) return; (groups[kindOf(m)] = groups[kindOf(m)] || []).push(m); });
+    var order = ['suite','standard-international','standard-thai','category','item','keyword'];
+    var lists = order.filter(function(g){ return groups[g]; }).map(function(g){
+      var items = groups[g].sort(function(a,b){ return String(a.code || a.label).localeCompare(String(b.code || b.label), 'th'); });
+      var shown = items.slice(0, 40).map(function(m){
+        return '<li><button type="button" class="kg-link" data-node="' + esc(m.id) + '"><span class="dot" style="--c:' + COLORS[g] + '"></span>' + (m.code ? '<b>' + esc(m.code) + '</b> ' : '') + esc(m.label) + '</button></li>';
+      }).join('');
+      var more = items.length > 40 ? '<li class="small-note">และอีก ' + (items.length - 40) + ' รายการ</li>' : '';
+      return '<h3>' + KIND_TH[g] + ' <span class="chip">' + items.length + '</span></h3><ul class="kg-links">' + shown + more + '</ul>';
+    }).join('');
+
+    side.innerHTML =
+      '<div class="kg-detail-head"><span class="kg-kind"><span class="dot" style="--c:' + COLORS[k] + '"></span>' + KIND_TH[k] + '</span>' +
+      '<button type="button" class="btn btn-sm btn-outline-secondary" id="kgClear">ล้างการเลือก</button></div>' +
+      '<h2>' + esc(n.label) + '</h2>' +
+      (rows.length ? '<dl class="kg-meta">' + rows.join('') + '</dl>' : '') +
+      (n.url ? '<p><a href="' + esc(n.url) + '" target="_blank" rel="noopener">เปิดแหล่งต้นฉบับ <i class="bi bi-box-arrow-up-right"></i></a></p>' : '') +
+      '<div class="kg-neighbors">' + (lists || '<p class="small-note">ไม่มีโหนดที่เชื่อมอยู่ในชั้นที่แสดง</p>') + '</div>';
+    document.getElementById('kgClear').addEventListener('click', clearSelection);
+  }
+
+  // Fit the whole graph in view, but never pull the camera away from a node the user is looking at.
+  function autoFit(){ if (Graph && !selected) Graph.zoomToFit(reduceMotion ? 0 : 800, 40); }
+  function refresh(){ if (!Graph) return; Graph.nodeColor(Graph.nodeColor()).linkColor(Graph.linkColor()).linkWidth(Graph.linkWidth()).linkDirectionalParticles(Graph.linkDirectionalParticles()); }
+
+  function select(n, moveCamera){
+    selected = n; hiNodes = new Set([n.id]); hiLinks = new Set();
+    (neighbors[n.id] || []).forEach(function(id){ hiNodes.add(id); });
+    (linksOf[n.id] || []).forEach(function(l){ hiLinks.add(l); });
+    refresh(); detail(n);
+    if (moveCamera !== false && n.x !== undefined){
+      var dist = n.kind === 'suite' ? 420 : n.kind === 'standard' ? 300 : n.kind === 'keyword' ? 220 : 160;
+      // Place the camera `dist` away from the node, on the line from the scene centre through the node.
+      var len = Math.hypot(n.x, n.y, n.z), ux = len > 1 ? n.x / len : 0, uy = len > 1 ? n.y / len : 0, uz = len > 1 ? n.z / len : 1;
+      Graph.cameraPosition({x: n.x + ux * dist, y: n.y + uy * dist, z: n.z + uz * dist}, n, reduceMotion ? 0 : 900);
+    }
+  }
+  function clearSelection(){
+    selected = null; hiNodes = new Set(); hiLinks = new Set(); refresh();
+    side.innerHTML = '<div class="kg-empty"><h2>ยังไม่ได้เลือกโหนด</h2><p class="small-note">คลิกโหนดในกราฟ หรือพิมพ์ชื่อในช่องค้นหา เพื่อดูว่าโหนดนั้นเชื่อมกับอะไรบ้าง</p></div>';
+  }
+  side.addEventListener('click', function(e){
+    var b = e.target.closest('[data-node]'); if (!b) return;
+    var n = byId[b.getAttribute('data-node')]; if (!n) return;
+    if (!visible.has(kindOf(n))){ toggleKind(kindOf(n), true); }
+    select(n);
+  });
+
+  function toggleKind(kind, on){
+    if (on) visible.add(kind); else visible.delete(kind);
+    var box = document.querySelector('.kg-legend input[data-kind="' + kind + '"]'); if (box) box.checked = on;
+    Graph.nodeVisibility(Graph.nodeVisibility()).linkVisibility(Graph.linkVisibility());
+  }
+  document.querySelectorAll('.kg-legend input').forEach(function(box){
+    box.addEventListener('change', function(){ toggleKind(box.getAttribute('data-kind'), box.checked); });
+  });
+
+  var search = document.getElementById('kgSearch'), labelIndex = {};
+  search.addEventListener('change', function(){
+    var n = labelIndex[search.value.trim()];
+    if (!n){ return; }
+    if (!visible.has(kindOf(n))) toggleKind(kindOf(n), true);
+    select(n);
+  });
+
+  document.getElementById('kgReset').addEventListener('click', function(){ clearSelection(); Graph.zoomToFit(reduceMotion ? 0 : 700, 40); });
+  var rotateBtn = document.getElementById('kgRotate'), rotating = false, angle = 0, rotateTimer = null;
+  rotateBtn.addEventListener('click', function(){
+    rotating = !rotating; rotateBtn.setAttribute('aria-pressed', String(rotating)); rotateBtn.classList.toggle('is-on', rotating);
+    if (rotating){
+      var p = Graph.cameraPosition(), dist = Math.hypot(p.x, p.z) || 600; angle = Math.atan2(p.x, p.z);
+      rotateTimer = setInterval(function(){ angle += Math.PI / 600; Graph.cameraPosition({x: dist * Math.sin(angle), z: dist * Math.cos(angle)}); }, 30);
+    } else { clearInterval(rotateTimer); }
+  });
+
+  function fitSize(){ if (Graph) Graph.width(el.clientWidth).height(el.clientHeight); }
+  window.addEventListener('resize', fitSize);
+
+  fetch(dataUrl, {credentials: 'same-origin'}).then(function(r){
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).then(function(data){
+    renderStats(data.stats);
+    data.nodes.forEach(function(n){ byId[n.id] = n; neighbors[n.id] = []; linksOf[n.id] = []; });
+    data.links.forEach(function(l){
+      neighbors[l.source].push(l.target); neighbors[l.target].push(l.source);
+      linksOf[l.source].push(l); linksOf[l.target].push(l);
+    });
+    var opts = document.createDocumentFragment();
+    data.nodes.forEach(function(n){
+      var key = (n.code ? n.code + ' · ' : '') + n.label;
+      if (key.length > 140) key = key.slice(0, 139) + '…';
+      labelIndex[key] = n;
+      var o = document.createElement('option'); o.value = key; opts.appendChild(o);
+    });
+    document.getElementById('kgNodeList').appendChild(opts);
+    if (typeof ForceGraph3D !== 'function'){ throw new Error('3D library not loaded'); }
+
+    Graph = ForceGraph3D()(el)
+      .backgroundColor('#0f1b2d')
+      .showNavInfo(false)
+      .width(el.clientWidth).height(el.clientHeight)
+      .graphData(data)
+      .nodeId('id')
+      .nodeVal(size)
+      .nodeColor(nodeColor)
+      .nodeOpacity(0.95)
+      .nodeResolution(14)
+      .nodeLabel(tooltip)
+      .nodeVisibility(function(n){ return visible.has(kindOf(n)); })
+      .linkVisibility(function(l){ return visible.has(kindOf(byId[endId(l.source)])) && visible.has(kindOf(byId[endId(l.target)])); })
+      .linkColor(function(l){ if (hiLinks.has(l)) return '#9ad7c6'; if (selected) return '#253247'; return l.rel === 'keyword' ? '#8a6a2e' : '#46566b'; })
+      .linkOpacity(0.55)
+      .linkWidth(function(l){ return hiLinks.has(l) ? 1.4 : 0; })
+      .linkDirectionalParticles(function(l){ return hiLinks.has(l) && !reduceMotion ? 2 : 0; })
+      .linkDirectionalParticleWidth(2.2)
+      .linkDirectionalParticleColor(function(){ return '#ffffff'; })
+      .dagMode('radialout')
+      .dagLevelDistance(70)
+      .onDagError(function(){ Graph.dagMode(null); })
+      .cooldownTime(reduceMotion ? 2500 : 9000)
+      .onNodeClick(function(n){ select(n); })
+      .onBackgroundClick(clearSelection)
+      .onNodeHover(function(n){ el.style.cursor = n ? 'pointer' : 'grab'; })
+      .onEngineStop(function(){ if (!fitted){ fitted = true; autoFit(); } });
+    setTimeout(function(){ if (!fitted) autoFit(); }, 1800);
+    document.getElementById('kgLayout').addEventListener('change', function(e){
+      fitted = false;
+      Graph.dagMode(e.target.value || null).numDimensions(3);
+      Graph.d3ReheatSimulation();
+    });
+    Graph.d3Force('charge').strength(function(n){ return n.kind === 'suite' ? -420 : n.kind === 'standard' ? -160 : -36; });
+    Graph.d3Force('link').distance(function(l){ return l.rel === 'maps_to' ? 120 : l.rel === 'keyword' ? 70 : 32; });
+    loading.hidden = true;
+  }).catch(function(err){
+    loading.hidden = false;
+    loading.classList.add('is-error');
+    loading.innerHTML = '<i class="bi bi-exclamation-triangle"></i>สร้างกราฟไม่ได้ (' + esc(err.message) + ') ตรวจการเชื่อมต่ออินเทอร์เน็ตเพื่อโหลดไลบรารี 3D แล้วโหลดหน้าใหม่';
+  });
+})();
+</script>
+{% endif %}{% endblock %}

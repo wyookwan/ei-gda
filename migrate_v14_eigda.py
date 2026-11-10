@@ -4,6 +4,7 @@ No destructive schema change is required. The V13 physical `templates` table and
 completeness columns are retained to protect foreign keys and historical assessments.
 This migration only rebrands existing five Test Suite records while preserving IDs and mappings.
 """
+from services.schema_additions import ensure_additive_columns
 from flask import Flask
 from config import Config
 from extensions import db
@@ -22,7 +23,21 @@ app.config.from_object(Config)
 db.init_app(app)
 
 with app.app_context():
+    ensure_additive_columns(db.engine)  # The ORM below already lists the V16 columns.
     db.create_all()
+    from services.suite_order import ensure_suite_order
+    ensure_suite_order(db.engine)
+
+    # V14.1 reference metadata used on the user selection screen.
+    # Additive migration only; existing data, passwords, keys and assessment history are preserved.
+    from sqlalchemy import inspect, text
+    inspector = inspect(db.engine)
+    cols = {c['name'] for c in inspector.get_columns('standards')}
+    if 'published_year' not in cols:
+        db.session.execute(text('ALTER TABLE standards ADD COLUMN published_year INT NULL'))
+    if 'status' not in cols:
+        db.session.execute(text("ALTER TABLE standards ADD COLUMN status VARCHAR(120) NULL DEFAULT 'ประกาศใช้แล้ว'"))
+    db.session.commit()
     renamed = 0
     for old, new in RENAMES.items():
         row = Template.query.filter_by(name=old).first()

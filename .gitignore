@@ -42,3 +42,12 @@ htmlcov/
 # Temporary
 tmp/
 temp/
+
+# Local environments and deployment backups
+.eigda*/
+backups/
+*.sql
+*.sql.gz
+
+# MHESI pilot DEMO data
+demo/

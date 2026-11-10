@@ -9,7 +9,7 @@ def gemini_enabled():
     return bool(Config.GEMINI_API_KEY and Config.GEMINI_MODEL)
 
 
-def score_with_gemini(extracted_text, retrieved_items, evidence_map=None):
+def score_with_gemini(extracted_text, retrieved_items, evidence_map=None, instruction=None):
     """Score OPEN documents with Gemini using traceable PDF evidence."""
     if not gemini_enabled():
         return {'used': False, 'error': 'Gemini is not configured.', 'items': [], 'model': Config.GEMINI_MODEL}
@@ -46,7 +46,7 @@ def score_with_gemini(extracted_text, retrieved_items, evidence_map=None):
         })
 
     prompt = {
-        'instruction': (
+        'instruction': instruction or (
             'You are an evidence-grounded digital assurance auditor. Score every checklist item '
             'using ONLY traceable evidence supplied from the uploaded PDF files. Use integer '
             'maturity scores 0-5: 0 Not Implemented, 1 Initial, 2 Defined, 3 Implemented, '

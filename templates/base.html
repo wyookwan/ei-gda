@@ -1,23 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b5cff">
+  <meta name="theme-color" content="#12213a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230b6357'/%3E%3Cpath d='M4 8l3 3 5-6' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E">
   <title>{% block title %}Ei-GDA Platform{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
   <link href="{{ url_for('static', filename='css/app.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/v16.css') }}" rel="stylesheet">
+  <meta name="csrf-token" content="__CSRF_TOKEN__">
+  <script>
+    // Same-origin state changes carry the CSRF token, including older pages that use fetch.
+    (function(){var nativeFetch=window.fetch;window.fetch=function(input,init){init=init||{};var method=(init.method||'GET').toUpperCase();var url=typeof input==='string'?input:(input.url||'');if(method!=='GET'&&method!=='HEAD'&&(url.charAt(0)==='/'||url.indexOf(location.origin)===0)){var headers=new Headers(init.headers||{});headers.set('X-CSRF-Token',document.querySelector('meta[name=csrf-token]').content);init.headers=headers;}return nativeFetch(input,init);};})();
+  </script>
   {% block head %}{% endblock %}
 </head>
 <body>
-  <div class="ambient-bg" aria-hidden="true"><span></span><span></span><span></span></div>
-  <div class="node-loader" id="nodeLoader" role="status" aria-live="polite" aria-hidden="true">
+    <div class="node-loader" id="nodeLoader" role="status" aria-live="polite" aria-hidden="true">
     <div class="node-loader-card">
       <div class="node-graph" aria-hidden="true">
         <span class="graph-orbit orbit-a"></span>
@@ -32,7 +38,7 @@
         <span class="graph-node node-d"></span>
       </div>
       <div class="node-loader-copy">
-        <span class="node-loader-kicker">Ei-GDA Intelligence</span>
+        <span class="node-loader-kicker">EI-GDA</span>
         <strong id="nodeLoaderTitle">กำลังโหลดข้อมูล</strong>
         <p id="nodeLoaderMessage">กรุณารอสักครู่ ระบบกำลังเตรียมข้อมูลให้คุณ</p>
         <div class="node-loader-progress"><span></span></div>
@@ -43,25 +49,43 @@
   <aside class="app-sidebar" id="appSidebar">
     <a class="brand" href="{{ url_for('home') }}">
       <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
-      <span><strong>Ei-GDA</strong><small>Governance & Digital Assurance</small></span>
+      <span><strong>EI-GDA</strong><small>Governance Intelligence</small></span>
     </a>
-    <nav class="side-nav">
+    <nav class="side-nav" aria-label="เมนูหลัก">
+      {% set ep = request.endpoint or '' %}
+      <a href="{{ url_for('gov.overview') }}" class="{{ 'active' if ep == 'gov.overview' }}"><i class="bi bi-house"></i><span>ภาพรวม</span></a>
+      <a href="{{ url_for('gov.domains') }}" class="{{ 'active' if ep in ('gov.domains','gov.domain_detail','gov.taxonomy') }}"><i class="bi bi-grid-3x3-gap"></i><span>Domains</span></a>
+      <a href="{{ url_for('gov.assessments') }}" class="{{ 'active' if ep in ('gov.assessments','gov.assessment_new','gov.step','gov.results') }}"><i class="bi bi-clipboard2-check"></i><span>การประเมิน</span></a>
+      <a href="{{ url_for('gov.evidence_library') }}" class="{{ 'active' if ep == 'gov.evidence_library' }}"><i class="bi bi-folder2-open"></i><span>คลังหลักฐาน</span></a>
+      <a href="{{ url_for('gov.regulations') }}" class="{{ 'active' if ep == 'gov.regulations' }}"><i class="bi bi-journal-bookmark"></i><span>กฎหมายและมาตรฐาน</span></a>
+      {% if session.get('role') in ('user','admin') %}<a href="{{ url_for('test_suite_tree') }}" class="{{ 'active' if ep in ('test_suite_explorer','test_suite_tree') }}"><i class="bi bi-bezier2"></i><span>Test Suites</span></a>{% endif %}
+      {% if session.get('role') in ('user','admin') %}<a href="{{ url_for('gov.suite_graph') }}" class="{{ 'active' if ep == 'gov.suite_graph' }}"><i class="bi bi-share"></i><span>Knowledge Graph 3D</span></a>{% endif %}
+      <a href="{{ url_for('gov.reports') }}" class="{{ 'active' if ep == 'gov.reports' }}"><i class="bi bi-bar-chart-line"></i><span>รายงาน</span></a>
+      {% if nav_memberships or session.get('role') in ('committee','admin') %}
+      <div class="nav-group-label">นำร่อง อว.</div>
+      {% if nav_memberships %}<a href="{{ url_for('pilot.rounds') }}" class="{{ 'active' if ep in ('pilot.rounds','pilot.round_detail','pilot.round_dashboard','pilot.workflow') }}"><i class="bi bi-calendar2-range"></i><span>รอบประเมินของหน่วยงาน</span></a>{% endif %}
+      {% if session.get('role') == 'committee' %}<a href="{{ url_for('pilot.review_queue') }}" class="{{ 'active' if ep == 'pilot.review_queue' }}"><i class="bi bi-list-check"></i><span>คิวทบทวนของกรรมการ</span></a>{% endif %}
+      {% if nav_memberships %}<a href="{{ url_for('pilot.ai_registry') }}" class="{{ 'active' if ep == 'pilot.ai_registry' }}"><i class="bi bi-cpu"></i><span>ทะเบียน AI</span></a>{% endif %}
+      {% if session.get('role') == 'admin' or 'criteria_approver' in pilot_roles or 'round_coordinator' in pilot_roles or 'executive' in pilot_roles %}<a href="{{ url_for('pilot.criteria') }}" class="{{ 'active' if ep == 'pilot.criteria' }}"><i class="bi bi-ui-checks-grid"></i><span>ชุดเกณฑ์</span></a>{% endif %}
+      {% endif %}
+      {% if session.get('role') == 'committee' %}
+      <a href="{{ url_for('committee_dashboard') }}" class="{{ 'active' if ep == 'committee_dashboard' }}"><i class="bi bi-person-check"></i><span>งานที่ได้รับมอบหมาย</span></a>
+      {% endif %}
       {% if session.get('role') == 'admin' %}
-      <a href="{{ url_for('admin_dashboard') }}"><i class="bi bi-grid-1x2"></i><span>Overview</span></a>
-      <a href="{{ url_for('admin_templates') }}"><i class="bi bi-file-earmark-text"></i><span>Test Suites</span></a>
-      <a href="{{ url_for('admin_standards') }}"><i class="bi bi-diagram-3"></i><span>Standards</span></a>
-      <a href="{{ url_for('admin_users') }}"><i class="bi bi-people"></i><span>Users</span></a>
-      <a href="{{ url_for('admin_assignments') }}"><i class="bi bi-person-check"></i><span>Assignments</span></a>
-      <a href="{{ url_for('admin_logs') }}"><i class="bi bi-clock-history"></i><span>Audit Logs</span></a>
-      {% elif session.get('role') == 'committee' %}
-      <a href="{{ url_for('committee_dashboard') }}"><i class="bi bi-clipboard2-check"></i><span>Assigned Reviews</span></a>
-      {% else %}
-      <a href="{{ url_for('dashboard') }}"><i class="bi bi-grid-1x2"></i><span>Dashboard</span></a>
+      <div class="nav-group-label">การดูแลระบบ</div>
+      <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if ep == 'admin_dashboard' }}"><i class="bi bi-speedometer2"></i><span>แดชบอร์ดผู้ดูแล</span></a>
+      <a href="{{ url_for('admin_templates') }}" class="{{ 'active' if ep == 'admin_templates' }}"><i class="bi bi-collection"></i><span>Test Suites</span></a>
+      <a href="{{ url_for('admin_standards') }}" class="{{ 'active' if ep == 'admin_standards' }}"><i class="bi bi-diagram-3"></i><span>Standards Catalog</span></a>
+      <a href="{{ url_for('admin_users') }}" class="{{ 'active' if ep == 'admin_users' }}"><i class="bi bi-people"></i><span>ผู้ใช้</span></a>
+      <a href="{{ url_for('admin_assignments') }}" class="{{ 'active' if ep == 'admin_assignments' }}"><i class="bi bi-person-check"></i><span>มอบหมายกรรมการ</span></a>
+      <a href="{{ url_for('pilot.organizations') }}" class="{{ 'active' if ep == 'pilot.organizations' }}"><i class="bi bi-building"></i><span>หน่วยงานและสิทธิ์</span></a>
+      <a href="{{ url_for('pilot.integrations') }}" class="{{ 'active' if ep == 'pilot.integrations' }}"><i class="bi bi-plug"></i><span>การเชื่อมต่อระบบ</span></a>
+      <a href="{{ url_for('admin_logs') }}" class="{{ 'active' if ep == 'admin_logs' }}"><i class="bi bi-clock-history"></i><span>Audit Logs</span></a>
       {% endif %}
     </nav>
     <div class="sidebar-footer">
-      <div class="system-status"><span class="status-dot {{ 'online' if local_model_enabled else 'standby' }}"></span><span>{{ 'Local AI active' if local_model_enabled else 'Local AI unavailable' }}</span></div>
-      <a href="{{ url_for('logout') }}" class="logout-link"><i class="bi bi-box-arrow-left"></i><span>Sign out</span></a>
+      <div class="system-status"><span class="status-dot {{ 'online' if local_model_enabled else 'standby' }}"></span><span>{{ 'ตั้งค่าโมเดลภายในแล้ว' if local_model_enabled else 'ยังไม่ตั้งค่าโมเดลภายใน' }}</span></div>
+      <a href="{{ url_for('logout') }}" class="logout-link"><i class="bi bi-box-arrow-left"></i><span>ออกจากระบบ</span></a>
     </div>
   </aside>
   {% endif %}
@@ -70,15 +94,22 @@
     {% if session.get('user_id') %}
     <header class="app-topbar">
       <button class="icon-btn sidebar-toggle" type="button" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
-      <div class="topbar-title"><span class="eyebrow">AI &amp; Data Governance</span><strong>{% block page_title %}Assessment Workspace{% endblock %}</strong></div>
+      <div class="topbar-title"><span class="eyebrow">{% block eyebrow %}{{ current_org or 'EI-GDA' }}{% endblock %}</span><strong>{% block page_title %}ภาพรวม{% endblock %}</strong></div>
+      <form class="topbar-search" action="{{ url_for('gov.search') }}" method="get" role="search"><i class="bi bi-search" aria-hidden="true"></i><label class="visually-hidden" for="globalSearch">ค้นหาทั้งระบบ</label><input id="globalSearch" name="q" type="search" placeholder="ค้นหา Assessment, Control, กฎหมาย…" value="{{ request.args.get('q','') if request.endpoint == 'gov.search' else '' }}"></form>
       <div class="topbar-actions">
-        <span class="role-pill">{{ session.get('role')|capitalize }}</span>
-        <div class="user-chip"><span class="avatar">{{ (session.get('full_name') or 'U')[0]|upper }}</span><span class="user-meta"><strong>{{ session.get('full_name') }}</strong><small>{{ session.get('email') }}</small></span></div>
+        {% if demo_mode %}<span class="demo-tag demo-top" title="ข้อมูลสมมติ ไม่ใช่การรับรองจาก อว. หรือ สป.อว.">DEMO</span>{% endif %}
+        {% if nav_memberships %}<form class="org-switch" method="post" action="{{ url_for('pilot.org_context') }}"><label class="visually-hidden" for="orgSwitch">หน่วยงานที่กำลังทำงาน</label><select id="orgSwitch" name="org_id" class="form-select form-select-sm" onchange="this.form.submit()">{% for oid in nav_memberships|map(attribute='organization_id')|unique %}<option value="{{ oid }}" {{ 'selected' if oid == active_org_id }}>{{ nav_orgs[oid].name if oid in nav_orgs else oid }}</option>{% endfor %}</select><input type="hidden" name="next" value="{{ request.path }}"><noscript><button class="btn btn-sm top-btn">เปลี่ยน</button></noscript></form>{% endif %}
+        {% if nav_profiles %}<div class="dropdown"><button class="btn btn-sm top-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-layers me-1"></i>Domain</button><ul class="dropdown-menu dropdown-menu-end">{% for p in nav_profiles %}<li><a class="dropdown-item" href="{{ url_for('gov.domain_detail', slug=p.slug) }}"><i class="bi {{ p.icon }} me-2" style="color:{{ p.accent }}"></i>{{ p.title_th }}</a></li>{% endfor %}</ul></div>{% endif %}
+        {% set notice_count = (nav_pending|length if nav_pending else 0) + (nav_drafts|length if nav_drafts else 0) + (nav_notifications|length if nav_notifications else 0) %}
+        <div class="dropdown"><button class="btn btn-sm top-btn position-relative" data-bs-toggle="dropdown" aria-expanded="false" aria-label="การแจ้งเตือน {{ notice_count }} รายการ"><i class="bi bi-bell"></i>{% if notice_count %}<span class="notice-dot">{{ notice_count }}</span>{% endif %}</button>
+          <div class="dropdown-menu dropdown-menu-end notice-menu">{% for n in nav_notifications or [] %}<a class="dropdown-item" href="{{ n.link or url_for('pilot.notifications') }}"><strong>{{ n.title }}</strong><small>{{ n.created_at.strftime('%Y-%m-%d %H:%M') }}</small></a>{% endfor %}{% if nav_notifications %}<a class="dropdown-item small" href="{{ url_for('pilot.notifications') }}">ดูการแจ้งเตือนทั้งหมด</a>{% endif %}{% for a in nav_pending or [] %}<a class="dropdown-item" href="{{ url_for('gov.results', assessment_id=a.id) }}"><strong>รอผู้ตรวจ</strong><small>{{ a.name }}</small></a>{% endfor %}{% for a in nav_drafts or [] %}<a class="dropdown-item" href="{{ url_for('gov.assessment_resume', assessment_id=a.id) }}"><strong>ทำต่อ</strong><small>{{ a.name }}</small></a>{% endfor %}{% if not notice_count %}<div class="px-3 py-2 small text-secondary">ไม่มีรายการที่ต้องดำเนินการ</div>{% endif %}</div></div>
+        <div class="dropdown"><button class="btn btn-sm user-chip" data-bs-toggle="dropdown" aria-expanded="false"><span class="avatar">{{ (session.get('full_name') or 'U')[0]|upper }}</span><span class="user-meta"><strong>{{ session.get('full_name') }}</strong><small>{{ session.get('role')|capitalize }}</small></span></button><ul class="dropdown-menu dropdown-menu-end"><li class="px-3 py-1 small text-secondary">{{ session.get('email') }}</li><li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-left me-2"></i>ออกจากระบบ</a></li></ul></div>
       </div>
     </header>
     {% endif %}
 
     <main class="page-content">
+      {% block breadcrumb %}{% endblock %}
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}<div class="toast-stack">{% for category, message in messages %}<div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert"><i class="bi bi-info-circle me-2"></i>{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}</div>{% endif %}
       {% endwith %}
@@ -86,6 +117,7 @@
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>if(window.Chart){Chart.defaults.font.family='"IBM Plex Sans Thai","IBM Plex Sans",sans-serif';Chart.defaults.font.size=14;Chart.defaults.color='#26344a';Chart.defaults.borderColor='#dde2dc';}</script>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>

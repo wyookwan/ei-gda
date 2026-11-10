@@ -1,0 +1,74 @@
+{
+  "pack_version": "15.0-beta.1",
+  "status": "pilot_draft",
+  "disclaimer_th": "รายการนี้เป็นข้อเสนอสำหรับการนำร่อง ต้องยืนยันกฎหมายที่มีผลบังคับใช้ ข้อกำหนดรายมาตรา และขอบเขตองค์กรโดยผู้เชี่ยวชาญก่อนใช้ตัดสิน Compliance",
+  "assessment_dimensions": [
+    "Applicability",
+    "Policy & Accountability",
+    "Risk & Human Oversight",
+    "Data Governance & Privacy",
+    "Evidence & Auditability",
+    "Monitoring & Corrective Action"
+  ],
+  "slug": "healthcare",
+  "title": "Healthcare & EMS",
+  "title_th": "โรงพยาบาลและการแพทย์ฉุกเฉิน",
+  "icon": "bi-heart-pulse",
+  "subdomains": [
+    "โรงพยาบาล",
+    "หน่วยบริการสาธารณสุข",
+    "ระบบการแพทย์ฉุกเฉิน (EMS)"
+  ],
+  "references": [
+    {
+      "name": "WHO Ethics and Governance of AI for Health",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "Thailand PDPA",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "Emergency Medical Act B.E. 2551 (verify applicability)",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    },
+    {
+      "name": "ISO 14971 (where applicable)",
+      "role": "candidate_for_applicability_review",
+      "binding_status": "verify_per_organization"
+    }
+  ],
+  "controls": [
+    {
+      "id": "HEA-01",
+      "title": "Clinical responsibility",
+      "title_th": "การกำหนดผู้รับผิดชอบและขอบเขตการใช้ AI ทางคลินิก",
+      "evidence_expected": "Clinical governance policy / approval records",
+      "critical": true
+    },
+    {
+      "id": "HEA-02",
+      "title": "Patient data controls",
+      "title_th": "การควบคุมการเข้าถึงและใช้ข้อมูลสุขภาพ",
+      "evidence_expected": "Access policy / data sharing agreement / incident SOP",
+      "critical": false
+    },
+    {
+      "id": "HEA-03",
+      "title": "Safety escalation",
+      "title_th": "กระบวนการส่งต่อความเสี่ยงและเหตุผิดปกติ",
+      "evidence_expected": "Safety register / escalation SOP / incident records",
+      "critical": false
+    },
+    {
+      "id": "HEA-04",
+      "title": "EMS human oversight",
+      "title_th": "การคงบทบาทผู้ปฏิบัติการในกระบวนการคัดแยกและส่งต่อ",
+      "evidence_expected": "EMS workflow / approval roles / override log",
+      "critical": false
+    }
+  ]
+}

@@ -1,51 +1,99 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard · Ei-GDA{% endblock %}
-{% block page_title %}Organization Dashboard{% endblock %}
+{% block page_title %}Assessment Workspace{% endblock %}
+{% block head %}<link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">{% endblock %}
 {% block content %}
-<section class="page-hero"><span class="eyebrow text-white-50">Evidence-driven assessment workspace</span><h1>Evaluate governance documents with traceable evidence.</h1><p>Select a Test Suite first. Ei-GDA will preserve its mapping to standards, laws, frameworks and guidelines, while allowing you to choose multiple references for one assessment.</p></section>
-<div class="row g-3 mb-4">
-  <div class="col-md-4"><div class="card stat-card"><div class="card-body d-flex justify-content-between"><div><div class="stat-title">Assessments</div><div class="stat-value">{{ checks|length }}</div></div><span class="metric-icon"><i class="bi bi-files"></i></span></div></div></div>
-  <div class="col-md-4"><div class="card stat-card"><div class="card-body d-flex justify-content-between"><div><div class="stat-title">Active Test Suites</div><div class="stat-value">{{ test_suites|length }}</div></div><span class="metric-icon"><i class="bi bi-ui-checks-grid"></i></span></div></div></div>
-  <div class="col-md-4"><div class="card stat-card"><div class="card-body d-flex justify-content-between"><div><div class="stat-title">Available references</div><div class="stat-value">{{ standards|length }}</div></div><span class="metric-icon"><i class="bi bi-diagram-3"></i></span></div></div></div>
+{% set reference_types = [('international_standard','International Standards','bi-globe2'),('international_standard_draft','International Standards — Draft readiness','bi-file-earmark-text'),('international_framework','International Frameworks','bi-diagram-3'),('international_principles','International Principles','bi-compass'),('international_regulation','International Laws / Regulations','bi-bank'),('thai_standard','Thai Standards / Data Governance','bi-patch-check'),('thai_guideline','Thai Governance Guidelines','bi-journal-check'),('thai_law','Thai Laws & Regulations','bi-bank2')] %}
+<div class="assessment-workspace">
+  <section class="builder-intro">
+    <span class="eyebrow">BUILD YOUR ASSESSMENT</span>
+    <h1>จัดชุดการประเมินของคุณ</h1>
+    <p>เลือก Test Suite และ references ที่ต้องการ แล้วแนบหลักฐานเพื่อเริ่มประเมิน</p>
+    <div class="builder-steps" aria-label="ขั้นตอนการประเมิน"><span><b>1</b> เลือกขอบเขต</span><i class="bi bi-chevron-right" aria-hidden="true"></i><span><b>2</b> จัดชุด references</span><i class="bi bi-chevron-right" aria-hidden="true"></i><span><b>3</b> แนบไฟล์และยืนยัน</span></div>
+  </section>
+  <div class="domain-context-banner">
+  <div><span class="text-uppercase small text-secondary">V15 Domain-aware assessment</span><h3 class="mb-1">{{ (domain_packs | selectattr('slug', 'equalto', selected_domain) | first).title_th }}</h3><p class="small text-secondary mb-0">ข้อกำหนดเฉพาะ Domain เป็นรายการเสนอให้ผู้เชี่ยวชาญยืนยัน ไม่ใช่การรับรองกฎหมายอัตโนมัติ</p></div>
+  <a href="{{ url_for('gov.domains') }}" class="btn btn-outline-primary">เปลี่ยน Domain</a>
 </div>
-<div class="row g-4">
-  <div class="col-xl-4">
-    <div class="card sticky-xl-top" style="top:105px"><div class="card-header"><div class="section-title">New assessment</div><div class="section-subtitle">No completeness gate. Upload evidence and assess compliance directly.</div></div><div class="card-body">
-      <form method="post" action="{{ url_for('upload_document') }}" enctype="multipart/form-data">
-        <div class="mb-4"><label class="form-label">1. Select confidentiality level</label>
-          <div class="classification-grid">
-            <label class="classification-option open" data-classification-info="open"><input class="form-check-input" type="radio" name="data_classification" value="open" required><span class="classification-icon"><i class="bi bi-globe2"></i></span><span><strong>Open</strong><small>เปิดเผยได้ · processed by Gemini</small></span><i class="bi bi-info-circle ms-auto"></i></label>
-            <label class="classification-option confidential" data-classification-info="confidential"><input class="form-check-input" type="radio" name="data_classification" value="confidential" required><span class="classification-icon"><i class="bi bi-shield-lock"></i></span><span><strong>Confidential</strong><small>ชั้นความลับ · processed by Local Model</small></span><i class="bi bi-info-circle ms-auto"></i></label>
+<form id="assessmentBuilder" method="post" action="{{ url_for('upload_document') }}" enctype="multipart/form-data" data-loading-title="กำลังประเมินเอกสาร" data-loading-message="ระบบกำลังอัปโหลดหลักฐานและประเมินตามชุดที่คุณยืนยัน กรุณารอสักครู่">
+    <input type="hidden" name="domain_slug" value="{{ selected_domain }}">
+    <div class="card p-3 mb-3 border-0 bg-light"><label for="domainSubdomain" class="form-label fw-semibold">ประเภทหน่วยงานภายใน Domain</label>
+    <select class="form-select" id="domainSubdomain" name="domain_subdomain"><option value="">ยังไม่ระบุ</option>{% for pack in domain_packs if pack.slug == selected_domain %}{% for subtype in pack.subdomains %}<option value="{{ subtype }}">{{ subtype }}</option>{% endfor %}{% endfor %}</select>
+    <label for="assessmentUseCase" class="form-label fw-semibold mt-2">ระบบ AI / Use Case ที่ต้องการประเมิน (ไม่บังคับ)</label><input class="form-control" id="assessmentUseCase" name="assessment_use_case" maxlength="255" placeholder="เช่น ระบบช่วยสรุปเอกสารเชิงนโยบาย"></div>
+    <section class="card builder-scope mb-3" aria-labelledby="scopeTitle"><div class="card-body">
+      <div class="builder-section-heading"><span class="step-token">01</span><div><h2 id="scopeTitle">เลือก Test Suite</h2><p>กำหนดขอบเขตเพื่อดู references ที่เกี่ยวข้อง</p></div><span class="data-chip ms-auto">{{ test_suites|length }} suites</span></div>
+      <label for="tnagfTemplateSelect" class="visually-hidden">Test Suite</label>
+      <select name="test_suite_id" id="tnagfTemplateSelect" class="form-select form-select-lg" required><option value="">เลือก Test Suite ที่ต้องการประเมิน</option>{% for t in test_suites %}<option value="{{ t.id }}">{{ t.name }}</option>{% endfor %}</select>
+      <div id="templateInfoPanel" class="small text-secondary mt-2" hidden></div>
+      <a id="suiteExplorerLink" class="btn btn-sm btn-link px-0 d-none" href="{{ url_for('test_suite_explorer') }}"><i class="bi bi-bezier2 me-1"></i>ดูรายละเอียดใน Test Suite Explorer</a>
+    </div></section>
+    <section class="card builder-catalog mb-3" aria-labelledby="referencesTitle"><div class="card-body">
+      <div class="builder-section-heading"><span class="step-token">02</span><div><h2 id="referencesTitle">เลือก references</h2><p>เลือกได้หลายประเภท รายการจะรวมอยู่ในชุดการประเมิน</p></div></div>
+      <div id="selectionAnnouncement" class="selection-announcement" role="status" aria-live="polite"></div>
+      <div id="referenceError" class="alert alert-warning" role="alert" hidden></div>
+      <div id="frameworkSelectionEmpty" class="framework-empty-state"><i class="bi bi-collection"></i><div><strong>เริ่มจากเลือก Test Suite</strong><small>มาตรฐานและแนวทางที่เกี่ยวข้องจะแสดงที่นี่</small></div></div>
+      <div id="frameworkSelectionList" hidden>
+        <div class="reference-tabs" role="tablist" aria-label="ประเภท references">
+          {% for key, label, icon in reference_types %}<button type="button" id="tab-{{ key }}" role="tab" aria-controls="panel-{{ key }}" aria-selected="false" tabindex="-1" data-reference-tab="{{ key }}" hidden><i class="bi {{ icon }}" aria-hidden="true"></i><span>{{ label }}</span><span class="tab-count">0</span></button>{% endfor %}
+        </div>
+        <div class="catalog-toolbar"><label class="reference-search"><i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">ค้นหา reference ในประเภทนี้</span><input id="referenceSearch" type="search" placeholder="ค้นหาชื่อหรือรหัส reference…" autocomplete="off"></label><span id="frameworkCountChip" class="small text-secondary"></span></div>
+        {% for key, label, icon in reference_types %}
+        <div id="panel-{{ key }}" role="tabpanel" aria-labelledby="tab-{{ key }}" tabindex="0" class="reference-panel" data-reference-panel="{{ key }}" data-group-label="{{ label }}" hidden>
+          {% if key == 'international_standard_draft' %}<p class="draft-readiness-note"><i class="bi bi-info-circle"></i> ฉบับร่างใช้เตรียมความพร้อม ยังไม่ใช่มาตรฐานฉบับประกาศใช้</p>{% endif %}
+          <div class="reference-picker-grid">
+          {% for st in standards if st.source_type == key %}
+            <label class="reference-picker-card" data-framework-code="{{ st.code }}" data-framework-type="{{ st.source_type }}" data-reference-name="{{ st.name }}" for="std{{ st.id }}" hidden>
+              <span class="reference-card-top"><span class="reference-code">{{ st.code }}</span><input class="form-check-input" type="checkbox" name="standard_ids" value="{{ st.id }}" id="std{{ st.id }}" disabled></span>
+              <span class="reference-picker-name">{{ st.name }}</span>
+              {% if st.code in ['ISO42006', 'ISO42007'] %}<small class="text-warning-emphasis">{{ catalog_metadata[st.code].applicability }}</small>{% endif %}
+              <span class="reference-picker-meta">{% if st.published_year %}<span>{{ st.published_year }}</span>{% endif %}{% if st.status %}<span class="{{ 'draft-status' if 'กำลังพัฒนา' in st.status else '' }}">{{ st.status }}</span>{% endif %}</span>
+              <span class="reference-card-bottom"><small>{{ st.publisher or st.jurisdiction or 'Reference' }}</small><span class="reference-selection-label"><i class="bi bi-plus-circle"></i> เพิ่มในชุด</span></span>
+            </label>
+          {% endfor %}
           </div>
-          <div class="classification-route mt-2" id="classificationRoute"><i class="bi bi-diagram-3 me-1"></i>Open ใช้ Gemini · Confidential ใช้ Local Model ขององค์กร</div>
         </div>
-        <div class="mb-4">
-          <label class="form-label">2. Select Test Suite</label>
-          <select name="test_suite_id" id="tnagfTemplateSelect" class="form-select" required>
-            <option value="">Choose a Test Suite</option>
-            {% for t in test_suites %}<option value="{{ t.id }}">{{ t.name }}</option>{% endfor %}
-          </select>
-          <div id="templateInfoPanel" class="template-info-panel mt-2 d-none"></div>
-        </div>
-        <div class="mb-4">
-          <div class="d-flex justify-content-between align-items-end gap-2 mb-2"><div><label class="form-label mb-0">3. Select compliance references</label><div class="small text-secondary">Only references mapped to the selected Test Suite are shown. Multiple selections are supported.</div></div><span class="data-chip" id="frameworkCountChip">Select Test Suite first</span></div>
-          <div id="frameworkSelectionEmpty" class="framework-empty-state"><i class="bi bi-diagram-3"></i><div><strong>Select a Test Suite</strong><small>Mapped standards, frameworks, guidelines and Thai laws will appear here.</small></div></div>
-          <div id="frameworkSelectionList" class="d-none">
-            {% for group_key, group_label in [('international_standard','International Standards'),('international_framework','International Frameworks'),('international_principles','International Principles'),('thai_standard','Thai Standards / Data Governance'),('thai_guideline','Thai Governance Guidelines'),('thai_law','Thai Laws & Regulations')] %}
-              <div class="framework-group" data-framework-group="{{ group_key }}"><div class="framework-group-title">{{ group_label }}</div>
-                {% for st in standards if st.source_type == group_key %}<label class="standard-option framework-option d-none" data-framework-code="{{ st.code }}" data-framework-type="{{ st.source_type }}" for="std{{ st.id }}"><input class="form-check-input" type="checkbox" name="standard_ids" value="{{ st.id }}" id="std{{ st.id }}"><span class="flex-grow-1"><span class="d-flex justify-content-between gap-2"><strong class="d-block">{{ st.code }}</strong>{% if st.jurisdiction %}<small class="framework-jurisdiction">{{ st.jurisdiction }}</small>{% endif %}</span><small class="text-secondary">{{ st.name }}</small>{% if st.publisher %}<small class="d-block text-secondary mt-1">Source: {{ st.publisher }}</small>{% endif %}</span></label>{% endfor %}
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="dropzone mb-4"><div class="upload-icon"><i class="bi bi-cloud-arrow-up"></i></div><strong>Select one or more PDF files</strong><p class="small text-secondary mb-2">เลือกหลายไฟล์พร้อมกันด้วย ⌘/Ctrl หรือกด Choose Files ซ้ำเพื่อเพิ่มไฟล์ ระบบจะเก็บรายการเดิมไว้</p><input type="file" name="pdf_files" class="form-control" accept=".pdf,application/pdf" multiple required><div class="file-name small text-primary mt-2">No files selected</div></div>
-        <button class="btn btn-primary w-100 py-3"><i class="bi bi-stars me-2"></i>Upload files & run assessment</button>
-      </form>
-    </div></div>
-  </div>
-  <div class="col-xl-8"><div class="card"><div class="card-header d-flex justify-content-between align-items-center"><div><div class="section-title">Assessment history</div><div class="section-subtitle">System and Committee outcomes remain available to document owners.</div></div><span class="data-chip"><i class="bi bi-database"></i>{{ checks|length }} records</span></div><div class="card-body p-0 table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Assessment</th><th>Test Suite</th><th>Class</th><th>Compliance</th><th>Maturity</th><th></th></tr></thead><tbody>{% for c in checks %}<tr><td><strong>{{ c.original_filename }}</strong><small class="d-block text-secondary">Assessment #{{ c.id }}</small></td><td>{{ c.test_suite.name if c.test_suite else '-' }}</td><td><span class="badge classification-badge {{ c.data_classification or 'open' }}">{{ (c.data_classification or 'open')|capitalize }}</span></td><td><strong>{{ c.compliance_score or 0 }}%</strong></td><td>{{ c.maturity_level or 'Pending' }}</td><td class="text-nowrap"><a class="btn btn-sm btn-outline-primary" href="{{ url_for('view_check', check_id=c.id) }}">System</a><a class="btn btn-sm btn-outline-secondary ms-1" href="{{ url_for('assessment_comparison', check_id=c.id) }}">Compare</a></td></tr>{% else %}<tr><td colspan="6"><div class="empty-state"><i class="bi bi-folder2-open"></i><h6 class="mt-3">No assessments yet</h6></div></td></tr>{% endfor %}</tbody></table></div></div></div>
+        {% endfor %}
+        <div id="referenceSearchEmpty" class="framework-empty-state" hidden><i class="bi bi-search"></i><div><strong>ไม่พบ reference ที่ตรงกับคำค้น</strong><small>ลองค้นด้วยชื่อหรือรหัสอื่นในประเภทนี้</small></div></div>
+        <div class="catalog-pagination"><span id="referencePageLabel" role="status"></span><div><button id="referencePrev" type="button" class="btn btn-sm btn-outline-secondary" aria-label="references หน้าก่อน"><i class="bi bi-chevron-left"></i></button><button id="referenceNext" type="button" class="btn btn-sm btn-outline-secondary" aria-label="references หน้าถัดไป"><i class="bi bi-chevron-right"></i></button></div></div>
+      </div>
+    </div></section>
+    <details id="assessmentUpload" class="card builder-upload mb-4">
+      <summary><span class="step-token">03</span><span><strong>แนบหลักฐานและเริ่มประเมิน</strong><small>PDF หลายไฟล์ · รวมไม่เกิน 30 MB</small></span><i class="bi bi-chevron-down ms-auto"></i></summary>
+      <div class="card-body pt-0">
+        <input type="hidden" name="classification_acknowledged" id="classificationAcknowledged" value="">
+        <p id="classificationStatus" class="small text-secondary" role="status">เลือกระดับเอกสารและรับทราบก่อนเริ่มประเมิน</p>
+        <fieldset class="mb-3"><legend class="form-label">ระดับการเปิดเผยเอกสาร</legend><div class="builder-classification">
+          <label><input class="form-check-input" type="radio" name="data_classification" value="open" required><i class="bi bi-globe2"></i><span><strong>Open</strong><small>เอกสารเปิดเผยได้</small></span></label>
+          <label><input class="form-check-input" type="radio" name="data_classification" value="confidential" required><i class="bi bi-shield-lock"></i><span><strong>Confidential</strong><small>เอกสารภายในหรือข้อมูลลับ</small></span></label>
+        </div></fieldset>
+        <div class="dropzone builder-dropzone" data-managed-upload><i class="bi bi-cloud-arrow-up"></i><label for="assessmentFiles" class="form-label">เลือกหรือลากไฟล์ PDF มาวางที่นี่</label><p class="small text-secondary">เลือกไฟล์เพิ่มได้ รายการเดิมจะยังอยู่จนกว่าจะกดนำออก</p><input id="assessmentFiles" type="file" name="pdf_files" class="form-control" accept=".pdf,application/pdf" multiple required><div id="fileSummary" class="small text-secondary mt-2" role="status">ยังไม่ได้เลือกไฟล์</div></div>
+        <div id="uploadError" class="alert alert-warning mt-2" role="alert" hidden></div>
+        <ul id="selectedFiles" class="selected-file-list" aria-label="ไฟล์หลักฐานที่เลือก"></ul>
+        <div class="upload-submit-row"><p class="small text-secondary mb-0">ตรวจสอบชุดและไฟล์อีกครั้งก่อนเริ่มประเมิน</p><button id="reviewAssessment" type="submit" class="btn btn-primary"><i class="bi bi-check2-square me-2"></i>ตรวจสอบและยืนยัน</button></div>
+      </div>
+    </details>
+  </form>
+  <aside class="assessment-selection" id="assessmentSelection" aria-label="ชุดการประเมินที่เลือก">
+    <button type="button" class="selection-toggle" id="selectionToggle" aria-expanded="true" aria-controls="selectionBody"><span class="selection-icon"><i class="bi bi-collection"></i></span><span><strong>ชุดการประเมิน</strong><small id="selectionCount" aria-live="polite">ยังไม่ได้เลือก references</small></span><i id="selectionChevron" class="bi bi-chevron-down ms-auto"></i></button>
+    <div id="selectionBody"><div class="selection-suite"><span>TEST SUITE</span><strong id="selectionSuiteName">ยังไม่ได้เลือก Test Suite</strong></div><div id="selectionGroups" class="selection-groups"><p class="selection-empty">เลือก references เพื่อจัดชุดการประเมินของคุณ</p></div><div class="selection-footer"><button type="button" id="clearReferences" class="btn btn-link btn-sm" disabled>ล้างรายการที่เลือก</button><button type="button" id="continueToUpload" class="btn btn-primary w-100" disabled>แนบหลักฐาน <i class="bi bi-arrow-right ms-1"></i></button><small>ตรวจสอบรายละเอียดได้อีกครั้งก่อนเริ่ม</small></div></div>
+  </aside>
+  <details class="card assessment-history"><summary><i class="bi bi-clock-history"></i><strong>ประวัติการประเมิน</strong><span class="data-chip">{{ checks|length }} รายการ</span><i class="bi bi-chevron-down ms-auto"></i></summary>
+<div class="card-body p-0 table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Assessment</th><th>Test Suite</th><th>Class</th><th>Compliance</th><th>Maturity</th><th></th></tr></thead><tbody>{% for c in checks %}<tr><td><strong>{{ c.original_filename }}</strong><small class="d-block text-secondary">Assessment #{{ c.id }}</small></td><td>{{ c.test_suite.name if c.test_suite else '-' }}</td><td><span class="badge classification-badge {{ c.data_classification or 'open' }}">{{ (c.data_classification or 'open')|capitalize }}</span></td><td><strong>{{ c.compliance_score or 0 }}%</strong></td><td>{{ c.maturity_level or 'Pending' }}</td><td class="text-nowrap"><a class="btn btn-sm btn-outline-primary" href="{{ url_for('view_check', check_id=c.id) }}">System</a><a class="btn btn-sm btn-outline-secondary ms-1" href="{{ url_for('assessment_comparison', check_id=c.id) }}">Compare</a></td></tr>{% else %}<tr><td colspan="6"><div class="empty-state"><i class="bi bi-folder2-open"></i><h6 class="mt-3">No assessments yet</h6></div></td></tr>{% endfor %}</tbody></table></div>
+  </details>
 </div>
+<dialog id="assessmentConfirmDialog" class="assessment-confirm" aria-labelledby="confirmTitle" aria-describedby="confirmDescription">
+  <div class="confirmation-header"><span class="confirmation-icon"><i class="bi bi-check2-square"></i></span><button type="button" id="closeConfirmation" class="btn-close" aria-label="กลับไปแก้ไข"></button></div>
+  <div class="confirmation-heading"><span class="eyebrow">READY TO ASSESS</span><h2 id="confirmTitle">ยืนยันชุดการประเมิน</h2><p id="confirmDescription">ตรวจสอบ Test Suite, references และไฟล์หลักฐานก่อนส่งประเมิน</p></div>
+  <div id="confirmationDetails" class="confirmation-details"></div>
+  <div class="confirmation-actions"><button type="button" id="cancelConfirmation" class="btn btn-outline-secondary">กลับไปแก้ไข</button><button type="button" id="confirmAssessment" class="btn btn-primary"><i class="bi bi-stars me-2"></i>ยืนยันและเริ่มประเมิน</button></div>
+</dialog>
+<dialog id="classificationDialog" class="assessment-confirm classification-dialog" aria-labelledby="classificationTitle" aria-describedby="classificationDescription">
+<div class="confirmation-header"><span class="confirmation-icon"><i id="classificationIcon" class="bi bi-shield-lock"></i></span><button type="button" id="closeClassification" class="btn-close" aria-label="ยกเลิกการเลือกระดับเอกสาร"></button></div>
+<div class="confirmation-heading"><span class="eyebrow">DOCUMENT CLASSIFICATION</span><h2 id="classificationTitle"></h2><p id="classificationDescription"></p></div>
+<div class="confirmation-details"><h3 class="confirmation-subtitle">ตัวอย่างเอกสาร</h3><ul id="classificationExamples"></ul><div class="classification-processing"><strong>การประมวลผลในระบบปัจจุบัน</strong><p>Open ส่งข้อความและหลักฐานจากเอกสารไปยัง Gemini API ของ Google ร่วมกับ Knowledge Graph ส่วน Confidential ใช้ Local Model API ที่ระบบตั้งค่าไว้ และไม่ส่งไป Gemini การเลือก Open ไม่ได้เผยแพร่เอกสารสู่สาธารณะ</p></div></div>
+<div class="confirmation-actions"><button type="button" id="cancelClassification" class="btn btn-outline-secondary">กลับไปเลือกใหม่</button><button type="button" id="acknowledgeClassification" class="btn btn-primary">รับทราบและใช้ระดับนี้</button></div>
+</dialog>
 <script type="application/json" id="template-framework-map">{{ test_suite_framework_map|tojson }}</script>
 <script type="application/json" id="template-info-map">{{ test_suite_info_map|tojson }}</script>
-<div class="modal fade" id="classificationInfoModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content classification-modal"><div class="modal-header border-0"><div><span class="eyebrow" id="classificationModalEyebrow">DOCUMENT CLASSIFICATION</span><h4 class="modal-title mt-1" id="classificationModalTitle"></h4></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body pt-0"><div class="classification-modal-hero" id="classificationModalHero"></div><h6>คำอธิบาย</h6><p id="classificationModalDescription" class="text-secondary"></p><h6>ตัวอย่างเอกสาร</h6><ul id="classificationModalExamples" class="classification-examples"></ul><div class="privacy-callout" id="classificationModalRoute"></div></div><div class="modal-footer border-0"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">รับทราบ</button></div></div></div></div>
 {% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>{% endblock %}

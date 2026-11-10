@@ -1,0 +1,2 @@
+{% extends 'base.html' %}{% import 'gov/_macros.html' as ui %}{% block title %}Domains · EI-GDA{% endblock %}{% block page_title %}Domains{% endblock %}
+{% block content %}<div class="gov"><div class="page-head"><div><h1>Domains</h1><p class="lead-text">ใช้แกนกลางและ Test Suite ทั้ง 8 ชุดร่วมกัน แต่เปลี่ยน Control หลักฐาน และเกณฑ์ตามบริบทของแต่ละ Domain</p></div><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('gov.taxonomy_home') }}"><i class="bi bi-diagram-3 me-1"></i>Domain Taxonomy</a></div>{{ ui.domain_cards(cards) }}</div>{% endblock %}
