@@ -628,7 +628,7 @@ class PagesRender(PilotBase):
         self.assertEqual(self.client('admin').get('/integrations').status_code, 200)
         self.assertEqual(self.client('criteria.approver').get('/criteria').status_code, 200)
         self.assertIn('DEMO', self.client('buu.staff').get('/rounds').get_data(as_text=True))
-        for step in (2, 3, 4, 5, 6):
+        for step in (2, 3, 5, 6):  # step 4 was merged into 3 and now redirects
             self.assertEqual(self.client('buu.staff').get(f'/assessments/{a.id}/step/{step}').status_code, 200, step)
 
     def test_dsv_export_is_prepared_not_sent_and_unsigned(self):

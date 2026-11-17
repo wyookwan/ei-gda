@@ -5,11 +5,15 @@ never deleted. An expert verification made in the application is never overwritt
 """
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from utils import json_dumps, json_loads
 
 PACK_DIR = Path(__file__).resolve().parent.parent / 'domain_packs' / 'v16'
+GROUPS_FILE = PACK_DIR / 'domain_groups.json'
+GROUP_ID_RE = re.compile(r'^[a-z][a-z0-9_]*$')
+ACCENT_RE = re.compile(r'^#[0-9a-f]{6}$')
 DOMAIN_SLUGS = ('justice', 'education', 'healthcare', 'local_government', 'general', 'ops_mhesi', 'higher_education', 'administrative_court')
 LAYER_SLUGS = ('common_aidg',)
 # A layer pack is a shared criteria layer, not a domain a user picks.
@@ -41,6 +45,60 @@ def read_sila_pack(name):
 
 def read_registry_file():
     return json.loads((PACK_DIR / 'regulatory_registry.json').read_text(encoding='utf-8'))
+
+
+def read_groups_file():
+    """How the Domains page groups the packs for the person choosing (domain_groups.json)."""
+    return json.loads(GROUPS_FILE.read_text(encoding='utf-8'))
+
+
+def validate_groups(data):
+    """Every pack is in exactly one group; covered org types and labels refer to real things."""
+    problems = []
+    expected = set(DOMAIN_SLUGS)
+    seen, ids = {}, set()
+    for group in data['groups']:
+        if not GROUP_ID_RE.match(group['id']):
+            problems.append(f"group id {group['id']!r} must be lowercase letters, digits and underscores")
+        if group['id'] in ids:
+            problems.append(f"duplicate group id {group['id']}")
+        ids.add(group['id'])
+        if not ACCENT_RE.match(group.get('accent', '')):
+            problems.append(f"group {group['id']} needs an accent colour like #1d6fb8")
+        for slug in group['subdomains']:
+            if slug not in expected:
+                problems.append(f'group {group["id"]} lists unknown pack {slug}')
+            if slug in seen:
+                problems.append(f'{slug} is in both {seen[slug]} and {group["id"]}')
+            seen[slug] = group['id']
+        for key in ('covered_org_types', 'labels_th'):
+            for slug in (group.get(key) or {}):
+                if slug not in group['subdomains']:
+                    problems.append(f'group {group["id"]} sets {key} for {slug}, which is not in the group')
+        for slug, covered in (group.get('covered_org_types') or {}).items():
+            if slug in group['subdomains']:
+                known = {o['id'] for o in read_pack_file(slug)['organization_types']}
+                for org_id, target in covered.items():
+                    if org_id not in known:
+                        problems.append(f'group {group["id"]} marks unknown org type {org_id} of {slug}')
+                    if target not in expected or target == slug:
+                        problems.append(f'group {group["id"]} sends org type {org_id} to {target}, which is not another pack')
+    for slug in sorted(expected - set(seen)):
+        problems.append(f'{slug} is not in any group')
+    if problems:
+        raise ValueError('Invalid domain_groups.json: ' + '; '.join(problems))
+
+
+def group_of(slug, data=None):
+    """The group a pack belongs to."""
+    data = data or read_groups_file()
+    return next((g for g in data['groups'] if slug in g['subdomains']), None)
+
+
+def covered_org_types(slug):
+    """Org type id -> slug of the pack that covers it. Display only: the pack itself is unchanged."""
+    group = group_of(slug)
+    return dict(((group or {}).get('covered_org_types') or {}).get(slug, {}))
 
 
 def content_hash(data):
@@ -195,6 +253,7 @@ def sync_catalog(session):
                         RegulatoryReference, Standard, TaxonomyEdge, TaxonomyNode, Template)
     stats = {'domains': 0, 'nodes': 0, 'edges': 0, 'controls': 0, 'references': 0, 'suites_mapped': 0}
     registry = read_registry_file()
+    validate_groups(read_groups_file())
     existing_refs = {r.source_id: r for r in session.query(RegulatoryReference).all()}
     seen_refs = set()
     for ref in registry['references']:
@@ -343,6 +402,17 @@ def list_profiles(session, include_layers=False):
     if not include_layers:
         query = query.filter(DomainProfile.status != LAYER_STATUS)
     return query.order_by(DomainProfile.display_order, DomainProfile.slug).all()
+
+
+def list_groups(session):
+    """Groups in display order, each with its active profiles. A group with no active pack is dropped."""
+    profiles = {p.slug: p for p in list_profiles(session)}
+    groups = []
+    for group in sorted(read_groups_file()['groups'], key=lambda g: g.get('display_order', 99)):
+        subs = [profiles[slug] for slug in group['subdomains'] if slug in profiles]
+        if subs:
+            groups.append({**group, 'profiles': subs})
+    return groups
 
 
 def layer_packs(session, pack):

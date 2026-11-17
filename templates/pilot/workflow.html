@@ -17,7 +17,7 @@
 <form method="post" action="{{ url_for('pilot.workflow_action', assessment_id=a.id, action='submit') }}" class="wf-form"><input type="hidden" name="version" value="{{ a.workflow_version }}">
 <p class="mb-1">ส่งงานให้ผู้ประสานรอบ ระบบจะประเมินเบื้องต้นจากหลักฐานใหม่อีกครั้ง บันทึกเป็นฉบับที่ 1 และล็อกงานไว้จนกว่าจะถูกส่งกลับ</p>
 <label class="form-label small" for="subNote">หมายเหตุถึงผู้ตรวจ (ไม่บังคับ)</label><textarea class="form-control" id="subNote" name="note" rows="2" maxlength="4000"></textarea>
-<button class="btn btn-primary mt-2" data-once>ส่งงานครั้งแรก</button>{% if not a.config_snapshot_json %}<div class="small-note mt-1">ต้องยืนยันขอบเขต Control (ขั้นที่ 4) และแนบหลักฐานก่อน</div>{% endif %}</form>{% endif %}
+<button class="btn btn-primary mt-2" data-once>ส่งงานครั้งแรก</button>{% if not a.config_snapshot_json %}<div class="small-note mt-1">ต้องยืนยันขอบเขต Control (ขั้นที่ 3) และแนบหลักฐานก่อน</div>{% endif %}</form>{% endif %}
 
 {% if 'assign' in can and st not in ('draft','confirmed') %}{% set shown.n = shown.n + 1 %}
 <form method="post" action="{{ url_for('pilot.workflow_action', assessment_id=a.id, action='assign') }}" class="wf-form"><input type="hidden" name="version" value="{{ a.workflow_version }}">

@@ -29,7 +29,7 @@
   --sidebar:264px;--topbar:64px;
   /* type scale (1.2 minor third on 15px) */
   --fs-xs:.75rem;--fs-sm:.8125rem;--fs-base:.9375rem;--fs-md:1.125rem;--fs-lg:1.375rem;--fs-xl:1.75rem;--fs-2xl:2.5rem;
-  --font:"IBM Plex Sans Thai","IBM Plex Sans",system-ui,sans-serif;
+  --font:"Sarabun",system-ui,sans-serif;
   /* bootstrap bridge */
   --bs-body-font-family:var(--font);--bs-body-color:var(--ink);--bs-body-bg:var(--paper);
   --bs-primary:#0e6b5f;--bs-primary-rgb:14,107,95;--bs-link-color:#0e6b5f;--bs-link-color-rgb:14,107,95;--bs-link-hover-color:#0a5148;--bs-link-hover-color-rgb:10,81,72;

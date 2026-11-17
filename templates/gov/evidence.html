@@ -1,3 +1,20 @@
 {% extends 'base.html' %}{% block title %}คลังหลักฐาน · EI-GDA{% endblock %}{% block page_title %}คลังหลักฐาน{% endblock %}
-{% block content %}<div class="gov"><div class="page-head"><div><h1>คลังหลักฐาน</h1><p class="lead-text">แสดงเฉพาะไฟล์ที่คุณมีสิทธิ์เข้าถึง</p></div><form class="d-flex gap-2" method="get"><label class="visually-hidden" for="evq">ค้นหาไฟล์</label><input id="evq" class="form-control form-control-sm" type="search" name="q" value="{{ term }}" placeholder="ค้นหาชื่อไฟล์"><button class="btn btn-sm btn-outline-secondary">ค้นหา</button></form></div>
-<div class="panel panel-flush table-scroll">{% if rows %}<table class="table-clean"><thead><tr><th>ไฟล์</th><th>หน้า</th><th>ระดับ</th><th>งาน</th><th>ข้อกำหนดที่เชื่อม</th></tr></thead><tbody>{% for f in rows %}{% set c = checks[f.check_id] %}<tr><td><a href="{{ url_for('source_pdf', check_id=f.check_id, file_id=f.id) }}" target="_blank">{{ f.original_filename }}</a></td><td>{{ f.page_count }}</td><td><span class="badge-s {{ 's-warn' if c.data_classification == 'confidential' else 's-neutral' }}">{{ c.data_classification }}</span></td><td class="small-note">{{ c.original_filename|truncate(40, True, '…') }}</td><td>{{ usage.get(f.id, [])|length }}</td></tr>{% endfor %}</tbody></table>{% else %}<div class="empty"><i class="bi bi-folder2-open"></i>ไม่พบไฟล์</div>{% endif %}</div></div>{% endblock %}
+{% block content %}
+<div class="gov dc fluid-page ov ov-canvas" style="--accent:var(--seal)">
+ <div class="dc-frame">
+  <header class="dc-head"><h1>คลังหลักฐาน</h1>
+   <p class="dc-qs ov-sub">แสดงเฉพาะไฟล์ที่คุณมีสิทธิ์เข้าถึง</p>
+   <div class="ov-actions">
+    <form class="ov-search" method="get" role="search"><label class="visually-hidden" for="evq">ค้นหาไฟล์</label><input id="evq" class="form-control" type="search" name="q" value="{{ term }}" placeholder="ค้นหาชื่อไฟล์"><button class="btn btn-primary"><i class="bi bi-search me-1" aria-hidden="true"></i>ค้นหา</button>{% if term %}<a class="btn btn-outline-secondary" href="{{ url_for('gov.evidence_library') }}">ล้างคำค้น</a>{% endif %}</form>
+   </div>
+  </header>
+
+  <div class="dc-stage">
+   <section class="dc-panel ov-recent" aria-labelledby="evFiles">
+    <div class="dc-bh ov-bh"><span class="dc-mark" aria-hidden="true"></span><h2 class="ov-h" id="evFiles">ไฟล์หลักฐาน</h2><span class="dc-bn">{{ rows|length }} ไฟล์{% if term %} · ค้นหา "{{ term }}"{% endif %}</span></div>
+    {% if rows %}<div class="table-scroll ov-table"><table class="table-clean ov-tbl-ev"><thead><tr><th>ไฟล์</th><th>หน้า</th><th>ระดับ</th><th>งาน</th><th>ข้อกำหนดที่เชื่อม</th><th>การจัดการ</th></tr></thead><tbody>{% for f in rows %}{% set c = checks[f.check_id] %}<tr><td><a class="ev-fn" href="{{ url_for('source_pdf', check_id=f.check_id, file_id=f.id) }}" target="_blank"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i><span>{{ f.original_filename }}</span></a></td><td>{{ f.page_count }}</td><td><span class="badge-s {{ 's-warn' if c.data_classification == 'confidential' else 's-neutral' }}">{{ c.data_classification }}</span></td><td class="small-note">{{ c.original_filename|truncate(40, True, '…') }}</td><td>{{ usage.get(f.id, [])|length }}</td><td>{% set st = states.get(f.id) %}{% if st and st.can_delete %}<form method="post" action="{{ url_for('gov.delete_evidence', file_id=f.id) }}" onsubmit="return confirm('ลบไฟล์นี้ใช่ไหม ลบแล้วกู้คืนไม่ได้')"><button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash" aria-hidden="true"></i> ลบ</button></form>{% elif st and st.reason %}<span class="ev-lock" title="ไฟล์ที่ใช้แล้วต้องเก็บไว้เป็นหลักฐานของผลที่ออกไป"><i class="bi bi-lock" aria-hidden="true"></i> {{ st.reason }} · ลบไม่ได้</span>{% else %}<span class="muted">-</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+    {% else %}<div class="empty"><i class="bi bi-folder2-open"></i>{{ 'ไม่พบไฟล์ที่ตรงกับคำค้น' if term else 'ไม่พบไฟล์' }}</div>{% endif %}
+   </section>
+  </div>
+ </div>
+</div>{% endblock %}

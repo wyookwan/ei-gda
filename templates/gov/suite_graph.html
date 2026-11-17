@@ -1,13 +1,12 @@
 {% extends 'base.html' %}{% import 'gov/_macros.html' as ui %}
 {% block title %}Knowledge Graph · EI-GDA{% endblock %}{% block page_title %}Knowledge Graph ของ Test Suite{% endblock %}
-{% block breadcrumb %}{{ ui.crumbs([('Test Suites', url_for('test_suite_tree')), ('Knowledge Graph 3D', None)]) }}{% endblock %}
-{% block content %}<div class="gov">
-<div class="page-head">
-  <div>
-    <h1>Knowledge Graph ของ Test Suite</h1>
-    <p class="lead-text">ดูว่าชุดทดสอบที่เลือกอ้างอิงมาตรฐานและกฎหมายฉบับใด แต่ละฉบับมีหมวดและข้อประเมินอะไร และข้อประเมินต่างฉบับเชื่อมกันผ่านคำสำคัญเดียวกันอย่างไร</p>
-  </div>
-</div>
+{% block content %}
+<div class="gov dc fluid-page ov ov-canvas" style="--accent:var(--seal)">
+ <div class="dc-frame">
+  <header class="dc-head"><h1>Knowledge Graph ของ Test Suite</h1>
+   <p class="dc-qs ov-sub">ดูว่าชุดทดสอบที่เลือกอ้างอิงมาตรฐานและกฎหมายฉบับใด แต่ละฉบับมีหมวดและข้อประเมินอะไร และข้อประเมินต่างฉบับเชื่อมกันผ่านคำสำคัญเดียวกันอย่างไร</p>
+  </header>
+  <div class="dc-stage">
 
 {% if not suites %}
 <div class="panel empty"><i class="bi bi-diagram-3"></i>ยังไม่มี Test Suite ที่เปิดใช้งาน ให้ผู้ดูแลเปิดใช้งานที่หน้า Test Suites ก่อน</div>
@@ -89,6 +88,8 @@
   </aside>
 </div>
 {% endif %}
+  </div>
+ </div>
 </div>{% endblock %}
 
 {% block scripts %}{% if suites %}

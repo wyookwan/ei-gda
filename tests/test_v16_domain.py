@@ -5,6 +5,7 @@ import os
 import shutil
 import tempfile
 import unittest
+from datetime import datetime, timedelta
 from unittest.mock import patch
 
 import fitz
@@ -13,7 +14,7 @@ import test_international_catalog as fixtures
 from config import Config, assert_safe_runtime
 from extensions import db
 from models import (ApplicabilityDecision, AuditLog, CommitteeAssignment, DocumentCheck, DocumentFile, DomainAssessment, DomainFinding, EvidenceMapping,
-                    RegulatoryReference, TaxonomyEdge, TaxonomyNode, Template, User)
+                    RegulatoryReference, SubmissionRevision, TaxonomyEdge, TaxonomyNode, Template, User)
 from services.applicability import build_context, derive_risk, resolve_control, resolve_critical, resolve_reference
 from services.domain_catalog import CORE_SUITES, DOMAIN_SLUGS, build_taxonomy, get_pack, read_pack_file, read_registry_file, sync_catalog, taxonomy_payload
 from services.domain_orchestrator import build_configuration, current_config
@@ -266,6 +267,126 @@ class EvidenceTests(Base):
         self.assertEqual(row.page, 2)
         self.assertIsNone(EvidenceMapping.query.filter_by(assessment_id=assessment.id, requirement_id='EV.EMS.ALLOCATION').first())
 
+    def test_evidence_page_leads_with_what_is_missing(self):
+        assessment = self.assessment()
+        client = self.client_for(self.owner)
+        self.upload(client, assessment, 'nothing relevant here', 'Triage guideline for undertriage review')
+        html = client.get(f'/assessments/{assessment.id}/step/5').get_data(as_text=True)
+        self.assertIn('ev-summary', html)
+        self.assertIn('id="evTabs"', html)
+        self.assertIn('data-start="missing"', html)
+        self.assertLess(html.index('data-ev="missing"'), html.index('data-ev="found"'))  # missing requirements are listed first
+        self.assertIn('ระดับเอกสาร', html)
+        self.assertIn('class="acc ev-class"', html)  # already classified, so the form is folded away
+        self.assertNotIn('aria-disabled="true"', html)
+
+    def test_evidence_page_asks_for_classification_before_moving_on(self):
+        assessment = self.assessment(classification=None)
+        html = self.client_for(self.owner).get(f'/assessments/{assessment.id}/step/5').get_data(as_text=True)
+        self.assertIn('เลือกระดับเอกสารก่อนไปต่อ', html)
+        self.assertIn('aria-disabled="true"', html)
+        self.assertNotIn('class="acc ev-class"', html)  # the classification form stays open until it is chosen
+        self.assertLess(html.index('บันทึกระดับเอกสาร'), html.index('id="pdf_files"'))  # and comes before the upload box
+
+    def test_evidence_library_page_lists_files_and_keeps_the_search(self):
+        assessment = self.assessment()
+        client = self.client_for(self.owner)
+        self.upload(client, assessment, 'triage guideline', name='triage-manual.pdf')
+        page = client.get('/evidence').get_data(as_text=True)
+        self.assertIn('triage-manual.pdf', page)
+        self.assertNotIn('ล้างคำค้น', page)
+        found = client.get('/evidence?q=triage').get_data(as_text=True)
+        self.assertIn('triage-manual.pdf', found)
+        self.assertIn('ล้างคำค้น', found)
+        self.assertIn('ไม่พบไฟล์ที่ตรงกับคำค้น', client.get('/evidence?q=nothing-here').get_data(as_text=True))
+        payload = '<img src=x onerror=alert(1)>'
+        self.assertNotIn(payload, client.get('/evidence', query_string={'q': payload}).get_data(as_text=True))
+
+    def uploaded_file(self, assessment, client, name='stored-only.pdf', *pages):
+        self.upload(client, assessment, *(pages or ('Triage guideline for undertriage review',)), name=name)
+        return DocumentFile.query.filter_by(check_id=assessment.check_id, original_filename=name).first()
+
+    def delete_file(self, client, row, **form):
+        return client.post(f'/evidence/{row.id}/delete', data=form)
+
+    def test_file_that_was_only_uploaded_can_be_deleted(self):
+        assessment = self.assessment()
+        client = self.client_for(self.owner)
+        row = self.uploaded_file(assessment, client)
+        file_id = row.id
+        client.get(f'/assessments/{assessment.id}/step/5')  # the page links the file to requirements it matches
+        self.assertTrue(EvidenceMapping.query.filter_by(document_file_id=file_id).count())
+        self.assertTrue(os.listdir(self.uploads))
+        self.assertEqual(self.delete_file(client, row, back='step').status_code, 302)
+        db.session.expire_all()
+        self.assertIsNone(db.session.get(DocumentFile, file_id))
+        self.assertEqual(EvidenceMapping.query.filter_by(document_file_id=file_id).count(), 0)
+        self.assertEqual(os.listdir(self.uploads), [])  # the stored PDF goes with the last row that uses it
+        self.assertTrue(AuditLog.query.filter_by(action='domain_evidence_delete').first())
+
+    def test_file_that_an_evaluation_used_cannot_be_deleted(self):
+        assessment = self.assessment()
+        client = self.client_for(self.owner)
+        row = self.uploaded_file(assessment, client)
+        assessment.last_run_at = datetime.utcnow() + timedelta(minutes=1)
+        assessment.summary_json = '{}'
+        db.session.commit()
+        self.delete_file(client, row)
+        db.session.expire_all()
+        self.assertIsNotNone(db.session.get(DocumentFile, row.id))
+        self.assertTrue(os.listdir(self.uploads))
+        for path in ('/evidence', f'/assessments/{assessment.id}/step/5'):
+            page = client.get(path).get_data(as_text=True)
+            self.assertIn('ใช้ในการประเมินแล้ว', page, path)
+            self.assertNotIn(f'/evidence/{row.id}/delete', page, path)
+
+    def test_file_uploaded_after_the_last_run_is_still_deletable(self):
+        assessment = self.assessment()
+        client = self.client_for(self.owner)
+        assessment.last_run_at = datetime.utcnow() - timedelta(hours=1)
+        assessment.summary_json = '{}'
+        db.session.commit()
+        row = self.uploaded_file(assessment, client)
+        self.assertIn(f'/evidence/{row.id}/delete', client.get('/evidence').get_data(as_text=True))
+        self.delete_file(client, row)
+        db.session.expire_all()
+        self.assertIsNone(db.session.get(DocumentFile, row.id))
+
+    def test_file_that_went_out_in_a_submission_cannot_be_deleted(self):
+        assessment = self.assessment()
+        client = self.client_for(self.owner)
+        row = self.uploaded_file(assessment, client)
+        db.session.add(SubmissionRevision(assessment_id=assessment.id, revision_no=1, submitted_by=self.owner.id, files_json=json.dumps([{'file_id': row.id}])))
+        db.session.commit()
+        self.delete_file(client, row)
+        db.session.expire_all()
+        self.assertIsNotNone(db.session.get(DocumentFile, row.id))
+        self.assertIn('ส่งตรวจแล้ว', client.get('/evidence').get_data(as_text=True))
+
+    def test_only_the_owner_can_delete_a_file(self):
+        assessment = self.assessment()
+        row = self.uploaded_file(assessment, self.client_for(self.owner))
+        self.assertEqual(self.delete_file(self.client_for(self.other), row).status_code, 403)
+        self.assertEqual(self.delete_file(self.client_for(self.admin), row).status_code, 302)  # not a user role: sent away, nothing deleted
+        self.assertEqual(self.delete_file(self.app.test_client(), row).status_code, 302)  # anonymous goes to sign in
+        db.session.expire_all()
+        self.assertIsNotNone(db.session.get(DocumentFile, row.id))
+        self.assertEqual(self.client_for(self.owner).post('/evidence/999999/delete').status_code, 404)
+
+    def test_stored_pdf_stays_while_another_assessment_still_uses_it(self):
+        client = self.client_for(self.owner)
+        first, second = self.assessment(), self.assessment()
+        content = make_pdf('same bytes in both assessments').getvalue()
+        for target in (first, second):
+            client.post(f'/assessments/{target.id}/evidence', data={'pdf_files': (io.BytesIO(content), 'shared.pdf')}, content_type='multipart/form-data')
+        a = DocumentFile.query.filter_by(check_id=first.check_id).first()
+        b = DocumentFile.query.filter_by(check_id=second.check_id).first()
+        self.assertEqual(a.stored_filename, b.stored_filename)
+        self.delete_file(client, a)
+        self.assertEqual(len(os.listdir(self.uploads)), 1)
+        self.delete_file(client, b)
+        self.assertEqual(os.listdir(self.uploads), [])
+
     def test_cross_user_access_is_denied(self):
         assessment = self.assessment()
         client = self.client_for(self.owner)
@@ -469,6 +590,31 @@ class OrchestrationTests(Base):
 
 
 class WizardAndUiTests(Base):
+    def test_domain_and_organization_type_carried_from_the_card(self):
+        client = self.client_for(self.owner)
+        page = client.get('/assessments/new?domain=justice&org_type=JUS.ORG.COURT_CONST').get_data(as_text=True)
+        self.assertIn('name="domain_slug" value="justice"', page)
+        self.assertIn('name="org_type" value="JUS.ORG.COURT_CONST"', page)  # carried, so it is not asked again
+        self.assertNotIn('id="org_type"', page)
+        # coming from the sidebar there is nothing to carry: the person chooses here
+        page = client.get('/assessments/new').get_data(as_text=True)
+        self.assertIn('id="org_type"', page)
+        self.assertNotIn('type="hidden" name="domain_slug"', page)
+        # a type that belongs to another Domain, or has its own pack, is ignored and the chooser stays
+        for wanted in ('EDU.ORG.SCHOOL', 'JUS.ORG.COURT_ADMIN', 'nope'):
+            page = client.get('/assessments/new?domain=justice&org_type=' + wanted).get_data(as_text=True)
+            self.assertIn('id="org_type"', page, wanted)
+            self.assertNotIn('type="hidden" name="org_type"', page, wanted)
+
+    def test_new_assessment_refuses_an_organization_type_that_has_its_own_pack(self):
+        client = self.client_for(self.owner)
+        before = DomainAssessment.query.count()
+        response = client.post('/assessments/new', data={'name': 'ศาล', 'organization_name': 'Org', 'domain_slug': 'justice', 'org_type': 'JUS.ORG.COURT_ADMIN'})
+        self.assertEqual(DomainAssessment.query.count(), before)
+        self.assertTrue(response.location.endswith('/assessments/new?domain=justice'))
+        response = client.post('/assessments/new', data={'name': 'ศาล', 'organization_name': 'Org', 'domain_slug': 'justice', 'org_type': 'JUS.ORG.COURT_JUSTICE'})
+        self.assertEqual(DomainAssessment.query.count(), before + 1)
+
     def test_guided_flow_with_save_and_resume(self):
         client = self.client_for(self.owner)
         response = client.post('/assessments/new', data={'name': 'งานทดสอบ', 'organization_name': 'Org', 'domain_slug': 'healthcare', 'org_type': 'HLT.ORG.EMS'})
@@ -480,11 +626,13 @@ class WizardAndUiTests(Base):
         db.session.refresh(assessment)
         self.assertEqual(assessment.current_step, 3)
         self.assertIn('EMS UC1', client.get(f'/assessments/{assessment.id}/step/2').get_data(as_text=True))
+        # laws/standards and Test Suites are one page: each suite shows where it comes from
         page = client.get(f'/assessments/{assessment.id}/step/3').get_data(as_text=True)
         self.assertIn('พระราชบัญญัติการแพทย์ฉุกเฉิน', page)
-        page = client.get(f'/assessments/{assessment.id}/step/4').get_data(as_text=True)
+        self.assertIn('Test Suite นี้มาจาก', page)
         for code, _ in CORE_SUITES:
             self.assertIn(code, page)
+        self.assertTrue(client.get(f'/assessments/{assessment.id}/step/4').location.endswith(f'/assessments/{assessment.id}/step/3'))  # old address still works
         client.post(f'/assessments/{assessment.id}/freeze')
         self.assertEqual(client.get(f'/assessments/{assessment.id}/step/5').status_code, 200)
         client.post(f'/assessments/{assessment.id}/classification', data={'data_classification': 'confidential', 'acknowledged': 'confidential'})
@@ -526,14 +674,415 @@ class WizardAndUiTests(Base):
         client = self.client_for(self.owner)
         page = client.get('/overview').get_data(as_text=True)
         self.assertIn('EI-GDA Governance Intelligence Platform', page)
-        self.assertIn('13 control เฉพาะด้าน + 8 แกนกลาง', page)
+        self.assertNotIn('domain-card', page)  # the Domain cards live on /domains, not on the overview
+        self.assertNotIn('Domain Explorer', page)
+        self.assertRegex(page, r'class="ov-n">0</span><span class="ov-l">ฉบับร่าง')
         self.assessment(frozen=False)
-        self.assertIn('ฉบับร่าง', client.get('/overview').get_data(as_text=True))
+        self.assertRegex(client.get('/overview').get_data(as_text=True), r'class="ov-n">1</span><span class="ov-l">ฉบับร่าง')
 
     def test_mobile_styles_and_responsive_rules_exist(self):
         css = open(os.path.join(self.app.static_folder, 'css', 'v16.css'), encoding='utf-8').read()
         self.assertIn('@media(max-width:575px)', css)
         self.assertIn('viewport', open(os.path.join(self.app.template_folder, 'base.html'), encoding='utf-8').read())
+
+
+class DomainChooserTests(Base):
+    TILES = ('justice', 'education', 'health', 'public_administration', 'other')
+
+    def page(self, user, path='/domains'):
+        response = self.client_for(user).get(path)
+        self.assertEqual(response.status_code, 200, path)
+        return response.get_data(as_text=True)
+
+    def view(self, page, step, key=None):
+        import re
+        attribute = {'2': 'data-group', '3': 'data-domain'}.get(str(step))
+        pattern = r'<section class="dc-view" data-step="%s"[^>]*%s.*?</section>' % (step, ('%s="%s"' % (attribute, key)) if key else '')
+        found = re.search(pattern, page, re.S)
+        self.assertIsNotNone(found, (step, key))
+        return found.group(0)
+
+    def test_every_pack_is_in_exactly_one_group_and_bad_files_are_refused(self):
+        import copy
+        from services.domain_catalog import read_groups_file, validate_groups
+        good = read_groups_file()
+        validate_groups(good)
+        members = [slug for g in good['groups'] for slug in g['subdomains']]
+        self.assertEqual(sorted(members), sorted(DOMAIN_SLUGS))
+        cases = {}
+        missing = copy.deepcopy(good)
+        missing['groups'][1]['subdomains'].remove('ops_mhesi')
+        cases['not in any group'] = missing
+        twice = copy.deepcopy(good)
+        twice['groups'][0]['subdomains'].append('education')
+        cases['both'] = twice
+        unknown = copy.deepcopy(good)
+        unknown['groups'][0]['subdomains'].append('nope')
+        cases['unknown pack'] = unknown
+        bad_id = copy.deepcopy(good)
+        bad_id['groups'][0]['id'] = 'Justice Sector'
+        cases['must be lowercase'] = bad_id
+        no_accent = copy.deepcopy(good)
+        del no_accent['groups'][0]['accent']
+        cases['needs an accent'] = no_accent
+        unknown_org = copy.deepcopy(good)
+        unknown_org['groups'][0]['covered_org_types']['justice']['JUS.ORG.NOPE'] = 'administrative_court'
+        cases['unknown org type'] = unknown_org
+        same_pack = copy.deepcopy(good)
+        same_pack['groups'][0]['covered_org_types']['justice']['JUS.ORG.COURT_ADMIN'] = 'justice'
+        cases['not another pack'] = same_pack
+        label = copy.deepcopy(good)
+        label['groups'][0]['labels_th'] = {'general': 'x'}
+        cases['labels_th'] = label
+        for fragment, data in cases.items():
+            with self.assertRaises(ValueError, msg=fragment) as ctx:
+                validate_groups(data)
+            self.assertIn(fragment, str(ctx.exception))
+
+    def test_step_one_shows_five_tiles_and_only_step_one_is_visible_at_first(self):
+        for user in (self.owner, self.admin, self.committee):
+            page = self.page(user)
+            for group in self.TILES:
+                self.assertIn('data-group="%s"' % group, page, (user.role, group))
+            self.assertEqual(page.count('<button type="button" class="dc-tile'), 5)
+            self.assertIn('class="dc-tiles" style="--n:5"', page)  # tiles share the width of the page evenly
+            self.assertNotIn('<section class="dc-view" data-step="1" aria-labelledby="dcq1" hidden', page)
+            for step in (2, 3):
+                for chunk in page.split('<section class="dc-view" data-step="%d"' % step)[1:]:
+                    self.assertIn(' hidden', chunk.split('>', 1)[0])  # every later step starts hidden
+
+    def test_step_two_exists_only_for_groups_with_several_packs(self):
+        page = self.page(self.owner)
+        self.assertEqual(page.count('data-step="2"'), 2)
+        justice = self.view(page, 2, 'justice')
+        self.assertIn('data-domain="justice"', justice)
+        self.assertIn('data-domain="administrative_court"', justice)
+        education = self.view(page, 2, 'education')
+        for slug in ('education', 'higher_education', 'ops_mhesi'):
+            self.assertIn('data-domain="%s"' % slug, education)
+        self.assertIn('ต่อยอดจากการศึกษา', education)  # from the pack's own "extends"
+        self.assertIn('ศาลยุติธรรม · ศาลรัฐธรรมนูญ', justice)  # titles only, and not the court that the other card already covers
+        self.assertNotIn("'jump'", page)  # org types are dicts: none of them may reach the page as raw text
+        for group in ('health', 'public_administration', 'other'):
+            self.assertNotIn('data-step="2" data-group="%s"' % group, page)
+            self.assertIn('data-only=', page.split('data-group="%s"' % group, 1)[1].split('>', 1)[0])  # the tile goes straight to step 3
+
+    def test_every_pack_has_a_check_card_with_real_numbers(self):
+        page = self.page(self.owner)
+        self.assertEqual(page.count('data-step="3"'), len(DOMAIN_SLUGS))
+        healthcare = self.view(page, 3, 'healthcare')
+        self.assertIn('<span class="dc-n">17 รายการ</span>', healthcare)
+        self.assertIn('<span class="dc-n">13 ประเด็น</span>', healthcare)
+        self.assertIn('ประเด็นเฉพาะ', healthcare)
+        self.assertIn('(สำคัญมาก 6)', healthcare)
+        self.assertIn('ฉบับร่างนำร่อง', healthcare)
+        self.assertIn('ชุดนี้เป็นฉบับร่างนำร่อง เกณฑ์ยังรอผู้เชี่ยวชาญทบทวน', healthcare)
+        self.assertNotIn('ฉบับร่างนำร่อง', self.view(page, 3, 'education'))
+        self.assertIn('องค์กรทั่วไป', self.view(page, 3, 'general'))  # label from the groups file
+        self.assertNotIn('Pack)', page.split('id="dc"', 1)[1])
+
+    def test_check_card_has_three_closed_panels_with_the_real_details(self):
+        import re
+        from models import RegulatoryReference
+        page = self.page(self.owner)
+        justice = self.view(page, 3, 'justice')
+        for kind in ('ev', 'ctl', 'reg'):
+            self.assertIn('aria-controls="p-justice-%s"' % kind, justice)
+            opening = re.search(r'<div class="dc-panel" id="p-justice-%s"[^>]*>' % kind, justice).group(0)
+            self.assertIn(' hidden', opening)  # shown only after the button is pressed
+        self.assertEqual(justice.count('class="dc-pbtn is-'), 3)
+        self.assertEqual(justice.count('aria-expanded="false"'), 3)
+        # evidence, controls (with the critical mark) and the core controls come from the pack
+        self.assertIn('ระเบียบหรือนโยบายการใช้ AI ของศาล', justice)
+        self.assertIn('การคงอำนาจวินิจฉัยและการกำกับโดยตุลาการ', justice)
+        self.assertIn('badge-s s-bad">สำคัญมาก', justice)
+        self.assertIn('ประเด็นแกนกลางที่ทุกกลุ่มใช้ร่วมกัน (8 ข้อ)', justice)
+        self.assertIn('GEN-01', justice)
+        self.assertNotIn('ประเด็นแกนกลางที่ทุกกลุ่มใช้ร่วมกัน', self.view(page, 3, 'general'))  # the core itself has no further core
+        # the numbers on the buttons match the data
+        references = [r for r in RegulatoryReference.query.filter_by(is_active=True).all() if 'justice' in json_loads(r.domains_json, default=[])]
+        counts = {kind: int(re.search(r'aria-controls="p-justice-%s">.*?<span class="dc-n">(\d+) ' % kind, justice, re.S).group(1)) for kind in ('ev', 'ctl', 'reg')}
+        self.assertEqual(counts, {'ev': 7, 'ctl': 6, 'reg': len(references)})
+        self.assertGreater(len(references), 0)
+        self.assertIn('กฎหมายและข้อกำหนด (', justice)
+        # unverified states stay unshown, as everywhere else in the product
+        for label in ('รอตรวจสอบ', 'พบจากการค้นหา ยังไม่เปิดอ่าน', 'พบแหล่งทางการ', 'ร่าง ไม่พบแหล่ง'):
+            self.assertNotIn(label, page)
+
+    def test_panel_script_closes_others_and_resets_when_a_card_is_hidden(self):
+        js = open(os.path.join(self.app.static_folder, 'js', 'domain-chooser.js'), encoding='utf-8').read()
+        for needle in ('function togglePanel', 'function closePanels', 'closePanels(v)', "'aria-expanded'", 'is-open'):
+            self.assertIn(needle, js)
+
+    def test_org_type_covered_by_another_pack_is_a_grey_chip_that_jumps_there(self):
+        import re
+        page = self.page(self.owner)
+        justice = self.view(page, 3, 'justice')
+        self.assertIn('data-org="JUS.ORG.COURT_JUSTICE"', justice)  # a type this pack keeps is a choice the person can pick
+        self.assertIn('ศาลรัฐธรรมนูญ</button>', justice)
+        self.assertNotIn('data-org="JUS.ORG.COURT_ADMIN"', justice)
+        chip = re.search(r'<button type="button" class="dc-chip is-other" data-jump="administrative_court"[^>]*>.*?</button>', justice, re.S)
+        self.assertIsNotNone(chip)  # the court the other pack covers is shown, but as a link to that pack
+        self.assertIn('ศาลปกครอง', chip.group(0))
+        self.assertIn('สีเทา = หน่วยงานที่มีชุดประเมินของตัวเอง', justice)
+        administrative = self.view(page, 3, 'administrative_court')
+        self.assertNotIn('data-jump', administrative)
+        self.assertNotIn('สีเทา =', administrative)  # the note appears only when a grey chip does
+        self.assertIn('ศาลปกครองสูงสุด', administrative)
+
+    def test_card_top_row_shows_the_group_the_draft_mark_and_the_version_to_staff_only(self):
+        import re
+        owner = self.page(self.owner)
+        self.assertNotIn('class="dc-ver"', owner)  # the people who assess do not need the pack version
+        for user in (self.admin, self.committee):
+            staff = self.page(user)
+            self.assertEqual(staff.count('class="dc-ver"'), len(DOMAIN_SLUGS), user.role)
+            self.assertRegex(staff, r'class="dc-ver"[^>]*>v\d')
+        justice = self.view(owner, 3, 'justice')
+        self.assertIn('ด้านยุติธรรม · Justice', justice)
+        self.assertEqual(justice.count('class="dc-draft"'), 0)
+        self.assertEqual(self.view(owner, 3, 'healthcare').count('class="dc-draft"'), 1)
+        general = self.view(owner, 3, 'general')
+        self.assertNotIn('ด้านด้าน', general)  # the "other" group already reads as a phrase, so it gets no "ด้าน" in front
+        self.assertIn('ด้านอื่น ๆ หรือยังไม่แน่ใจ', general)
+        self.assertEqual(re.findall(r'<h3 class="dc-name">', justice).__len__(), 1)
+
+    def test_card_has_example_work_and_audience_boxes_without_divider_lines(self):
+        owner = self.page(self.owner)
+        justice = self.view(owner, 3, 'justice')
+        self.assertIn('ตัวอย่างงานที่ประเมินได้', justice)
+        self.assertIn('เลือกประเภทองค์กรของคุณ', justice)  # people who assess pick their organization type on the card
+        self.assertIn('เหมาะสำหรับ', self.view(self.page(self.committee), 3, 'justice'))  # everyone else just sees who it suits
+        self.assertIn('ประเภทงาน</span>', justice)
+        self.assertIn('data-jump=', owner)
+        js = open(os.path.join(self.app.static_folder, 'js', 'domain-chooser.js'), encoding='utf-8').read()
+        self.assertIn('[data-jump]', js)
+        css = open(os.path.join(self.app.static_folder, 'css', 'v16.css'), encoding='utf-8').read()
+        card = css.split('.dc-card{', 1)[1].split('.dc-panel{', 1)[0]
+        self.assertNotIn('border-top', card)  # the card is divided by space and tint, not by rules
+        self.assertNotIn('border-bottom', card)
+
+    def test_start_button_by_role_and_no_detail_button_in_the_card(self):
+        owner = self.page(self.owner)
+        self.assertEqual(owner.count('href="/assessments/new?domain='), len(DOMAIN_SLUGS))
+        self.assertNotIn('data-notice=', owner)
+        # the card has the start button and the three panels only; the pack pages stay reachable by address and in the no-script list
+        self.assertNotIn('ดูรายละเอียดทั้งหมด', owner)
+        frame = owner.split('class="dc-frame"', 1)[1].split('<noscript>', 1)[0]
+        self.assertNotIn('href="/domains/', frame)
+        for slug in DOMAIN_SLUGS:
+            self.assertIn('href="/domains/%s"' % slug, owner.split('<noscript>', 1)[1])
+        for user in (self.admin, self.committee):
+            page = self.page(user)
+            self.assertNotIn('/assessments/new?domain=', page, user.role)
+            self.assertEqual(page.count('data-notice="notice-'), len(DOMAIN_SLUGS))
+            self.assertIn('การเริ่มประเมินทำได้เฉพาะบัญชีผู้ใช้งานที่ประเมินระบบ AI', page)
+
+    def test_disabled_pack_leaves_its_choice_and_a_single_pack_group_skips_step_two(self):
+        with patch.dict(os.environ, {'EIGDA_DISABLED_DOMAINS': 'administrative_court'}):
+            sync_catalog(db.session)
+            db.session.commit()
+            page = self.page(self.owner)
+            self.assertNotIn('administrative_court', page)
+            self.assertNotIn('data-step="2" data-group="justice"', page)
+            self.assertIn('data-only="justice"', page.split('data-group="justice"', 1)[1].split('>', 1)[0])
+        sync_catalog(db.session)
+        db.session.commit()
+        self.assertIn('data-domain="administrative_court"', self.page(self.owner))
+
+    def test_unfinished_work_is_offered_to_its_owner_only(self):
+        draft = self.assessment(slug='healthcare', frozen=False)
+        page = self.page(self.owner)
+        self.assertIn('มีงานค้างอยู่', page)
+        self.assertIn('href="/assessments/%d"' % draft.id, page)
+        self.assertIn('สุขภาพและการแพทย์ฉุกเฉิน', page.split('มีงานค้างอยู่', 1)[1].split('</div>', 1)[0])
+        self.assertIn('ขั้นที่ 3 จาก 6', page)  # stored step 4 is shown as 3: laws and Test Suites are one step
+        self.assertNotIn('มีงานค้างอยู่', self.page(self.other))
+        self.assertNotIn('มีงานค้างอยู่', self.page(self.committee))
+
+    def test_script_noscript_fallback_and_no_step_bar(self):
+        page = self.page(self.owner)
+        self.assertIn('src="/static/js/domain-chooser.js"', page)
+        self.assertIn('<noscript>', page)
+        for gone in ('dc-steps', 'dc-step ', 'dc-bar', 'data-back'):
+            self.assertNotIn(gone, page)  # the choice happens on one page, there is no step bar and no back buttons
+        js = open(os.path.join(self.app.static_folder, 'js', 'domain-chooser.js'), encoding='utf-8').read()
+        for needle in ('history.pushState', "'popstate'", 'location.hash', 'aria-pressed', 'is-selected'):
+            self.assertIn(needle, js)
+        self.assertIn('!groups[g] && packs[g]', js)  # justice and education are both a group id and a pack slug: the group wins
+
+    def test_choices_are_toggle_buttons_that_start_unselected(self):
+        page = self.page(self.owner)
+        self.assertEqual(page.count('class="dc-tile"'), 5)
+        self.assertEqual(page.count('class="dc-opt"'), 5)  # justice 2 + education 3
+        self.assertEqual(page.count('aria-pressed="false"'), 10 + page.count('data-org="'))  # plus the organization type chips
+        self.assertNotIn('aria-pressed="true"', page)
+        self.assertEqual(page.count('class="dc-check"'), 10)
+        css = open(os.path.join(self.app.static_folder, 'css', 'v16.css'), encoding='utf-8').read()
+        selected = css.split('.dc-tile.is-selected,.dc-opt.is-selected{', 1)[1].split('}', 1)[0]
+        self.assertIn('border-color:var(--accent)', selected)
+        self.assertIn('box-shadow:0 0 0 2px var(--accent)', selected)  # a ring in the group colour marks the choice
+        self.assertIn('.is-selected>.dc-check{display:grid}', css)
+
+    def test_content_sits_in_one_frame_with_header_step_band_and_body(self):
+        page = self.page(self.owner)
+        positions = [page.index(marker) for marker in ('class="dc-frame"', 'class="dc-head"', 'class="dc-stage"')]
+        self.assertEqual(positions, sorted(positions))
+        frame = page.split('class="dc-frame"', 1)[1]
+        for part in ('class="dc-tiles"', 'data-step="2"', 'data-step="3"'):
+            self.assertIn(part, frame)  # every part of the choice is inside the frame, not on the page background
+        css = open(os.path.join(self.app.static_folder, 'css', 'v16.css'), encoding='utf-8').read()
+        rule = css.split('.dc-frame{', 1)[1].split('}', 1)[0]
+        for declaration in ('border:var(--bw) solid var(--rule)', 'border-radius:var(--r)', 'background:var(--sheet)', 'overflow:hidden'):
+            self.assertIn(declaration, rule)
+        # the frame and its body never use the page colour (--paper); the cards inside use it, so they stand out from the white frame
+        self.assertNotIn('background:var(--paper)', rule)
+        self.assertNotIn('background:var(--paper)', css.split('.dc-stage{', 1)[1].split('}', 1)[0])
+        tile = css.split('.dc-tile{', 1)[1].split('}', 1)[0]
+        self.assertIn('color-mix(in srgb,var(--accent) 6%,#fff)', tile)  # a faint tint of the group colour, not the page colour
+        self.assertNotIn('background:var(--paper)', tile)
+        for gone in ('.dc-bar{', '.dc-steps{', '.dc-step{', '.dc-back{'):
+            self.assertNotIn(gone, css)
+
+    def test_page_has_no_fixed_maximum_width_so_zooming_out_leaves_no_side_bands(self):
+        css = open(os.path.join(self.app.static_folder, 'css', 'v16.css'), encoding='utf-8').read()
+        rule = css.split('.dc{', 1)[1].split('}', 1)[0]
+        self.assertNotIn('max-width', rule)
+        # the wrapper's own cap (1360px, for the other pages) is lifted for the pages that carry fluid-page: the chooser and the pack page
+        lifted = css.split('.page-content:has(> .fluid-page){', 1)[1].split('}', 1)[0]
+        self.assertIn('max-width:none', lifted)
+        self.assertIn('class="gov dc fluid-page ov-canvas dc-solo"', self.page(self.owner))
+        self.assertIn('class="gov fluid-page"', self.page(self.owner, '/domains/justice'))
+        for path in ('/overview', '/assessments', '/evidence', '/regulations', '/reports', '/test-suites/tree', '/test-suites/graph'):  # the pages restyled like the chooser share its full width
+            self.assertIn('class="gov dc fluid-page ov', self.page(self.owner, path), path)  # extra modifier classes may follow
+        self.assertNotIn('fluid-page', self.page(self.owner, '/dashboard'))  # other pages keep the standard maximum width
+        self.assertIn('max-width:72ch', css.split('.dc-desc p{', 1)[1].split('}', 1)[0])  # the text line length stays limited
+
+    def test_group_accents_are_readable_and_distinct(self):
+        import colorsys
+
+        def rgb(h):
+            return [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+
+        def luminance(h):
+            r, g, b = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4 for c in rgb(h)]
+            return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+        def contrast(a, b):
+            hi, lo = sorted((luminance(a), luminance(b)), reverse=True)
+            return (hi + 0.05) / (lo + 0.05)
+
+        def hue(h):
+            return colorsys.rgb_to_hsv(*rgb(h))[0] * 360
+
+        def gap(a, b):
+            d = abs(hue(a) - hue(b)) % 360
+            return min(d, 360 - d)
+
+        from services.domain_catalog import read_groups_file
+        accents = {g['id']: g['accent'] for g in read_groups_file()['groups']}
+        for group, accent in accents.items():
+            self.assertGreaterEqual(contrast(accent, '#ffffff'), 4.5, group)
+            # the field chip on the check card writes the accent on a 6% tint of itself
+            tint = '#%02x%02x%02x' % tuple(round(c * 255 * 0.06 + 255 * 0.94) for c in rgb(accent))
+            self.assertGreaterEqual(contrast(accent, tint), 4.5, group + ' on its tint')
+        coloured = [g for g in accents if g != 'other']  # the last group is a neutral slate on purpose
+        for i, a in enumerate(coloured):
+            for b in coloured[i + 1:]:
+                self.assertGreaterEqual(gap(accents[a], accents[b]), 40, (a, b))
+            for meaning, colour in {'primary action': '#0b6357', 'draft': '#7a4a00', 'critical': '#9e1b14'}.items():
+                self.assertGreaterEqual(gap(accents[a], colour), 30, (a, meaning))
+
+
+class SidebarFoldTests(Base):
+    def test_header_has_no_search_box_or_domain_dropdown(self):
+        page = self.client_for(self.owner).get('/overview').get_data(as_text=True)
+        header = page.split('<header class="app-topbar">', 1)[1].split('</header>', 1)[0]
+        for gone in ('role="search"', 'globalSearch', 'topbar-search', 'bi-layers'):
+            self.assertNotIn(gone, header)
+        for kept in ('sidebar-toggle', 'topbar-title', 'notice-menu', 'user-chip'):
+            self.assertIn(kept, header)
+
+    def test_toggle_is_an_accessible_button_wired_to_the_sidebar(self):
+        page = self.client_for(self.owner).get('/overview').get_data(as_text=True)
+        self.assertIn('id="appSidebar"', page)
+        toggle = page.split('class="icon-btn sidebar-toggle"', 1)[1].split('>', 1)[0]
+        for attribute in ('aria-controls="appSidebar"', 'aria-expanded="true"', 'aria-label="ย่อเมนู"'):
+            self.assertIn(attribute, toggle)
+        # the remembered state is applied from the head, before first paint
+        head = page.split('</head>', 1)[0]
+        self.assertIn("localStorage.getItem('eigda.sidebar')", head)
+        self.assertIn('sidebar-collapsed', head)
+
+    def test_collapsed_rail_keeps_labels_for_screen_readers_and_only_applies_on_wide_screens(self):
+        css = open(os.path.join(self.app.static_folder, 'css', 'v16.css'), encoding='utf-8').read()
+        block = css.split('sidebar can fold to an icon rail', 1)[1].split('/* name tooltip for the folded rail', 1)[0]
+        self.assertIn('@media(min-width:992px)', block)
+        self.assertIn('html.sidebar-collapsed{--sidebar:72px}', block)
+        rail = block.split('@media(min-width:992px)', 1)[1]
+        self.assertNotIn('display:none', rail)
+        self.assertNotIn('position:absolute', rail)  # labels are faded and clipped, never taken out of the layout
+        self.assertIn('opacity:0', rail)
+        self.assertNotIn('justify-content', rail)  # icons keep their alignment, so they cannot jump sideways
+        self.assertNotIn('padding-right', rail)
+        self.assertNotIn('.side-nav a{', rail)  # no change to the link box itself between the two states
+        js = open(os.path.join(self.app.static_folder, 'js', 'app.js'), encoding='utf-8').read()
+        self.assertIn("localStorage.setItem('eigda.sidebar'", js)
+        self.assertIn("matchMedia('(min-width: 992px)')", js)
+        self.assertIn("'ขยายเมนู'", js)
+        self.assertIn('eigda:layout-start', js)
+        self.assertIn("className = 'rail-tip'", js)  # an instant name tooltip for the folded rail
+        self.assertNotIn('a.title =', js)  # the slow native tooltip is not used any more
+        css = open(os.path.join(self.app.static_folder, 'css', 'v16.css'), encoding='utf-8').read()
+        rule = css.split('.rail-tip{', 1)[1].split('}', 1)[0]
+        for declaration in ('position:fixed', 'pointer-events:none', 'color:#fff', 'background:var(--navy)'):
+            self.assertIn(declaration, rule)
+        self.assertIn('eigda:layout-end', js)
+
+
+class SpacingStandardTests(Base):
+    """New UI uses the spacing, border and radius tokens from the top of v16.css instead of ad-hoc pixel values."""
+
+    def css(self):
+        return open(os.path.join(self.app.static_folder, 'css', 'v16.css'), encoding='utf-8').read()
+
+    def test_tokens_are_a_four_pixel_scale(self):
+        import re
+        css = self.css()
+        scale = [int(v) for v in re.findall(r'--sp-\d:(\d+)px', css.split('--bw:', 1)[0])]
+        self.assertEqual(scale, [4, 8, 12, 16, 24, 32, 48])
+        self.assertTrue(all(v % 4 == 0 for v in scale))
+        for token in ('--bw:1px', '--r:12px', '--r-sm:8px', '--r-xs:4px', '--r-pill:999px', '--topbar-h:72px', '--touch:44px'):
+            self.assertIn(token, css)
+
+    def test_new_styles_use_tokens_for_space_and_radius(self):
+        import re
+        css = self.css()
+        # the sidebar fold block, its tooltip and the domains chooser; older styles are not covered yet
+        region = css[css.index('/* ---------- sidebar can fold'):css.index('/* ---------- top bar')] + css[css.index('/* domains chooser'):]
+        violations = []
+        for selector, body in re.findall(r'([^{}]+)\{([^{}]*)\}', region):
+            if '::before' in selector and 'rail-tip' in selector:  # tooltip arrow geometry
+                continue
+            for prop, value in re.findall(r'(?<![\w-])((?:padding|margin)(?:-[a-z]+)?|gap|row-gap|column-gap|border-radius):([^;]+)', body):
+                raw = [m for m in re.findall(r'(?<![\w.-])(\d+(?:\.\d+)?)px', value) if m != '0']
+                if raw:
+                    violations.append((selector.strip(), prop, value.strip()))
+        self.assertEqual(violations, [])
+
+    def test_topbar_and_page_padding_line_up(self):
+        css = self.css()
+        self.assertIn('.app-topbar{height:var(--topbar-h);min-height:var(--topbar-h)', css)
+        self.assertIn('padding:0 var(--sp-6)', css.split('.app-topbar{', 1)[1].split('}', 1)[0])  # same side padding as the page
+        self.assertIn('.page-content{padding:var(--sp-5) var(--sp-6) var(--sp-7)', css)
+
+    def test_rail_icons_sit_at_the_centre_of_the_rail(self):
+        css = self.css()
+        # 12px sidebar padding + 12px link padding + half of the 24px icon box = 36px = half of the 72px rail
+        self.assertIn('padding:var(--sp-4) var(--sp-3) var(--sp-3)', css.split('.app-sidebar{', 1)[1].split('}', 1)[0])
+        self.assertIn('padding:var(--sp-2) var(--sp-3)', css.split('.side-nav a,.logout-link{', 1)[1].split('}', 1)[0])
+        self.assertIn('width:24px', css.split('.side-nav a i,.logout-link i{', 1)[1].split('}', 1)[0])
+        self.assertIn('html.sidebar-collapsed{--sidebar:72px}', css)
 
 
 class SecurityTests(Base):

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}{% import 'gov/_macros.html' as ui %}{% block title %}{{ pack.title }} · EI-GDA{% endblock %}{% block page_title %}{{ pack.title }}{% endblock %}
 {% block breadcrumb %}{{ ui.crumbs([('Domains', url_for('gov.domains')), (pack.title, None)]) }}{% endblock %}
-{% block content %}<div class="gov">
+{% block content %}<div class="gov fluid-page">
 <div class="page-head"><div class="d-flex gap-2"><span class="domain-card p-0 border-0" style="--accent:{{ pack.accent }}"><span class="ic"><i class="bi {{ pack.icon }}"></i></span></span><div><h1>{{ pack.title_th }}</h1><p class="lead-text">{{ pack.summary_th }}</p></div></div>
 <div class="d-flex gap-2"><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('gov.domain_dashboard', slug=pack.slug) }}"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('gov.taxonomy', slug=pack.slug) }}"><i class="bi bi-diagram-3 me-1"></i>Taxonomy</a>{% if session.get('role') == 'user' %}<a class="btn btn-primary btn-sm" href="{{ url_for('gov.assessment_new', domain=pack.slug) }}">เริ่มประเมิน Domain นี้</a>{% endif %}</div></div>
 {% if pack.provisional_note_th %}<div class="notice notice-warn"><i class="bi bi-exclamation-triangle"></i><div>{{ pack.provisional_note_th }}</div></div>{% endif %}

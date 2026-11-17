@@ -1,11 +1,30 @@
 {% extends 'base.html' %}{% import 'gov/_macros.html' as ui %}{% block title %}ภาพรวม · EI-GDA{% endblock %}{% block page_title %}ภาพรวม{% endblock %}
-{% block content %}<div class="gov">
-<section class="hero"><div><h1>EI-GDA Governance Intelligence Platform</h1><p>แพลตฟอร์มประเมิน AI และ Data Governance ที่ปรับเกณฑ์ตามบริบทองค์กร พร้อมหลักฐานที่ตรวจสอบย้อนกลับได้</p></div>
-<div class="hero-actions">{% if session.get('role') == 'user' %}<a class="btn btn-light" href="{{ url_for('gov.assessment_new') }}"><i class="bi bi-plus-lg me-1"></i>เริ่มประเมินใหม่</a>{% if resume %}<a class="btn btn-outline-light" href="{{ url_for('gov.assessment_resume', assessment_id=resume.id) }}">ทำต่อ: {{ resume.name|truncate(24, True, '…') }}</a>{% endif %}{% endif %}<a class="btn btn-outline-light" href="#domains">สำรวจ Domains</a></div></section>
-<section class="section" aria-label="สรุปการประเมิน"><div class="stat-row">
-<div class="stat"><b>{{ stats.active }}</b><span>กำลังดำเนินการ</span></div><div class="stat"><b>{{ stats.draft }}</b><span>ฉบับร่าง</span></div>
-<div class="stat"><b>{{ stats.completed + stats.legacy_completed }}</b><span>เสร็จสิ้น</span>{% if stats.legacy_completed %}<small>รวมงานจากรุ่นก่อน {{ stats.legacy_completed }}</small>{% endif %}</div>
-<div class="stat"><b>{{ stats.pending_review }}</b><span>รอผู้ตรวจ</span></div><div class="stat {{ 'alert-stat' if stats.critical }}"><b>{{ stats.critical }}</b><span>ประเด็นวิกฤตที่ยังเปิด</span></div></div></section>
-{% if recent %}<section class="section"><div class="section-head"><h2>ล่าสุด</h2><a class="small" href="{{ url_for('gov.assessments') }}">ดูทั้งหมด</a></div><div class="panel panel-flush table-scroll"><table class="table-clean"><thead><tr><th>งานประเมิน</th><th>องค์กร</th><th>สถานะ</th><th>อัปเดต</th></tr></thead><tbody>{% for a in recent %}<tr><td><a href="{{ url_for('gov.assessment_resume', assessment_id=a.id) }}">{{ a.name }}</a></td><td>{{ a.organization_name }}</td><td>{{ ui.assess_status(a.status) }}</td><td class="muted">{{ a.updated_at.strftime('%Y-%m-%d %H:%M') if a.updated_at }}</td></tr>{% endfor %}</tbody></table></div></section>{% endif %}
-<section class="section" id="domains"><div class="section-head"><h2>Domain Explorer</h2><a class="small" href="{{ url_for('gov.taxonomy_home') }}">เปิด Domain Taxonomy</a></div>{% if cards %}{{ ui.domain_cards(cards) }}{% else %}<div class="panel empty"><i class="bi bi-database-exclamation"></i>ยังไม่มีข้อมูล Domain ให้รัน <code>python migrate_v16_domain_engine.py</code></div>{% endif %}</section>
+{% block content %}{% set is_user = session.get('role') == 'user' %}
+<div class="gov dc fluid-page ov ov-canvas" style="--accent:var(--seal)">
+ <div class="dc-frame">
+  <header class="dc-head"><h1>EI-GDA Governance Intelligence Platform</h1>
+   <p class="dc-qs ov-sub">แพลตฟอร์มประเมิน AI และ Data Governance ที่ปรับเกณฑ์ตามบริบทองค์กร พร้อมหลักฐานที่ตรวจสอบย้อนกลับได้</p>
+   {% if resume %}<div class="dc-resume"><i class="bi bi-play-circle" aria-hidden="true"></i><div class="dc-resume-text"><strong>มีงานค้างอยู่</strong> {{ resume.name|truncate(40, True, '…') }} · ขั้นที่ {{ step_label(resume.current_step) }} จาก {{ steps_total }}</div><a class="btn btn-outline-secondary dc-more" href="{{ url_for('gov.assessment_resume', assessment_id=resume.id) }}">ทำต่อ</a></div>{% endif %}
+   <div class="ov-actions">{% if is_user %}<a class="btn btn-primary" href="{{ url_for('gov.assessment_new') }}"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>เริ่มประเมินใหม่</a>{% endif %}<a class="btn btn-outline-secondary" href="{{ url_for('gov.domains') }}"><i class="bi bi-grid me-1" aria-hidden="true"></i>เลือก Domain</a></div>
+  </header>
+
+  <div class="dc-stage">
+   <section aria-labelledby="ovStats">
+    <div class="dc-bh ov-bh"><span class="dc-mark" aria-hidden="true"></span><h2 class="ov-h" id="ovStats">สรุปการประเมิน</h2></div>
+    <div class="ov-stats">
+     <div class="ov-tile" style="--accent:var(--seal)"><span class="ov-ic"><i class="bi bi-play-circle" aria-hidden="true"></i></span><span class="ov-n">{{ stats.active }}</span><span class="ov-l">กำลังดำเนินการ</span></div>
+     <div class="ov-tile" style="--accent:var(--neutral)"><span class="ov-ic"><i class="bi bi-pencil-square" aria-hidden="true"></i></span><span class="ov-n">{{ stats.draft }}</span><span class="ov-l">ฉบับร่าง</span></div>
+     <div class="ov-tile" style="--accent:var(--ok)"><span class="ov-ic"><i class="bi bi-check-circle" aria-hidden="true"></i></span><span class="ov-n">{{ stats.completed + stats.legacy_completed }}</span><span class="ov-l">เสร็จสิ้น</span>{% if stats.legacy_completed %}<span class="ov-s">รวมงานจากรุ่นก่อน {{ stats.legacy_completed }}</span>{% endif %}</div>
+     <div class="ov-tile" style="--accent:var(--warn)"><span class="ov-ic"><i class="bi bi-hourglass-split" aria-hidden="true"></i></span><span class="ov-n">{{ stats.pending_review }}</span><span class="ov-l">รอผู้ตรวจ</span></div>
+     <div class="ov-tile{{ ' is-alert' if stats.critical }}" style="--accent:var(--bad)"><span class="ov-ic"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i></span><span class="ov-n">{{ stats.critical }}</span><span class="ov-l">ประเด็นวิกฤตที่ยังเปิด</span></div>
+    </div>
+   </section>
+
+   <section class="dc-panel ov-recent" aria-labelledby="ovRecent">
+    <div class="dc-bh ov-bh"><span class="dc-mark" aria-hidden="true"></span><h2 class="ov-h" id="ovRecent">งานประเมินล่าสุด</h2><a class="dc-bn" href="{{ url_for('gov.assessments') }}">ดูทั้งหมด</a></div>
+    {% if recent %}<div class="table-scroll ov-table"><table class="table-clean"><thead><tr><th>งานประเมิน</th><th>องค์กร</th><th>สถานะ</th><th>อัปเดต</th></tr></thead><tbody>{% for a in recent %}<tr><td><a href="{{ url_for('gov.assessment_resume', assessment_id=a.id) }}">{{ a.name }}</a></td><td>{{ a.organization_name }}</td><td>{{ ui.assess_status(a.status) }}</td><td class="muted">{{ a.updated_at.strftime('%Y-%m-%d %H:%M') if a.updated_at }}</td></tr>{% endfor %}</tbody></table></div>
+    {% else %}<p class="small-note ov-empty">ยังไม่มีงานประเมิน{% if is_user %} เริ่มจากปุ่ม "เริ่มประเมินใหม่" ด้านบน{% endif %}</p>{% endif %}
+   </section>
+  </div>
+ </div>
 </div>{% endblock %}

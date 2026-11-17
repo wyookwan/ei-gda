@@ -41,7 +41,70 @@ document.addEventListener('DOMContentLoaded', () => {
   }));
 
   const sidebar = document.getElementById('appSidebar');
-  document.querySelector('.sidebar-toggle')?.addEventListener('click', () => sidebar?.classList.toggle('open'));
+  // Wide screens: the menu folds to an icon rail and the choice is remembered. Narrow screens: it slides in and out.
+  const toggle = document.querySelector('.sidebar-toggle');
+  const wide = window.matchMedia('(min-width: 992px)');
+  const root = document.documentElement;
+  const syncSidebar = () => {
+    if (!toggle) return;
+    const folded = wide.matches && root.classList.contains('sidebar-collapsed');
+    const open = !wide.matches && sidebar?.classList.contains('open');
+    const label = wide.matches ? (folded ? 'ขยายเมนู' : 'ย่อเมนู') : (open ? 'ปิดเมนู' : 'เปิดเมนู');
+    toggle.setAttribute('aria-expanded', String(wide.matches ? !folded : !!open));
+    toggle.setAttribute('aria-label', label);
+    toggle.title = label;
+  };
+
+  // Folded rail: show the name of each icon at once. The browser's own title tooltip waits about a second and is easy to miss.
+  // One floating element, so the sidebar's overflow clipping cannot cut it off.
+  const tip = document.createElement('div');
+  tip.className = 'rail-tip';
+  tip.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(tip);
+  const folded = () => wide.matches && root.classList.contains('sidebar-collapsed');
+  const nameOf = el => (el.matches('.brand') ? el.querySelector('strong') : el.matches('.system-status') ? el.querySelector('span:last-child') : el.querySelector('span'))?.textContent.trim();
+  const hideTip = () => tip.classList.remove('show');
+  const showTip = el => {
+    const text = nameOf(el);
+    if (!folded() || !text || !sidebar) return;
+    const box = el.getBoundingClientRect();
+    tip.textContent = text;
+    tip.style.left = (sidebar.getBoundingClientRect().right + 8) + 'px';
+    tip.style.top = (box.top + box.height / 2) + 'px';
+    tip.classList.add('show');
+  };
+  document.querySelectorAll('.side-nav a, .logout-link, .brand, .system-status').forEach(el => {
+    el.addEventListener('mouseenter', () => showTip(el));
+    el.addEventListener('mouseleave', hideTip);
+    el.addEventListener('focus', () => { if (el.matches(':focus-visible')) showTip(el); });
+    el.addEventListener('blur', hideTip);
+  });
+  sidebar?.addEventListener('scroll', hideTip, { passive: true });
+  window.addEventListener('resize', hideTip);
+  window.addEventListener('eigda:layout-start', hideTip);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') hideTip(); });
+  // Pages that scroll by screens listen to these two events to stay aligned while the content width changes.
+  const shell = document.querySelector('.app-shell');
+  let layoutTimer = null;
+  const layoutEnd = () => {
+    clearTimeout(layoutTimer);
+    layoutTimer = null;
+    window.dispatchEvent(new Event('eigda:layout-end'));
+  };
+  shell?.addEventListener('transitionend', e => { if (e.target === shell && e.propertyName === 'margin-left' && layoutTimer) layoutEnd(); });
+  toggle?.addEventListener('click', () => {
+    if (wide.matches) {
+      window.dispatchEvent(new Event('eigda:layout-start'));
+      layoutTimer = setTimeout(layoutEnd, 400); // fallback when no transition runs (reduced motion)
+      const folded = root.classList.toggle('sidebar-collapsed');
+      try { localStorage.setItem('eigda.sidebar', folded ? 'collapsed' : 'expanded'); } catch (e) { /* the choice just is not remembered */ }
+    } else {
+      sidebar?.classList.toggle('open');
+    }
+    syncSidebar();
+  });
+  wide.addEventListener('change', syncSidebar);
+  syncSidebar();
   // Mark only the most specific matching link (so /admin does not stay active on /admin/users).
   const here = window.location.pathname;
   const navMatch = [...document.querySelectorAll('.side-nav a')]

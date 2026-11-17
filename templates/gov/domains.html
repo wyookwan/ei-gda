@@ -1,2 +1,97 @@
-{% extends 'base.html' %}{% import 'gov/_macros.html' as ui %}{% block title %}Domains · EI-GDA{% endblock %}{% block page_title %}Domains{% endblock %}
-{% block content %}<div class="gov"><div class="page-head"><div><h1>Domains</h1><p class="lead-text">ใช้แกนกลางและ Test Suite ทั้ง 8 ชุดร่วมกัน แต่เปลี่ยน Control หลักฐาน และเกณฑ์ตามบริบทของแต่ละ Domain</p></div><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('gov.taxonomy_home') }}"><i class="bi bi-diagram-3 me-1"></i>Domain Taxonomy</a></div>{{ ui.domain_cards(cards) }}</div>{% endblock %}
+{% extends 'base.html' %}{% import 'gov/_macros.html' as ui %}{% block title %}เริ่มประเมิน · EI-GDA{% endblock %}{% block page_title %}Domains{% endblock %}
+{% block content %}{% set is_user = session.get('role') == 'user' %}
+<div class="gov dc fluid-page ov-canvas dc-solo" id="dc">
+ <div class="dc-frame">
+  <header class="dc-head"><h1>เริ่มประเมิน AI ของหน่วยงานคุณ</h1>
+  {% if resume %}{% set rs = step_label(resume.current_step) %}<div class="dc-resume dc-resume-rich"><span class="dc-resume-ic" aria-hidden="true"><i class="bi bi-play-fill"></i></span><div class="dc-resume-text"><span class="dc-resume-kicker">มีงานค้างอยู่</span><strong class="dc-resume-name">{{ resume.name }}</strong><div class="dc-resume-meta"><span class="dc-resume-domain">{{ resume_domain }}</span><span class="dc-resume-step"><span class="dc-resume-bar" role="progressbar" aria-label="ความคืบหน้า" aria-valuemin="0" aria-valuemax="{{ steps_total }}" aria-valuenow="{{ rs }}"><span style="width:{{ (100 * rs / steps_total)|round }}%"></span></span>ขั้นที่ {{ rs }} จาก {{ steps_total }}</span><span class="dc-resume-time"><i class="bi bi-clock" aria-hidden="true"></i> แก้ไข {{ resume.updated_at.strftime('%Y-%m-%d %H:%M') }}</span></div></div><a class="btn btn-primary dc-more" href="{{ url_for('gov.assessment_resume', assessment_id=resume.id) }}">ทำต่อ <i class="bi bi-arrow-right" aria-hidden="true"></i></a></div>{% endif %}</header>
+
+  <div class="dc-stage" aria-live="polite">
+    <section class="dc-view" data-step="1" aria-labelledby="dcq1">
+      <h2 class="dc-q" id="dcq1">งานของคุณอยู่ในด้านไหน?</h2>
+      <p class="dc-qs">เลือกด้านที่ใกล้เคียงที่สุด</p>
+      <div class="dc-tiles" style="--n:{{ groups|length }}" role="group" aria-label="ด้านงาน">
+        {% for g in groups %}<button type="button" class="dc-tile" data-group="{{ g.id }}"{% if g.subs|length == 1 %} data-only="{{ g.subs[0].slug }}"{% endif %} aria-pressed="false" style="--accent:{{ g.accent }}"><span class="dc-check" aria-hidden="true"><i class="bi bi-check-lg"></i></span><span class="dc-ic"><i class="bi {{ g.icon }}" aria-hidden="true"></i></span><span><span class="dc-tn">{{ g.title_th }}</span><span class="dc-to">{{ g.examples_th }}</span></span></button>{% endfor %}
+      </div>
+    </section>
+
+    {% for g in groups if g.subs|length > 1 %}
+    <section class="dc-view" data-step="2" data-group="{{ g.id }}" aria-labelledby="dcq2-{{ g.id }}" hidden style="--accent:{{ g.accent }}">
+      <h2 class="dc-q" id="dcq2-{{ g.id }}">หน่วยงานของคุณคือแบบไหน?</h2>
+      <p class="dc-qs">ด้าน{{ g.title_th }} มี {{ g.subs|length }} แบบ</p>
+      <div class="dc-opts" role="group" aria-label="ประเภทหน่วยงาน ด้าน{{ g.title_th }}">
+        {% for s in g.subs %}<button type="button" class="dc-opt" data-domain="{{ s.slug }}" aria-pressed="false"><span class="dc-band" aria-hidden="true"></span><span class="dc-check" aria-hidden="true"><i class="bi bi-check-lg"></i></span><span class="dc-opt-body"><span class="dc-on">{{ s.name_th }}</span><span class="dc-oe">{{ s.title }}</span>{% if s.extends_name %}<span class="dc-ox">ต่อยอดจาก{{ s.extends_name }}</span>{% endif %}<span class="dc-oo">{{ s.org_types|rejectattr('jump')|map(attribute='title')|join(' · ') }}</span><span class="dc-os">{{ s.summary_th }}</span></span><span class="dc-pick"><span class="dc-pick-off">เลือกแบบนี้ <i class="bi bi-arrow-down" aria-hidden="true"></i></span><span class="dc-pick-on"><i class="bi bi-check-lg" aria-hidden="true"></i> เลือกอยู่</span></span></button>{% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+
+    {% for g in groups %}{% for s in g.subs %}
+    <section class="dc-view" data-step="3" data-group="{{ g.id }}" data-domain="{{ s.slug }}" aria-labelledby="dcq3-{{ s.slug }}" hidden style="--accent:{{ g.accent }}">
+      <h2 class="dc-q" id="dcq3-{{ s.slug }}">ตรวจก่อนเริ่มประเมิน</h2>
+      <p class="dc-qs">ถ้าไม่ตรงกับหน่วยงานของคุณ เลือกด้านหรือประเภทหน่วยงานใหม่ได้ด้านบน</p>
+      <article class="dc-card">
+        <div class="dc-cbar" aria-hidden="true"></div>
+        <div class="dc-in">
+          <div class="dc-top">
+            <div class="dc-chips">
+              <span class="dc-pill"><i class="bi bi-box" aria-hidden="true"></i>{{ g.title_th if g.id == 'other' else 'ด้าน' ~ g.title_th }}{% if g.id != 'other' %} · {{ g.title }}{% endif %}</span>
+              {% if session.get('role') != 'user' and s.version %}<span class="dc-ver" title="เวอร์ชันของชุดเกณฑ์ (เห็นเฉพาะผู้ตรวจและผู้ดูแล)">v{{ s.version }}</span>{% endif %}
+              {% if s.provisional %}<span class="dc-draft">ฉบับร่างนำร่อง</span>{% endif %}
+            </div>
+            {% if is_user %}<a class="btn btn-primary dc-cta" href="{{ url_for('gov.assessment_new', domain=s.slug) }}" data-base="{{ url_for('gov.assessment_new', domain=s.slug) }}">เริ่มประเมิน <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+            {% else %}<button type="button" class="btn btn-primary dc-cta" data-notice="notice-{{ s.slug }}" aria-expanded="false" aria-controls="notice-{{ s.slug }}">เริ่มประเมิน <i class="bi bi-arrow-right" aria-hidden="true"></i></button>{% endif %}
+          </div>
+          {% if not is_user %}<p class="dc-notice" id="notice-{{ s.slug }}" role="status" hidden>การเริ่มประเมินทำได้เฉพาะบัญชีผู้ใช้งานที่ประเมินระบบ AI บัญชีของคุณดูรายละเอียดและ Dashboard ของ Domain นี้ได้</p>{% endif %}
+          <h3 class="dc-name">{{ s.name_th }}</h3>
+          <div class="dc-en">{{ s.title }}</div>
+          <div class="dc-desc"><p>{{ s.summary_th }}</p>{% if s.provisional %}<p class="dc-desc-note"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i>ชุดนี้เป็นฉบับร่างนำร่อง เกณฑ์ยังรอผู้เชี่ยวชาญทบทวน</p>{% endif %}</div>
+
+          <div class="dc-btns" role="group" aria-label="ข้อมูลเพิ่มเติมของ {{ s.name_th }}">
+            <button type="button" class="dc-pbtn is-ev" data-panel="p-{{ s.slug }}-ev" aria-expanded="false" aria-controls="p-{{ s.slug }}-ev"><span class="dc-sq"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span><span class="dc-pl">เตรียมอะไรไว้ก่อน</span><span class="dc-n">{{ s.evidence|length }} รายการ</span><i class="bi bi-chevron-down dc-caret" aria-hidden="true"></i></button>
+            <button type="button" class="dc-pbtn is-ctl" data-panel="p-{{ s.slug }}-ctl" aria-expanded="false" aria-controls="p-{{ s.slug }}-ctl"><span class="dc-sq"><i class="bi bi-list-check" aria-hidden="true"></i></span><span class="dc-pl">จะถูกประเมินเรื่องอะไร</span><span class="dc-n">{{ s.controls|length }} ประเด็น</span><i class="bi bi-chevron-down dc-caret" aria-hidden="true"></i></button>
+            <button type="button" class="dc-pbtn is-reg" data-panel="p-{{ s.slug }}-reg" aria-expanded="false" aria-controls="p-{{ s.slug }}-reg"><span class="dc-sq"><i class="bi bi-journal-text" aria-hidden="true"></i></span><span class="dc-pl">กฎหมายและมาตรฐานที่อ้างอิง</span><span class="dc-n">{{ s.references|length }} ฉบับ</span><i class="bi bi-chevron-down dc-caret" aria-hidden="true"></i></button>
+          </div>
+
+          <div class="dc-panel" id="p-{{ s.slug }}-ev" role="region" aria-label="เตรียมอะไรไว้ก่อน เอกสารหลักฐาน" hidden>
+            <h4 class="dc-ph">เตรียมอะไรไว้ก่อน · เอกสารหลักฐาน {{ s.evidence|length }} รายการ</h4>
+            <p class="dc-pn">ระบบจะขอเอกสารเหล่านี้ในขั้นที่ {{ step_label(5) }} ของการประเมิน</p>
+            <ul class="dc-evl{{ ' is-two' if s.evidence|length > 8 }}">{% for e in s.evidence %}<li><i class="bi bi-file-earmark-check" aria-hidden="true"></i><div>{{ e.title_th }}{% if e.why_th %}<div class="dc-sub">{{ e.why_th }}</div>{% endif %}</div></li>{% endfor %}</ul>
+          </div>
+
+          <div class="dc-panel" id="p-{{ s.slug }}-ctl" role="region" aria-label="จะถูกประเมินเรื่องอะไร" hidden>
+            <h4 class="dc-ph">จะถูกประเมินเรื่องอะไร · {{ s.controls|length }} ประเด็นเฉพาะ{{ s.name_th }}{% if s.critical_count %} (สำคัญมาก {{ s.critical_count }}){% endif %}</h4>
+            <p class="dc-pn">แต่ละประเด็นระบุ Test Suite ที่ใช้ตรวจ ประเด็นที่ติดป้าย "สำคัญมาก" จะแสดงแยกจากคะแนนเฉลี่ยในผลการประเมิน</p>
+            <ul class="dc-ctl">{% for c in s.controls %}<li><span class="dc-id">{{ c.id }}</span><span class="dc-ct">{{ c.title_th }}{% if c.critical %} <span class="badge-s s-bad">สำคัญมาก</span>{% endif %}</span>{% if c.objective_th %}<span class="dc-sub">{{ c.objective_th }}</span>{% endif %}{% if c.suites %}<span class="dc-suites">{{ c.suites|join(' ') }}</span>{% endif %}</li>{% endfor %}</ul>
+            {% if s.core_controls %}<details class="dc-core"><summary>ประเด็นแกนกลางที่ทุกกลุ่มใช้ร่วมกัน ({{ s.core_controls|length }} ข้อ)</summary>{% for c in s.core_controls %}<div class="dc-corerow"><span class="dc-id">{{ c.id }}</span> {{ c.title_th }}{% if c.critical %} <span class="badge-s s-bad">สำคัญมาก</span>{% endif %}</div>{% endfor %}</details>{% endif %}
+          </div>
+
+          <div class="dc-panel" id="p-{{ s.slug }}-reg" role="region" aria-label="กฎหมายและมาตรฐานที่อ้างอิง" hidden>
+            <h4 class="dc-ph">กฎหมายและมาตรฐานที่อ้างอิง · {{ s.references|length }} ฉบับ</h4>
+            <p class="dc-pn">ระบบเลือกใช้ตามโปรไฟล์ของคุณ ไม่ใช่ทุกแหล่งจะบังคับใช้กับทุกหน่วยงาน</p>
+            <div class="dc-regs">
+              {% for title, rows in [('กฎหมายและข้อกำหนด', s.references|selectattr('binding')|list), ('แนวปฏิบัติและมาตรฐาน', s.references|rejectattr('binding')|list)] %}{% if rows %}<div><h5 class="dc-rh">{{ title }} ({{ rows|length }})</h5>
+                {% for r in rows %}<div class="dc-ref"><div>{% if r.url %}<a href="{{ r.url }}" target="_blank" rel="noopener noreferrer">{{ r.title }}</a>{% else %}{{ r.title }}{% endif %}{% if r.condition %}<div class="dc-sub">{{ r.condition }}</div>{% endif %}</div>{{ ui.status_badge(r.status) }}</div>{% endfor %}</div>{% endif %}{% endfor %}
+            </div>
+          </div>
+
+          <div class="dc-bot">
+            <div class="dc-bx">
+              <div class="dc-bh"><span class="dc-mark" aria-hidden="true"></span><h4>ตัวอย่างงานที่ประเมินได้</h4><span class="dc-bn">{{ s.use_cases|length }} ประเภทงาน</span></div>
+              <div class="dc-cl">{% for u in s.use_cases[:5] %}<span class="dc-chip"><span class="dc-dot" aria-hidden="true"></span>{{ u }}</span>{% endfor %}{% if s.use_cases|length > 5 %}<span class="dc-chip is-more">และอีก {{ s.use_cases|length - 5 }} ประเภท</span>{% endif %}</div>
+            </div>
+            <div class="dc-bx is-for">
+              <div class="dc-bh"><span class="dc-mark" aria-hidden="true"></span><h4>{{ 'เลือกประเภทองค์กรของคุณ' if is_user else 'เหมาะสำหรับ' }}</h4></div>
+              <div class="dc-cl">{% for o in s.org_types %}{% if o.jump %}<button type="button" class="dc-chip is-other" data-jump="{{ o.jump }}" title="หน่วยงานนี้มีชุดประเมินของตัวเอง กดเพื่อไปดู"><span class="dc-dot" aria-hidden="true"></span>{{ o.title }}<i class="bi bi-arrow-right-short" aria-hidden="true"></i></button>{% elif is_user %}<button type="button" class="dc-chip is-for is-pick" data-org="{{ o.id }}" aria-pressed="false"><span class="dc-dot" aria-hidden="true"></span><i class="bi bi-check-lg dc-tick" aria-hidden="true"></i>{{ o.title }}</button>{% else %}<span class="dc-chip is-for"><span class="dc-dot" aria-hidden="true"></span>{{ o.title }}</span>{% endif %}{% endfor %}</div>
+              {% if is_user %}<p class="dc-hint">เลือกแล้วระบบจะใส่ให้ในหน้าการประเมิน ข้ามได้ แล้วเลือกต่อในหน้านั้น</p>{% endif %}
+              {% if s.org_types|selectattr('jump')|list %}<p class="dc-hint">สีเทา = หน่วยงานที่มีชุดประเมินของตัวเอง กดเพื่อไปดู</p>{% endif %}
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+    {% endfor %}{% endfor %}
+  </div>
+  <noscript><ul class="dc-plain">{% for g in groups %}{% for s in g.subs %}<li><a href="{{ url_for('gov.domain_detail', slug=s.slug) }}">{{ g.title_th }} · {{ s.name_th }}</a></li>{% endfor %}{% endfor %}</ul></noscript>
+ </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/domain-chooser.js') }}"></script>{% endblock %}

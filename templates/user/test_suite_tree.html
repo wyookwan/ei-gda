@@ -3,7 +3,13 @@
 {% block page_title %}Test Suite Tree{% endblock %}
 {% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/suite-tree.css') }}">{% endblock %}
 {% block content %}
-<section class="tree-hero"><div><span class="eyebrow">EXPLORE THE CONNECTIONS</span><h1>Test Suite Tree</h1><p>สำรวจความเชื่อมโยงจากชุดประเมินไปถึงหลักฐาน ทีละกิ่งของข้อมูล</p></div><div class="d-flex gap-2 flex-wrap"><a class="btn btn-outline-primary" href="{{ url_for('test_suite_explorer') }}"><i class="bi bi-bezier2 me-1"></i>Explorer</a><a class="btn btn-primary" href="{{ url_for('gov.suite_graph') }}"><i class="bi bi-share me-1"></i>ดูเป็นกราฟ 3D</a></div></section>
+<div class="gov dc fluid-page ov ov-canvas" style="--accent:var(--seal)">
+ <div class="dc-frame">
+  <header class="dc-head"><h1>Test Suite Tree</h1><p class="dc-qs ov-sub">สำรวจความเชื่อมโยงจากชุดประเมินไปถึงหลักฐาน ทีละกิ่งของข้อมูล</p>
+   <div class="ov-actions"><a class="btn btn-outline-secondary" href="{{ url_for('test_suite_explorer') }}"><i class="bi bi-bezier2 me-1" aria-hidden="true"></i>Explorer</a><a class="btn btn-primary" href="{{ url_for('gov.suite_graph') }}"><i class="bi bi-share me-1" aria-hidden="true"></i>ดูเป็นกราฟ 3D</a></div>
+  </header>
+  <div class="dc-stage">
+   <section class="dc-panel ov-recent" aria-label="โครงสร้าง Test Suite">
 <div class="tree-toolbar"><label class="tree-search"><i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">ค้นหา Test Suite, reference หรือรายการประเมิน</span><input id="suiteTreeSearch" type="search" placeholder="ค้นหา Suite, reference, domain หรือ item…"></label><button type="button" id="expandSuiteTree" class="btn btn-sm btn-outline-primary">ขยายทุกกิ่ง</button><button type="button" id="collapseSuiteTree" class="btn btn-sm btn-outline-secondary">หุบทุกกิ่ง</button></div>
 <div class="tree-legend"><span><i class="bi bi-collection"></i> Test Suite</span><i class="bi bi-chevron-right"></i><span>ประเภท</span><i class="bi bi-chevron-right"></i><span>Reference</span><i class="bi bi-chevron-right"></i><span>Domain</span><i class="bi bi-chevron-right"></i><span>Item & Evidence</span></div>
 <p class="small text-secondary">Domains ในหน้านี้จัดตามหมวดของ items ภายในแต่ละ reference · แสดงชุดและรายการที่เปิดใช้งาน ตามลำดับที่ Admin กำหนด</p>
@@ -40,5 +46,9 @@
   </div>
 </div>
 <div id="suiteTreeEmpty" class="empty-state" hidden><i class="bi bi-search"></i><h5>ไม่พบรายการที่ตรงกับคำค้น</h5><p>ลองค้นด้วยชื่อหรือรหัสอื่น</p></div>
+   </section>
+  </div>
+ </div>
+</div>
 {% endblock %}
 {% block scripts %}<script src="{{ url_for('static', filename='js/suite-tree.js') }}"></script>{% endblock %}

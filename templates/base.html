@@ -8,7 +8,7 @@
   <title>{% block title %}Ei-GDA Platform{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
@@ -19,6 +19,10 @@
   <script>
     // Same-origin state changes carry the CSRF token, including older pages that use fetch.
     (function(){var nativeFetch=window.fetch;window.fetch=function(input,init){init=init||{};var method=(init.method||'GET').toUpperCase();var url=typeof input==='string'?input:(input.url||'');if(method!=='GET'&&method!=='HEAD'&&(url.charAt(0)==='/'||url.indexOf(location.origin)===0)){var headers=new Headers(init.headers||{});headers.set('X-CSRF-Token',document.querySelector('meta[name=csrf-token]').content);init.headers=headers;}return nativeFetch(input,init);};})();
+  </script>
+  <script>
+    // The sidebar state is applied before first paint so a collapsed menu does not flash open.
+    try { if (localStorage.getItem('eigda.sidebar') === 'collapsed') document.documentElement.classList.add('sidebar-collapsed'); } catch (e) {}
   </script>
   {% block head %}{% endblock %}
 </head>
@@ -93,13 +97,11 @@
   <div class="{{ 'app-shell' if session.get('user_id') else 'auth-shell' }}">
     {% if session.get('user_id') %}
     <header class="app-topbar">
-      <button class="icon-btn sidebar-toggle" type="button" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
+      <button class="icon-btn sidebar-toggle" type="button" aria-label="ย่อเมนู" aria-controls="appSidebar" aria-expanded="true" title="ย่อเมนู"><i class="bi bi-list" aria-hidden="true"></i></button>
       <div class="topbar-title"><span class="eyebrow">{% block eyebrow %}{{ current_org or 'EI-GDA' }}{% endblock %}</span><strong>{% block page_title %}ภาพรวม{% endblock %}</strong></div>
-      <form class="topbar-search" action="{{ url_for('gov.search') }}" method="get" role="search"><i class="bi bi-search" aria-hidden="true"></i><label class="visually-hidden" for="globalSearch">ค้นหาทั้งระบบ</label><input id="globalSearch" name="q" type="search" placeholder="ค้นหา Assessment, Control, กฎหมาย…" value="{{ request.args.get('q','') if request.endpoint == 'gov.search' else '' }}"></form>
       <div class="topbar-actions">
         {% if demo_mode %}<span class="demo-tag demo-top" title="ข้อมูลสมมติ ไม่ใช่การรับรองจาก อว. หรือ สป.อว.">DEMO</span>{% endif %}
         {% if nav_memberships %}<form class="org-switch" method="post" action="{{ url_for('pilot.org_context') }}"><label class="visually-hidden" for="orgSwitch">หน่วยงานที่กำลังทำงาน</label><select id="orgSwitch" name="org_id" class="form-select form-select-sm" onchange="this.form.submit()">{% for oid in nav_memberships|map(attribute='organization_id')|unique %}<option value="{{ oid }}" {{ 'selected' if oid == active_org_id }}>{{ nav_orgs[oid].name if oid in nav_orgs else oid }}</option>{% endfor %}</select><input type="hidden" name="next" value="{{ request.path }}"><noscript><button class="btn btn-sm top-btn">เปลี่ยน</button></noscript></form>{% endif %}
-        {% if nav_profiles %}<div class="dropdown"><button class="btn btn-sm top-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-layers me-1"></i>Domain</button><ul class="dropdown-menu dropdown-menu-end">{% for p in nav_profiles %}<li><a class="dropdown-item" href="{{ url_for('gov.domain_detail', slug=p.slug) }}"><i class="bi {{ p.icon }} me-2" style="color:{{ p.accent }}"></i>{{ p.title_th }}</a></li>{% endfor %}</ul></div>{% endif %}
         {% set notice_count = (nav_pending|length if nav_pending else 0) + (nav_drafts|length if nav_drafts else 0) + (nav_notifications|length if nav_notifications else 0) %}
         <div class="dropdown"><button class="btn btn-sm top-btn position-relative" data-bs-toggle="dropdown" aria-expanded="false" aria-label="การแจ้งเตือน {{ notice_count }} รายการ"><i class="bi bi-bell"></i>{% if notice_count %}<span class="notice-dot">{{ notice_count }}</span>{% endif %}</button>
           <div class="dropdown-menu dropdown-menu-end notice-menu">{% for n in nav_notifications or [] %}<a class="dropdown-item" href="{{ n.link or url_for('pilot.notifications') }}"><strong>{{ n.title }}</strong><small>{{ n.created_at.strftime('%Y-%m-%d %H:%M') }}</small></a>{% endfor %}{% if nav_notifications %}<a class="dropdown-item small" href="{{ url_for('pilot.notifications') }}">ดูการแจ้งเตือนทั้งหมด</a>{% endif %}{% for a in nav_pending or [] %}<a class="dropdown-item" href="{{ url_for('gov.results', assessment_id=a.id) }}"><strong>รอผู้ตรวจ</strong><small>{{ a.name }}</small></a>{% endfor %}{% for a in nav_drafts or [] %}<a class="dropdown-item" href="{{ url_for('gov.assessment_resume', assessment_id=a.id) }}"><strong>ทำต่อ</strong><small>{{ a.name }}</small></a>{% endfor %}{% if not notice_count %}<div class="px-3 py-2 small text-secondary">ไม่มีรายการที่ต้องดำเนินการ</div>{% endif %}</div></div>
@@ -117,7 +119,7 @@
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>if(window.Chart){Chart.defaults.font.family='"IBM Plex Sans Thai","IBM Plex Sans",sans-serif';Chart.defaults.font.size=14;Chart.defaults.color='#26344a';Chart.defaults.borderColor='#dde2dc';}</script>
+  <script>if(window.Chart){Chart.defaults.font.family='"Sarabun",sans-serif';Chart.defaults.font.size=14;Chart.defaults.color='#26344a';Chart.defaults.borderColor='#dde2dc';}</script>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>

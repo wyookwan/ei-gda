@@ -3,6 +3,7 @@ import csv
 import hashlib
 import io
 import os
+import re
 import uuid
 from datetime import datetime
 
@@ -10,9 +11,9 @@ from flask import Blueprint, Response, abort, current_app, flash, jsonify, redir
 
 from extensions import db
 from models import (ApplicabilityDecision, AuditLog, CommitteeAssignment, DocumentCheck, DocumentFile, DomainAssessment, DomainControl,
-                    DomainFinding, EvidenceMapping, EvidenceRequirement, RegulatoryReference, Standard, TaxonomyNode, Template, User)
+                    DomainFinding, EvidenceMapping, EvidenceRequirement, RegulatoryReference, Standard, SubmissionRevision, TaxonomyNode, Template, User)
 from services.applicability import IMPACT_ORDER, category_sensitivity
-from services.domain_catalog import CORE_SUITES, get_pack, list_profiles, taxonomy_payload
+from services.domain_catalog import CORE_SUITES, covered_org_types, get_pack, layer_packs, list_groups, list_profiles, taxonomy_payload
 from services.domain_kg import build_assessment_graph, finding_trace
 from services.domain_orchestrator import (current_config, decisions_for, ensure_check, freeze, locate_requirements, mappings_by_requirement, recalculate,
                                           refresh_evidence_mappings, run_assessment)
@@ -25,7 +26,17 @@ from services.pdf_service import extract_pages_from_pdf
 from utils import json_dumps, json_loads, login_required
 
 bp = Blueprint('gov', __name__)
-STEPS = [(1, 'องค์กรและ Domain'), (2, 'AI Use Case'), (3, 'กฎหมายและมาตรฐาน'), (4, 'Test Suite และ Control'), (5, 'หลักฐาน'), (6, 'ประเมินด้วย AI'), (7, 'ผลและรายงาน')]
+# Step numbers are stored (DomainAssessment.current_step) and appear in URLs, so they keep their original values. Laws/standards and
+# Test Suites were merged into one page; that page is step 3 and /step/4 redirects to it, so there is no 4 in this list.
+# People see the position in the list (step_label), not the stored number.
+STEPS = [(1, 'องค์กรและ Domain'), (2, 'AI Use Case'), (3, 'Test Suite และที่มา'), (5, 'หลักฐาน'), (6, 'ประเมินด้วย AI'), (7, 'ผลและรายงาน')]
+
+
+@bp.app_template_global()
+def step_label(number):
+    """Number shown to people for a stored step number (4 no longer exists, later steps move up by one)."""
+    number = number or 1
+    return number if number <= 3 else (3 if number == 4 else number - 1)
 IMPACT_LABELS = {'information': 'ให้ข้อมูลเท่านั้น', 'assistive': 'ช่วยงาน มนุษย์ตัดสินใจ', 'significant': 'มีผลต่อสิทธิหรือการตัดสินใจสำคัญ', 'safety_critical': 'มีผลต่อความปลอดภัยของชีวิต'}
 LIFECYCLE = ['วางแผนและออกแบบ', 'พัฒนาและทดสอบ', 'นำร่อง', 'ใช้งานจริง', 'ปรับปรุงหรือยกเลิก']
 STATUS_LABELS = {'draft': 'ฉบับร่าง', 'configured': 'กำลังดำเนินการ', 'pending_review': 'รอผู้ตรวจ', 'completed': 'เสร็จสิ้น'}
@@ -95,20 +106,6 @@ def overview_stats():
             'pending_review': count('pending_review'), 'critical': critical}
 
 
-def domain_cards():
-    cards = []
-    rows = assessments_query().all()
-    core = DomainControl.query.filter_by(domain_slug='general', is_active=True).count()
-    for profile in list_profiles(db.session):
-        pack = json_loads(profile.payload_json, default={})
-        own = DomainControl.query.filter_by(domain_slug=profile.slug, is_active=True).count()
-        cards.append({'slug': profile.slug, 'title': profile.title, 'title_th': profile.title_th, 'icon': profile.icon, 'accent': profile.accent,
-                      'summary_th': pack.get('summary_th'), 'org_types': [o['title_th'] for o in pack.get('organization_types', [])],
-                      'key_concerns': pack.get('key_concerns', []), 'own_controls': own, 'core_controls': 0 if profile.slug == 'general' else core,
-                      'assessments': sum(1 for a in rows if a.domain_slug == profile.slug), 'provisional': bool(pack.get('provisional_note_th'))})
-    return cards
-
-
 @bp.app_context_processor
 def inject_v16():
     if not session.get('user_id'):
@@ -124,14 +121,14 @@ def inject_v16():
         orgs = {o.id: o for o in Organization.query.filter(Organization.id.in_({m.organization_id for m in rows} or {-1})).all()}
         active = ap.active_org_id()
         unread = Notification.query.filter_by(user_id=session['user_id'], is_read=False).order_by(Notification.created_at.desc()).limit(8).all()
-        return {'current_org': orgs[active].name if active in orgs else (user.organization if user else None), 'nav_profiles': list_profiles(db.session),
+        return {'current_org': orgs[active].name if active in orgs else (user.organization if user else None),
                 'nav_pending': pending, 'nav_drafts': drafts, 'status_labels': STATUS_LABELS, 'nav_memberships': rows, 'nav_orgs': orgs,
                 'active_org_id': active, 'nav_notifications': unread, 'pilot_roles': {m.role for m in rows},
                 'demo_mode': current_app.config.get('DEMO_MODE', False)}
     except Exception:
         # A not-yet-migrated database must not take every page down.
         db.session.rollback()
-        return {'current_org': None, 'nav_profiles': [], 'nav_pending': [], 'nav_drafts': [], 'status_labels': STATUS_LABELS,
+        return {'current_org': None, 'nav_pending': [], 'nav_drafts': [], 'status_labels': STATUS_LABELS,
                 'nav_memberships': [], 'nav_orgs': {}, 'active_org_id': None, 'nav_notifications': [], 'pilot_roles': set(), 'demo_mode': False}
 
 
@@ -141,13 +138,66 @@ def inject_v16():
 def overview():
     recent = assessments_query().order_by(DomainAssessment.updated_at.desc()).limit(5).all()
     resume = next((a for a in recent if a.status in ('draft', 'configured') and is_owner(a)), None)
-    return render_template('gov/overview.html', stats=overview_stats(), cards=domain_cards(), recent=recent, resume=resume)
+    return render_template('gov/overview.html', stats=overview_stats(), recent=recent, resume=resume, steps_total=len(STEPS))
+
+
+def display_name_th(title_th):
+    """Thai name for people: drops a trailing "(... Pack)" label that only matters to administrators."""
+    return re.sub(r'\s*\([^)]*Pack\)\s*$', '', title_th or '').strip()
+
+
+def domain_chooser():
+    """Data for the /domains chooser: groups and, in each, the packs a person can start an assessment from.
+
+    Everything shown in the three steps comes from here, so the template only lays it out."""
+    groups = list_groups(db.session)
+    labels = {slug: label for g in groups for slug, label in (g.get('labels_th') or {}).items()}
+    names = {p.slug: labels.get(p.slug) or display_name_th(p.title_th) for g in groups for p in g['profiles']}
+    references = {}
+    for ref in RegulatoryReference.query.filter_by(is_active=True).all():
+        for slug in json_loads(ref.domains_json, default=[]):
+            references.setdefault(slug, []).append(ref)
+    general = get_pack(db.session, 'general') or {}
+    binding = ('binding_legislation', 'mandated_standard', 'internal_policy')
+    out = []
+    for group in groups:
+        subs = []
+        for profile in group['profiles']:
+            pack = json_loads(profile.payload_json, default={})
+            covered = covered_org_types(profile.slug)
+            own = DomainControl.query.filter_by(domain_slug=profile.slug, is_active=True)
+            base = pack.get('extends')
+            core = [] if profile.slug == 'general' else [c for layer in layer_packs(db.session, pack) for c in layer['controls']] + general.get('controls', [])
+            rows = sorted(references.get(profile.slug, []), key=lambda r: (r.normative_class, r.source_id))
+            subs.append({'evidence': [{'title_th': e['title_th'], 'why_th': e.get('why_th')} for e in pack.get('evidence_requirements', [])],
+                         'controls': [{'id': c['id'], 'title_th': c['title_th'], 'objective_th': c.get('objective_th'), 'critical': bool(c.get('critical')), 'suites': c.get('suites', [])} for c in pack.get('controls', [])],
+                         'core_controls': [{'id': c['id'], 'title_th': c['title_th'], 'critical': bool(c.get('critical'))} for c in core],
+                         'references': [{'title': r.title_th or r.title, 'url': r.official_url, 'condition': r.condition_th, 'status': r.verification_status,
+                                         'binding': r.normative_class in binding} for r in rows],'slug': profile.slug, 'title': profile.title, 'name_th': names[profile.slug], 'summary_th': pack.get('summary_th'),
+                         'org_types': [{'id': o['id'], 'title': o['title_th'], 'jump': covered.get(o['id']) if covered.get(o['id']) in names else None} for o in pack.get('organization_types', [])],
+                         'version': pack.get('pack_version'),
+                         'use_cases': [u['title_th'] for u in pack.get('use_cases', [])],
+                         'evidence_count': len(pack.get('evidence_requirements', [])), 'control_count': own.count(),
+                         'critical_count': own.filter_by(critical=True).count(), 'provisional': bool(pack.get('provisional_note_th')),
+                         'extends_name': names.get(base) if base else None})
+        out.append({'id': group['id'], 'title': group['title'], 'title_th': group['title_th'], 'icon': group['icon'], 'accent': group['accent'],
+                    'examples_th': group['examples_th'], 'subs': subs})
+    return out, names
+
+
+def resume_candidate():
+    """The person's most recent unfinished assessment, if they may still edit it."""
+    recent = assessments_query().order_by(DomainAssessment.updated_at.desc()).limit(5).all()
+    return next((a for a in recent if a.status in ('draft', 'configured') and is_owner(a)), None)
 
 
 @bp.route('/domains')
 @login_required()
 def domains():
-    return render_template('gov/domains.html', cards=domain_cards())
+    groups, names = domain_chooser()
+    resume = resume_candidate()
+    return render_template('gov/domains.html', groups=groups, resume=resume, resume_domain=names.get(resume.domain_slug, resume.domain_slug) if resume else None,
+                           steps_total=len(STEPS))
 
 
 @bp.route('/domains/<slug>')
@@ -214,13 +264,23 @@ def assessments():
                            perms={a.id: ap.assessment_permissions(a) for a in rows}, wf_labels=wf.STATUS_LABELS)
 
 
-def _validate_step1(form):
+def _pickable_org_types(slug, pack, domain_slugs):
+    """Organization types to offer for a new assessment in this Domain.
+
+    A type that has its own pack (e.g. ศาลปกครอง inside justice) is left out, matching the /domains chooser, which sends those
+    people to that pack. Assessments created earlier keep their stored type; only the picker for a new one is narrowed."""
+    own = {org_id for org_id, target in covered_org_types(slug).items() if target in domain_slugs}
+    return [o for o in (pack or {}).get('organization_types', []) if o['id'] not in own]
+
+
+def _validate_step1(form, new=False):
     slug = form.get('domain_slug', '').strip()
     pack = get_pack(db.session, slug)
     if pack is None:
         return None, 'กรุณาเลือก Domain'
     org_type = form.get('org_type', '').strip()
-    if org_type not in {o['id'] for o in pack['organization_types']}:
+    allowed = _pickable_org_types(slug, pack, {p.slug for p in list_profiles(db.session)}) if new else pack['organization_types']
+    if org_type not in {o['id'] for o in allowed}:
         return None, 'กรุณาเลือกประเภทองค์กร'
     org = form.get('organization_name', '').strip()[:255]
     name = form.get('name', '').strip()[:255]
@@ -233,7 +293,7 @@ def _validate_step1(form):
 @login_required(role='user')
 def assessment_new():
     if request.method == 'POST':
-        data, error = _validate_step1(request.form)
+        data, error = _validate_step1(request.form, new=True)
         if error:
             flash(error, 'warning')
             return redirect(url_for('gov.assessment_new', domain=request.form.get('domain_slug', '')))
@@ -250,8 +310,18 @@ def assessment_new():
     user = db.session.get(User, session['user_id'])
     profiles = list_profiles(db.session)
     packs = {p.slug: json_loads(p.payload_json, default={}) for p in profiles}
-    return render_template('gov/wizard.html', assessment=None, number=1, steps=STEPS, profiles=profiles, org_type_map={k: v.get('organization_types', []) for k, v in packs.items()}, profile={},
-                           selected=request.args.get('domain', ''), default_org=user.organization if user else '', editable=True)
+    pickable = {slug: _pickable_org_types(slug, pack, set(packs)) for slug, pack in packs.items()}
+    selected = request.args.get('domain', '')
+    wanted_org = request.args.get('org_type', '')
+    # Arriving from a Domain card (?domain=<slug>) carries the choice with it: show it locked instead of asking again.
+    # The sidebar link has no ?domain=, and an unknown slug falls back to the normal chooser.
+    locked_domain = next((p for p in profiles if p.slug == selected), None)
+    # The Domain card can also carry the organization type (?org_type=<id>); it is honoured only when it belongs to that Domain.
+    # If only one type is left for the Domain there is nothing to ask, so it is filled in too.
+    options = pickable.get(selected, []) if locked_domain else []
+    locked_org = next((o for o in options if o['id'] == wanted_org), None) or (options[0] if len(options) == 1 else None)
+    return render_template('gov/wizard.html', assessment=None, number=1, steps=STEPS, profiles=profiles, org_type_map=pickable, profile={},
+                           selected=selected, locked_domain=locked_domain, domain_profile=locked_domain, locked_org=locked_org, default_org=user.organization if user else '', editable=True)
 
 
 def _step_context(assessment, number):
@@ -261,14 +331,21 @@ def _step_context(assessment, number):
                'editable': is_owner(assessment) and wf.org_can_modify(assessment) and not assessment.config_snapshot_json,
                'editable_evidence': is_owner(assessment) and wf.org_can_modify(assessment), 'wf_labels': wf.STATUS_LABELS,
                'disclosure_labels': DISCLOSURE_LABELS, 'personal_labels': PERSONAL_LABELS, 'supported_classes': current_app.config.get('SUPPORTED_DISCLOSURE_CLASSES', ()),
-               'is_owner': is_owner(assessment), 'can_review': can_review(assessment), 'status_labels': STATUS_LABELS}
+               'is_owner': is_owner(assessment), 'can_review': can_review(assessment), 'status_labels': STATUS_LABELS,
+               'domain_profile': next((p for p in list_profiles(db.session) if p.slug == assessment.domain_slug), None)}
     if number == 1:
         profiles = list_profiles(db.session)
         context.update(profiles=profiles, org_type_map={p.slug: json_loads(p.payload_json, default={}).get('organization_types', []) for p in profiles}, selected=assessment.domain_slug, default_org=assessment.organization_name)
     if number == 2:
         context.update(impact_labels=IMPACT_LABELS, impact_order=IMPACT_ORDER, lifecycle=LIFECYCLE)
-    if number in (3, 4, 5, 6):
+    if number in (3, 5, 6):
         context['config'] = current_config(assessment)
+    if number == 3:
+        # Where each Test Suite comes from: the laws and standards behind its controls, in first-seen order.
+        config = context['config']
+        by_control = {c['id']: c for c in config['controls']}
+        context['ref_by_id'] = {r['source_id']: r for r in config['references']}
+        context['suite_sources'] = {s['code']: list(dict.fromkeys(ref for cid in s['control_ids'] for ref in by_control.get(cid, {}).get('references', []))) for s in config['suites']}
     if number == 5:
         check = db.session.get(DocumentCheck, assessment.check_id) if assessment.check_id else None
         files = DocumentFile.query.filter_by(check_id=check.id).order_by(DocumentFile.id).all() if check else []
@@ -300,7 +377,7 @@ def _step_context(assessment, number):
                     title = (references.get(ref) or {}).get('title_th') or ref
                     if title not in link['regulations']:
                         link['regulations'].append(title)
-        context.update(files=files, mapped=mapped, reusable=reusable[:30], sensitivity=sensitivity, force_confidential=sensitivity == 'sensitive', active_controls=active, requirement_links=requirement_links)
+        context.update(files=files, file_state=evidence_states(files, {assessment.check_id: assessment}), mapped=mapped, reusable=reusable[:30], sensitivity=sensitivity, force_confidential=sensitivity == 'sensitive', active_controls=active, requirement_links=requirement_links)
     if number == 6:
         mapped = mappings_by_requirement(assessment)
         active = [c for c in context['config']['controls'] if c['final_status'] != 'not_applicable']
@@ -325,7 +402,9 @@ def step(assessment_id, number):
     assessment = get_assessment_or_403(assessment_id)
     if number == 7:
         return redirect(url_for('gov.results', assessment_id=assessment.id))
-    if number not in (1, 2, 3, 4, 5, 6):
+    if number == 4:  # merged into step 3
+        return redirect(url_for('gov.step', assessment_id=assessment.id, number=3))
+    if number not in (1, 2, 3, 5, 6):
         abort(404)
     profile = json_loads(assessment.profile_json, default={})
     if number >= 3 and not profile.get('data_categories'):
@@ -333,7 +412,7 @@ def step(assessment_id, number):
         return redirect(url_for('gov.step', assessment_id=assessment.id, number=2))
     if number >= 5 and not assessment.config_snapshot_json:
         flash('กรุณายืนยันขอบเขต Control ก่อนแนบหลักฐาน', 'warning')
-        return redirect(url_for('gov.step', assessment_id=assessment.id, number=4))
+        return redirect(url_for('gov.step', assessment_id=assessment.id, number=3))
     return render_template('gov/wizard.html', **_step_context(assessment, number))
 
 
@@ -460,7 +539,7 @@ def control_override(assessment_id, control_id):
         abort(403)
     if assessment.config_snapshot_json:
         flash('ขอบเขตถูกยืนยันแล้ว ต้องปลดล็อกก่อนแก้ไข', 'warning')
-        return redirect(url_for('gov.step', assessment_id=assessment.id, number=4))
+        return redirect(url_for('gov.step', assessment_id=assessment.id, number=3))
     status = request.form.get('status', '')
     reason = request.form.get('reason', '').strip()[:1000]
     known = {c['id'] for c in current_config(assessment)['controls']}
@@ -468,12 +547,12 @@ def control_override(assessment_id, control_id):
         abort(400)
     if len(reason) < 8:
         flash('การเปลี่ยนขอบเขตต้องมีเหตุผลอย่างน้อย 8 ตัวอักษร', 'warning')
-        return redirect(url_for('gov.step', assessment_id=assessment.id, number=4))
+        return redirect(url_for('gov.step', assessment_id=assessment.id, number=3))
     _upsert_decision(assessment, 'control', control_id, override_status=None if status == 'reset' else status, reason=reason)
     audit('applicability_control_override', 'domain_assessment', assessment.id, f'{control_id} -> {status}: {reason}')
     db.session.commit()
     flash(f'บันทึกการเปลี่ยนขอบเขตของ {control_id} แล้ว', 'success')
-    return redirect(url_for('gov.step', assessment_id=assessment.id, number=4))
+    return redirect(url_for('gov.step', assessment_id=assessment.id, number=3))
 
 
 @bp.route('/assessments/<int:assessment_id>/freeze', methods=['POST'])
@@ -485,7 +564,7 @@ def assessment_freeze(assessment_id):
         freeze(assessment)
     except ValueError as exc:
         flash(str(exc), 'danger')
-        return redirect(url_for('gov.step', assessment_id=assessment.id, number=4))
+        return redirect(url_for('gov.step', assessment_id=assessment.id, number=3))
     audit('domain_assessment_freeze', 'domain_assessment', assessment.id, f'hash={assessment.snapshot_hash}')
     db.session.commit()
     flash('ยืนยันขอบเขตแล้ว ระบบล็อกเกณฑ์ไว้สำหรับ Assessment นี้', 'success')
@@ -504,7 +583,7 @@ def assessment_unfreeze(assessment_id):
     assessment.status, assessment.current_step = 'draft', 4
     audit('domain_assessment_unfreeze', 'domain_assessment', assessment.id)
     db.session.commit()
-    return redirect(url_for('gov.step', assessment_id=assessment.id, number=4))
+    return redirect(url_for('gov.step', assessment_id=assessment.id, number=3))
 
 
 # ---------------------------------------------------------------- evidence
@@ -617,7 +696,7 @@ def upload_evidence(assessment_id):
     owner_or_403(assessment)
     target = url_for('gov.step', assessment_id=assessment.id, number=5)
     if not assessment.config_snapshot_json:
-        return redirect(url_for('gov.step', assessment_id=assessment.id, number=4))
+        return redirect(url_for('gov.step', assessment_id=assessment.id, number=3))
     if not assessment.data_classification:
         flash('กรุณาเลือกระดับเอกสารก่อนอัปโหลด', 'warning')
         return redirect(target)
@@ -703,6 +782,71 @@ def reuse_evidence(assessment_id):
     return redirect(target)
 
 
+def evidence_states(files, assessments_by_check):
+    """For each uploaded file: can it still be deleted, and if not, why.
+
+    A file counts as used once an evaluation has run on it (it was uploaded before the last run) or it went out in a
+    submission. Used files are kept as the record of what the result rests on. A file that was only uploaded, or uploaded
+    after the last run and not yet submitted, is still just stored and can be deleted by the owner while the organization
+    holds the work."""
+    submitted, owners, editable, out = {}, {}, {}, {}
+    for f in files:
+        a = assessments_by_check.get(f.check_id)
+        if a is None:
+            out[f.id] = {'can_delete': False, 'reason': 'ไฟล์จากงานรุ่นก่อน'}
+            continue
+        if a.id not in submitted:
+            ids = set()
+            for revision in SubmissionRevision.query.filter_by(assessment_id=a.id).all():
+                ids.update(item.get('file_id') for item in json_loads(revision.files_json, default=[]))
+            submitted[a.id], owners[a.id], editable[a.id] = ids, is_owner(a), wf.org_can_modify(a)
+        evaluated = bool(a.last_run_at or a.summary_json or a.status in ('pending_review', 'completed'))
+        if evaluated and (a.last_run_at is None or f.created_at is None or f.created_at <= a.last_run_at):
+            out[f.id] = {'can_delete': False, 'reason': 'ใช้ในการประเมินแล้ว'}
+        elif f.id in submitted[a.id]:
+            out[f.id] = {'can_delete': False, 'reason': 'ส่งตรวจแล้ว'}
+        elif not owners[a.id]:
+            out[f.id] = {'can_delete': False, 'reason': None}
+        elif not editable[a.id]:
+            out[f.id] = {'can_delete': False, 'reason': 'งานอยู่ระหว่างทบทวน'}
+        else:
+            out[f.id] = {'can_delete': True, 'reason': None}
+    return out
+
+
+@bp.route('/evidence/<int:file_id>/delete', methods=['POST'])
+@login_required(role='user')
+def delete_evidence(file_id):
+    row = db.session.get(DocumentFile, file_id)
+    assessment = DomainAssessment.query.filter_by(check_id=row.check_id).first() if row else None
+    if row is None or assessment is None:
+        abort(404)
+    assessment = get_assessment_or_403(assessment.id)
+    owner_or_403(assessment)
+    back = url_for('gov.step', assessment_id=assessment.id, number=5) if request.form.get('back') == 'step' else url_for('gov.evidence_library')
+    state = evidence_states([row], {row.check_id: assessment})[row.id]
+    if not state['can_delete']:
+        flash(f"ลบไฟล์นี้ไม่ได้ เพราะ{state['reason']} ไฟล์ที่ใช้แล้วต้องเก็บไว้เป็นหลักฐานของผลที่ออกไป" if state['reason'] else 'ลบไฟล์นี้ไม่ได้', 'danger')
+        return redirect(back)
+    name, stored, check = row.original_filename, row.stored_filename, db.session.get(DocumentCheck, row.check_id)
+    EvidenceMapping.query.filter_by(document_file_id=row.id).delete()
+    db.session.delete(row)
+    db.session.flush()
+    remaining = DocumentFile.query.filter_by(check_id=check.id).order_by(DocumentFile.id).all()
+    check.extracted_text = '\n'.join((f.extracted_text or '') for f in remaining)[:1200000]
+    if check.stored_filename == stored and remaining:
+        check.stored_filename = remaining[0].stored_filename
+    audit('domain_evidence_delete', 'domain_assessment', assessment.id, f'file={file_id}; name={name}')
+    db.session.commit()
+    if not DocumentFile.query.filter_by(stored_filename=stored).first():
+        try:
+            os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], stored))
+        except OSError:
+            pass
+    flash(f'ลบไฟล์ {name} แล้ว', 'success')
+    return redirect(back)
+
+
 @bp.route('/assessments/<int:assessment_id>/evidence/map', methods=['POST'])
 @login_required(role='user')
 def map_evidence(assessment_id):
@@ -741,7 +885,8 @@ def evidence_library():
     if rows:
         for mapping in EvidenceMapping.query.filter(EvidenceMapping.document_file_id.in_([r.id for r in rows])).all():
             usage.setdefault(mapping.document_file_id, set()).add(mapping.requirement_id)
-    return render_template('gov/evidence.html', rows=rows, checks=checks, usage=usage, term=term)
+    assessments = {a.check_id: a for a in DomainAssessment.query.filter(DomainAssessment.check_id.in_({r.check_id for r in rows})).all()} if rows else {}
+    return render_template('gov/evidence.html', rows=rows, checks=checks, usage=usage, term=term, states=evidence_states(rows, assessments))
 
 
 # ---------------------------------------------------------------- run and results

@@ -1,0 +1,63 @@
+{
+  "schema": "eigda.domain_groups/2",
+  "groups_version": "2.0.0",
+  "note": "How the Domains page groups the packs for the person choosing. covered_org_types marks an organization type that has its own pack: it stays in the list in grey and links there. A group is only a way to choose; each pack keeps its slug, controls and assessments. Every pack is in exactly one group. Group accents mark identity only (card band and icon): they keep 4.5:1 contrast on white and stay at least 40 degrees apart in hue, except the neutral slate of the last group (see tests).",
+  "groups": [
+    {
+      "id": "justice",
+      "title": "Justice",
+      "title_th": "ยุติธรรม",
+      "icon": "bi-bank",
+      "accent": "#594a90",
+      "display_order": 10,
+      "examples_th": "ศาลยุติธรรม · ศาลปกครอง · ศาลรัฐธรรมนูญ",
+      "subdomains": ["justice", "administrative_court"],
+      "covered_org_types": {
+        "justice": {"JUS.ORG.COURT_ADMIN": "administrative_court"}
+      }
+    },
+    {
+      "id": "education",
+      "title": "Education",
+      "title_th": "การศึกษา",
+      "icon": "bi-mortarboard",
+      "accent": "#2f6f9f",
+      "display_order": 20,
+      "examples_th": "โรงเรียน · มหาวิทยาลัย · สถาบันฝึกอบรม · สป.อว.",
+      "subdomains": ["education", "higher_education", "ops_mhesi"]
+    },
+    {
+      "id": "health",
+      "title": "Health",
+      "title_th": "สุขภาพ",
+      "icon": "bi-heart-pulse",
+      "accent": "#8a4a7a",
+      "display_order": 30,
+      "examples_th": "โรงพยาบาล · สถานพยาบาล · การแพทย์ฉุกเฉิน",
+      "subdomains": ["healthcare"]
+    },
+    {
+      "id": "public_administration",
+      "title": "Public administration",
+      "title_th": "การบริหารรัฐกิจ",
+      "icon": "bi-buildings",
+      "accent": "#5a7a2f",
+      "display_order": 40,
+      "examples_th": "อบจ. · อบต. · เทศบาล",
+      "subdomains": ["local_government"]
+    },
+    {
+      "id": "other",
+      "title": "Other",
+      "title_th": "ด้านอื่น ๆ หรือยังไม่แน่ใจ",
+      "icon": "bi-question-circle",
+      "accent": "#4a5a6a",
+      "display_order": 90,
+      "examples_th": "หน่วยงานรัฐ · เอกชน · องค์กรไม่แสวงกำไร",
+      "subdomains": ["general"],
+      "labels_th": {
+        "general": "องค์กรทั่วไป"
+      }
+    }
+  ]
+}
